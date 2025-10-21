@@ -12,10 +12,11 @@
                             sifatli tibbiy yordam ko'rsatamiz.
                         </p>
                         <div class="hero-buttons">
-                            <a-button type="primary" size="large" @click="scrollToSection('services')">
+                            <a-button type="primary" size="large" class="hero-btn" @click="scrollToSection('services')">
                                 Xizmatlar
                             </a-button>
-                            <a-button size="large" @click="scrollToSection('contact')" class="hero-btn-secondary">
+                            <a-button size="large" @click="scrollToSection('contact')"
+                                class="hero-btn-secondary hero-btn">
                                 Bog'lanish
                             </a-button>
                         </div>
@@ -281,11 +282,11 @@ const animateCounter = (target, duration, callback) => {
 
     const timer = setInterval(() => {
         start += increment;
-        if (res >= target) {
+        if (start >= target) {
             callback(target)
             clearInterval(timer)
         } else {
-            callback(Math.floor(res))
+            callback(Math.floor(start))
         }
     }, 16)
 }
@@ -381,7 +382,11 @@ const handleContact = () => {
 .hero-btn-secondary:hover {
     background: rgba(255, 255, 255, 0.9);
     color: #096dd9;
+}
+
+.hero-btn:hover {
     transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .hero-image {
@@ -426,6 +431,7 @@ const handleContact = () => {
     border-radius: 15px;
     transition: all 0.3s ease;
     border: 2px solid #e6f7ff;
+    overflow: hidden;
 }
 
 .service-card:hover {
