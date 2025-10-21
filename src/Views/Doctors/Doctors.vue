@@ -78,7 +78,7 @@
           <template v-else-if="column.key === 'actions'">
             <!-- Desktop: Tugma -->
             <Button
-              type="primary"
+              type="link"
               size="small"
               @click="viewDoctor(record.id)"
               class="desktop-action"
