@@ -4,6 +4,7 @@ import Doctors from "./Doctors/Doctors.vue";
 import Institution from "./Institution/Institution.vue";
 import Diagnostics from "./Diagnostics/Diagnostics.vue";
 import Articls from "./Articles/Articls.vue";
+import Intervyu from "./Intervyu/Intervyu.vue";
 
 export {
     HomeView,
@@ -11,5 +12,6 @@ export {
     Doctors,
     Institution,
     Diagnostics,
-    Articls
+    Articls,
+    Intervyu
 }

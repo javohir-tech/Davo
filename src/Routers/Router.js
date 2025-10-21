@@ -2,7 +2,9 @@ import { createRouter, createWebHistory } from "vue-router"
 //Layout
 import MainLayout from "@/Layout/MainLayout.vue"
 //Views
-import { Articls, Diagnostics, Doctors, Drugs, HomeView, Institution } from "@/Views"
+import { Articls, Diagnostics, Doctors, Drugs, HomeView, Institution, Intervyu } from "@/Views"
+//Auth
+import { Login, Register } from "@/Auth"
 
 const routes = [
     {
@@ -32,6 +34,18 @@ const routes = [
             {
                 path: 'articls',
                 component: Articls
+            },
+            {
+                path: 'intervyu',
+                component : Intervyu
+            },
+            {
+                path: 'register',
+                component : Register
+            },
+            {
+                path:'login',
+                component : Login
             }
         ]
     }

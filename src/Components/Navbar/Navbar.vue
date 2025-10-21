@@ -1,90 +1,10 @@
-<template>
-    <div>
-        <a-layout-header class="navbar">
-            <div class="navbar-container">
-                <!-- Brand -->
-                <div class="brand" @click="() => activeLink = '1'">
-                    <RouterLink to="/">
-                        <img src="../../assets/wlogo.png" alt="brand image">
-                    </RouterLink>
-                </div>
-
-                <!-- Desktop Menu -->
-                <a-menu v-model:selectedKeys="selectedKeys" mode="horizontal" class="desktop-menu">
-                    <a-menu-item v-for="item in menuItems" :key="item.key" @click="() => activeLink = item.key">
-                        <RouterLink :to="item.path" :class="item.key === activeLink ? 'activeLink' : ''">
-                            {{ item.label }}
-                            <span class="under-line"></span>
-                        </RouterLink>
-                    </a-menu-item>
-                </a-menu>
-
-                <!-- Desktop Login Button -->
-                <div style="display: flex; align-items: center;">
-                    <a-space direction="horizontal">
-                        <div class="search-btn">
-                            <a-input-search v-model:value="value" placeholder="input search text"
-                                style=" box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" enter-button @search="onSearch" />
-                        </div>
-                        <a-select class="select-item-desktop" ref="select" v-model:value="value1"
-                            style="width: 60px ; margin-right: 10px;" @focus="focus" @change="handleChangeLanguage">
-                            <a-select-option value="uzb">UZ</a-select-option>
-                            <a-select-option value="eng">EN</a-select-option>
-                            <a-select-option value="rus">RU</a-select-option>
-                        </a-select>
-                    </a-space>
-                    <a-button type="primary" class="login-btn desktop-login">
-                        <template #icon>
-                            <LoginOutlined />
-                        </template>
-                        Kirish
-                    </a-button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <a-button class="mobile-menu-btn" @click="showDrawer" type="text">
-                    <MenuOutlined style="font-size: 20px; color: white;" />
-                </a-button>
-            </div>
-        </a-layout-header>
-
-        <!-- Mobile Drawer -->
-        <a-drawer v-model:open="drawerVisible" title="DAVO.UZ" placement="right" :width="280"
-            :headerStyle="drawerHeaderStyle" :bodyStyle="{ padding: 0 }">
-            <template #extra>
-                <a-select class="select-item-mobile" ref="select" v-model:value="value1"
-                    style="width: 70px ; margin-right: 10px;" @focus="focus" @change="handleChangeLanguage">
-                    <a-select-option value="uzb">UZ</a-select-option>
-                    <a-select-option value="eng">EN</a-select-option>
-                    <a-select-option value="rus">RU</a-select-option>
-                </a-select>
-            </template>
-            <div class="drawer-content">
-                <!-- Drawer Menu Items -->
-                <div class="drawer-menu">
-                    <RouterLink v-for="item in menuItems" :key="item.key" :to="item.path" class="drawer-menu-item"
-                        :class="item.key === activeLink ? 'active' : ''" @click="handleMenuClick(item.key)">
-                        {{ item.label }}
-                    </RouterLink>
-                </div>
-
-                <!-- Drawer Login Button -->
-                <div class="drawer-footer">
-                    <a-button type="primary" block size="large" class="drawer-login-btn">
-                        <template #icon>
-                            <LoginOutlined />
-                        </template>
-                        Kirish
-                    </a-button>
-                </div>
-            </div>
-        </a-drawer>
-    </div>
-</template>
-
 <script setup>
+//Vue
 import { ref, reactive } from 'vue';
+//Antd icons
 import { MenuOutlined, LoginOutlined } from '@ant-design/icons-vue';
+//Route
+import { useRouter } from 'vue-router'
 
 // State
 const drawerVisible = ref(false);
@@ -94,6 +14,8 @@ const activeLink = ref('1');
 const value1 = ref('UZ');
 //Search
 const value = ref('')
+//Router
+const router = useRouter()
 
 // Menu items
 const menuItems = [
@@ -130,7 +52,7 @@ const menuItems = [
     {
         key: '7',
         label: 'Intervyu',
-        path: "/"
+        path: "/intervyu"
     },
 ];
 
@@ -164,7 +86,97 @@ const handleMenuClick = (key) => {
     drawerVisible.value = false;
     activeLink.value = key;
 };
+
+const handleRouter = () => {
+    activeLink.value = 0;
+    drawerVisible.value = false;
+    router.push('/login')
+}
 </script>
+
+<template>
+    <div>
+        <a-layout-header class="navbar">
+            <div class="navbar-container">
+                <!-- Brand -->
+                <div class="brand" @click="() => activeLink = '1'">
+                    <RouterLink to="/">
+                        <img src="../../assets/wlogo.png" alt="brand image">
+                    </RouterLink>
+                </div>
+
+                <!-- Desktop Menu -->
+                <a-menu v-model:selectedKeys="selectedKeys" mode="horizontal" class="desktop-menu">
+                    <a-menu-item v-for="item in menuItems" :key="item.key" @click="() => activeLink = item.key">
+                        <RouterLink :to="item.path" :class="item.key === activeLink ? 'activeLink' : ''">
+                            {{ item.label }}
+                            <span class="under-line"></span>
+                        </RouterLink>
+                    </a-menu-item>
+                </a-menu>
+
+                <!-- Desktop Login Button -->
+                <div style="display: flex; align-items: center;">
+                    <a-space direction="horizontal">
+                        <div class="search-btn">
+                            <a-input-search v-model:value="value" placeholder="input search text"
+                                style=" box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" enter-button @search="onSearch" />
+                        </div>
+                        <a-select class="select-item-desktop" ref="select" v-model:value="value1"
+                            style="width: 60px ; margin-right: 10px;" @focus="focus" @change="handleChangeLanguage">
+                            <a-select-option value="uzb">UZ</a-select-option>
+                            <a-select-option value="eng">EN</a-select-option>
+                            <a-select-option value="rus">RU</a-select-option>
+                        </a-select>
+                    </a-space>
+                    <a-button type="primary" class="login-btn desktop-login" @click="handleRouter">
+                        <template #icon>
+                            <LoginOutlined />
+                        </template>
+                        Kirish
+                    </a-button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <a-button class="mobile-menu-btn" @click="showDrawer" type="text">
+                    <MenuOutlined style="font-size: 20px; color: white;" />
+                </a-button>
+            </div>
+        </a-layout-header>
+
+        <!-- Mobile Drawer -->
+        <a-drawer v-model:open="drawerVisible" title="DAVO.UZ" placement="right" :width="280"
+            :headerStyle="drawerHeaderStyle" :bodyStyle="{ padding: 0 }">
+            <template #extra>
+                <a-select class="select-item-mobile" ref="select" v-model:value="value1"
+                    style="width: 70px ; margin-right: 10px;" @focus="focus" @change="handleChangeLanguage">
+                    <a-select-option value="uzb">UZ</a-select-option>
+                    <a-select-option value="eng">EN</a-select-option>
+                    <a-select-option value="rus">RU</a-select-option>
+                </a-select>
+            </template>
+            <div class="drawer-content">
+                <!-- Drawer Menu Items -->
+                <div class="drawer-menu">
+                    <RouterLink v-for="item in menuItems" :key="item.key" :to="item.path" class="drawer-menu-item"
+                        :class="item.key === activeLink ? 'active' : ''" @click="handleMenuClick(item.key)">
+                        {{ item.label }}
+                    </RouterLink>
+                </div>
+
+                <!-- Drawer Login Button -->
+                <div class="drawer-footer">
+                    <a-button type="primary" block size="large" class="drawer-login-btn" @click="handleRouter">
+                        <template #icon>
+                            <LoginOutlined />
+                        </template>
+                        Kirish
+                    </a-button>
+                </div>
+            </div>
+        </a-drawer>
+    </div>
+</template>
 
 <style scoped>
 .navbar {
