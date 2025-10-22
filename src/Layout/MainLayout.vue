@@ -8,7 +8,11 @@ import Navbar from '@/Components/Navbar/Navbar.vue';
     <div>
         <Navbar />
         <main>
-            <RouterView />
+            <router-view v-slot="{ Component }">
+                <KeepAlive :include="['Drugs', 'Doctors']" :exclude="[]">
+                    <component :is="Component" />
+                </KeepAlive>
+            </router-view>
         </main>
     </div>
 </template>

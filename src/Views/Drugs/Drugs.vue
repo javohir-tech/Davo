@@ -29,7 +29,7 @@
         total: filteredMedicines.length,
         showSizeChanger: true,
         showTotal: (total) => `Jami: ${total} ta dori`
-      }" :scroll="{ x: 'max-content' }" :loading="false" rowKey="id" class="medicines-table"
+      }" :scroll="{ x: 'max-content' }" :loading="loading" rowKey="id" class="medicines-table"
         @change="(pagination) => currentPage = pagination.current">
         <template #bodyCell="{ column, record }">
           <!-- Dori nomi ustuni -->
@@ -88,52 +88,30 @@
   </div>
 </template>
 
-<script setup>
+<script setup >
 import { ref, computed, onMounted } from 'vue';
 //Antd Components
-import { Table, Input, Button, Space, Typography, Dropdown, Menu } from 'ant-design-vue';
+import { Table, Input, Button, Space, Typography, Dropdown, Menu, MenuItem } from 'ant-design-vue';
 //Antd Icons
 import { SearchOutlined, ShoppingCartOutlined, EyeOutlined, MoreOutlined } from '@ant-design/icons-vue';
 //FireStore
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from '@/FireBase/config';
 
 const { Title } = Typography;
 
-// Mock dorilar ma'lumotlari
-const mockMedicines = [
-  { id: 1, name: 'Paracetamol', category: 'Og\'riq qoldiruvchi', price: 5000, manufacturer: 'PharmaCorp', stock: 150 },
-  { id: 2, name: 'Ibuprofen', category: 'Yallig\'lanishga qarshi', price: 8000, manufacturer: 'HealthMed', stock: 200 },
-  { id: 3, name: 'Amoxicillin', category: 'Antibiotik', price: 12000, manufacturer: 'MediPlus', stock: 80 },
-  { id: 4, name: 'Aspirin', category: 'Og\'riq qoldiruvchi', price: 4500, manufacturer: 'PharmaCorp', stock: 300 },
-  { id: 5, name: 'Omeprazol', category: 'Oshqozon dori', price: 15000, manufacturer: 'GastroMed', stock: 120 },
-  { id: 6, name: 'Ciprofloxacin', category: 'Antibiotik', price: 18000, manufacturer: 'BioPharm', stock: 90 },
-  { id: 7, name: 'Metformin', category: 'Qandli diabet', price: 20000, manufacturer: 'DiabetCare', stock: 110 },
-  { id: 8, name: 'Atorvastatin', category: 'Yurak-qon tomir', price: 25000, manufacturer: 'CardioHealth', stock: 75 },
-  { id: 9, name: 'Cetirizine', category: 'Allergiya', price: 7000, manufacturer: 'AllergyFree', stock: 180 },
-  { id: 10, name: 'Lisinopril', category: 'Bosim dori', price: 16000, manufacturer: 'CardioHealth', stock: 95 },
-  { id: 11, name: 'Salbutamol', category: 'Nafas yo\'llari', price: 22000, manufacturer: 'RespiroCare', stock: 60 },
-  { id: 12, name: 'Dexamethasone', category: 'Gormon dori', price: 13000, manufacturer: 'HormonMed', stock: 140 },
-  { id: 13, name: 'Vitamin D3', category: 'Vitamin', price: 9000, manufacturer: 'VitaHealth', stock: 250 },
-  { id: 14, name: 'Losartan', category: 'Bosim dori', price: 17000, manufacturer: 'CardioHealth', stock: 85 },
-  { id: 15, name: 'Azithromycin', category: 'Antibiotik', price: 19000, manufacturer: 'BioPharm', stock: 70 },
-  { id: 16, name: 'Diclofenac', category: 'Yallig\'lanishga qarshi', price: 11000, manufacturer: 'PainRelief', stock: 160 },
-  { id: 17, name: 'Simvastatin', category: 'Yurak-qon tomir', price: 21000, manufacturer: 'CardioHealth', stock: 100 },
-  { id: 18, name: 'Ranitidine', category: 'Oshqozon dori', price: 10000, manufacturer: 'GastroMed', stock: 130 },
-  { id: 19, name: 'Amlodipine', category: 'Bosim dori', price: 14000, manufacturer: 'CardioHealth', stock: 105 },
-  { id: 20, name: 'Prednisolone', category: 'Gormon dori', price: 12500, manufacturer: 'HormonMed', stock: 115 },
-];
-
 const searchQuery = ref('');
 const currentPage = ref(1);
 const pageSize = ref(10);
+const medicines = ref([]);
+const loading = ref(false);
 
 // Qidiruv funksiyasi
 const filteredMedicines = computed(() => {
   if (!searchQuery.value) {
-    return mockMedicines;
+    return medicines.value;
   }
-  return mockMedicines.filter(medicine =>
+  return medicines.value.filter(medicine =>
     medicine.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
@@ -192,15 +170,20 @@ const addToCart = (medicine) => {
 };
 
 const getDocuments = async () => {
+  loading.value = true;
   try {
-    const querySnapshot = await getDocs(collection(db, "drugs"));
-    querySnapshot.forEach((query) => {
-      console.log(query.data())
-    })
+    const querySnapshot = await getDocs(collection(db, "medicines"));
+    medicines.value = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
   } catch (error) {
     console.log(error.message)
+  }finally{
+    loading.value = false;
   }
 }
+
 
 onMounted(() => {
   getDocuments()

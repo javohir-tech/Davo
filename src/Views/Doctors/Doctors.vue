@@ -10,16 +10,11 @@
 
     <!-- Qidiruv bo'limi -->
     <div class="search-section">
-      <Input
-        v-model:value="searchQuery"
-        placeholder="Doktor ismi yoki mutaxassisligini kiriting..."
-        size="large"
-        class="search-input"
-        allowClear
-      >
-        <template #prefix>
-          <SearchOutlined class="search-icon" />
-        </template>
+      <Input v-model:value="searchQuery" placeholder="Doktor ismi yoki mutaxassisligini kiriting..." size="large"
+        class="search-input" allowClear>
+      <template #prefix>
+        <SearchOutlined class="search-icon" />
+      </template>
       </Input>
       <div v-if="searchQuery" class="search-results-info">
         {{ filteredDoctors.length }} ta natija topildi
@@ -28,22 +23,14 @@
 
     <!-- Doktorlar jadvali -->
     <div class="table-section">
-      <Table
-        :columns="columns"
-        :data-source="filteredDoctors"
-        :pagination="{
-          current: currentPage,
-          pageSize: pageSize,
-          total: filteredDoctors.length,
-          showSizeChanger: false,
-          showTotal: (total) => `Jami: ${total} ta doktor`
-        }"
-        :scroll="{ x: 'max-content' }"
-        :loading="false"
-        rowKey="id"
-        class="doctors-table"
-        @change="(pagination) => currentPage = pagination.current"
-      >
+      <Table :columns="columns" :data-source="filteredDoctors" :pagination="{
+        current: currentPage,
+        pageSize: pageSize,
+        total: filteredDoctors.length,
+        showSizeChanger: false,
+        showTotal: (total) => `Jami: ${total} ta doktor`
+      }" :scroll="{ x: 'max-content' }" :loading="loading" rowKey="id" class="doctors-table"
+        @change="(pagination) => currentPage = pagination.current">
         <!-- Doktor ismi ustuni -->
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'fullName'">
@@ -77,12 +64,7 @@
           <!-- Amallar ustuni -->
           <template v-else-if="column.key === 'actions'">
             <!-- Desktop: Tugma -->
-            <Button
-              type="link"
-              size="small"
-              @click="viewDoctor(record.id)"
-              class="desktop-action"
-            >
+            <Button type="link" size="small" @click="viewDoctor(record.id)" class="desktop-action">
               <EyeOutlined />
               <span class="btn-text">Batafsil</span>
             </Button>
@@ -95,7 +77,7 @@
               <template #overlay>
                 <Menu>
                   <MenuItem key="view" @click="viewDoctor(record.id)">
-                    <EyeOutlined /> Batafsil ko'rish
+                  <EyeOutlined /> Batafsil ko'rish
                   </MenuItem>
                 </Menu>
               </template>
@@ -107,123 +89,101 @@
   </div>
 </template>
 
-<script>
-import { ref, computed } from 'vue';
-import { Table, Input, Button, Typography, Dropdown, Menu } from 'ant-design-vue';
+<script setup>
+//VUE
+import { ref, computed, onMounted } from 'vue';
+//ANTD
+import { Table, Input, Button, Typography, Dropdown, Menu, MenuItem } from 'ant-design-vue';
 import { SearchOutlined, EyeOutlined, MoreOutlined } from '@ant-design/icons-vue';
+//FireStore
+import { collection, getDocs } from "firebase/firestore";
+import { db } from '@/FireBase/config';
 
 const { Title } = Typography;
 
-// Mock doktorlar ma'lumotlari
-const mockDoctors = [
-  { id: 1, fullName: 'Jamshid Aliyev', specialty: 'Kardiolog', experience: 15, workDays: 'Dush-Juma', consultationFee: 150000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 2, fullName: 'Malika Karimova', specialty: 'Stomatolog', experience: 8, workDays: 'Dush-Shanba', consultationFee: 120000, education: 'Samarqand tibbiyot instituti' },
-  { id: 3, fullName: 'Bobur Rahimov', specialty: 'Urolog', experience: 12, workDays: 'Sesh-Juma', consultationFee: 180000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 4, fullName: 'Dilnoza Ahmadova', specialty: 'Pediatr', experience: 10, workDays: 'Dush-Shanba', consultationFee: 100000, education: 'Andijon tibbiyot instituti' },
-  { id: 5, fullName: 'Aziz Tursunov', specialty: 'Nevrolog', experience: 20, workDays: 'Dush-Juma', consultationFee: 200000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 6, fullName: 'Sevara Yusupova', specialty: 'Dermatolog', experience: 7, workDays: 'Chor-Shanba', consultationFee: 130000, education: 'Buxoro tibbiyot instituti' },
-  { id: 7, fullName: 'Otabek Nazarov', specialty: 'Ortoped', experience: 14, workDays: 'Dush-Juma', consultationFee: 170000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 8, fullName: 'Nodira Ismailova', specialty: 'Ginekolog', experience: 11, workDays: 'Dush-Shanba', consultationFee: 160000, education: 'Samarqand tibbiyot instituti' },
-  { id: 9, fullName: 'Rustam Ergashev', specialty: 'Oftalmolog', experience: 9, workDays: 'Sesh-Juma', consultationFee: 140000, education: 'Farg\'ona tibbiyot instituti' },
-  { id: 10, fullName: 'Zilola Mahmudova', specialty: 'Endokrinolog', experience: 13, workDays: 'Dush-Shanba', consultationFee: 175000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 11, fullName: 'Jasur Abdullayev', specialty: 'Lor', experience: 16, workDays: 'Dush-Juma', consultationFee: 135000, education: 'Namangan tibbiyot instituti' },
-  { id: 12, fullName: 'Feruza Hasanova', specialty: 'Terapevt', experience: 6, workDays: 'Dush-Shanba', consultationFee: 90000, education: 'Andijon tibbiyot instituti' },
-  { id: 13, fullName: 'Sanjar Umarov', specialty: 'Xirurg', experience: 18, workDays: 'Dush-Juma', consultationFee: 250000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 14, fullName: 'Muhabbat Saidova', specialty: 'Allergolog', experience: 5, workDays: 'Chor-Shanba', consultationFee: 110000, education: 'Buxoro tibbiyot instituti' },
-  { id: 15, fullName: 'Davron Mirzayev', specialty: 'Gastroenterolog', experience: 17, workDays: 'Sesh-Juma', consultationFee: 190000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 16, fullName: 'Gulnora Qodirova', specialty: 'Stomatolog', experience: 12, workDays: 'Dush-Shanba', consultationFee: 125000, education: 'Samarqand tibbiyot instituti' },
-  { id: 17, fullName: 'Ilhom Sharipov', specialty: 'Urolog', experience: 10, workDays: 'Dush-Juma', consultationFee: 165000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 18, fullName: 'Kamola Nurmatova', specialty: 'Pediatr', experience: 8, workDays: 'Dush-Shanba', consultationFee: 95000, education: 'Farg\'ona tibbiyot instituti' },
-  { id: 19, fullName: 'Sherzod Holmatov', specialty: 'Kardiolog', experience: 14, workDays: 'Sesh-Juma', consultationFee: 185000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 20, fullName: 'Adolat Rashidova', specialty: 'Nevrolog', experience: 11, workDays: 'Dush-Shanba', consultationFee: 170000, education: 'Samarqand tibbiyot instituti' },
+
+const searchQuery = ref('');
+const currentPage = ref(1);
+const pageSize = ref(10);
+const doctorsData = ref([]);
+const loading = ref(false);
+
+// Qidiruv funksiyasi (ism va mutaxassislik bo'yicha)
+const filteredDoctors = computed(() => {
+  if (!searchQuery.value) {
+    return doctorsData.value;
+  }
+  const query = searchQuery.value.toLowerCase();
+  return doctorsData.value.filter(doctor =>
+    doctor.fullName.toLowerCase().includes(query) ||
+    doctor.specialty.toLowerCase().includes(query)
+  );
+});
+
+// Jadval ustunlari
+const columns = [
+  {
+    title: 'F.I.O',
+    dataIndex: 'fullName',
+    key: 'fullName',
+  },
+  {
+    title: 'Mutaxassislik',
+    dataIndex: 'specialty',
+    key: 'specialty',
+  },
+  {
+    title: 'Tajriba',
+    dataIndex: 'experience',
+    key: 'experience',
+    responsive: ['md']
+  },
+  {
+    title: 'Qabul kunlari',
+    dataIndex: 'workDays',
+    key: 'workDays',
+    responsive: ['lg']
+  },
+  {
+    title: 'Qabul narxi',
+    dataIndex: 'consultationFee',
+    key: 'consultationFee',
+    responsive: ['md']
+  },
+  {
+    title: 'Amallar',
+    key: 'actions',
+    align: 'center',
+  }
 ];
 
-export default {
-  name: 'DoctorsList',
-  components: {
-    Table,
-    Input,
-    Button,
-    Title,
-    Dropdown,
-    Menu,
-    MenuItem: Menu.Item,
-    SearchOutlined,
-    EyeOutlined,
-    MoreOutlined,
-  },
-  setup() {
-    const searchQuery = ref('');
-    const currentPage = ref(1);
-    const pageSize = ref(10);
+// Doktor sahifasiga o'tish
+const viewDoctor = (doctorId) => {
+  console.log(`Doktor sahifasiga o'tish: /doctors/${doctorId}`);
+  // Router push qilish uchun:
+  // router.push({ name: 'DoctorDetail', params: { id: doctorId } });
+  alert(`Doktor #${doctorId} sahifasiga o'tiladi (router keyinchalik qo'shiladi)`);
+};
 
-    // Qidiruv funksiyasi (ism va mutaxassislik bo'yicha)
-    const filteredDoctors = computed(() => {
-      if (!searchQuery.value) {
-        return mockDoctors;
-      }
-      const query = searchQuery.value.toLowerCase();
-      return mockDoctors.filter(doctor =>
-        doctor.fullName.toLowerCase().includes(query) ||
-        doctor.specialty.toLowerCase().includes(query)
-      );
-    });
-
-    // Jadval ustunlari
-    const columns = [
-      {
-        title: 'F.I.O',
-        dataIndex: 'fullName',
-        key: 'fullName',
-      },
-      {
-        title: 'Mutaxassislik',
-        dataIndex: 'specialty',
-        key: 'specialty',
-      },
-      {
-        title: 'Tajriba',
-        dataIndex: 'experience',
-        key: 'experience',
-        responsive: ['md']
-      },
-      {
-        title: 'Qabul kunlari',
-        dataIndex: 'workDays',
-        key: 'workDays',
-        responsive: ['lg']
-      },
-      {
-        title: 'Qabul narxi',
-        dataIndex: 'consultationFee',
-        key: 'consultationFee',
-        responsive: ['md']
-      },
-      {
-        title: 'Amallar',
-        key: 'actions',
-        align: 'center',
-      }
-    ];
-
-    // Doktor sahifasiga o'tish
-    const viewDoctor = (doctorId) => {
-      console.log(`Doktor sahifasiga o'tish: /doctors/${doctorId}`);
-      // Router push qilish uchun:
-      // router.push({ name: 'DoctorDetail', params: { id: doctorId } });
-      alert(`Doktor #${doctorId} sahifasiga o'tiladi (router keyinchalik qo'shiladi)`);
-    };
-
-    return {
-      searchQuery,
-      currentPage,
-      pageSize,
-      filteredDoctors,
-      columns,
-      viewDoctor
-    };
+const getDoctorsData = async () => {
+  loading.value = true
+  try {
+    const querySnapshot = await getDocs(collection(db, 'doctors'));
+    doctorsData.value = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    console.log(error.message)
+  } finally {
+    loading.value = false;
   }
 }
+
+onMounted(() => {
+  getDoctorsData()
+})
+
 </script>
 
 <style scoped>
@@ -390,7 +350,7 @@ export default {
   .mobile-action {
     display: none !important;
   }
-  
+
   .desktop-action {
     display: inline-flex !important;
   }
