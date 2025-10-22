@@ -12,8 +12,6 @@ const drawerVisible = ref(false);
 const selectedKeys = ref(['1']);
 //Select language
 const value1 = ref('UZ');
-//Search
-const value = ref('')
 //Router
 const router = useRouter()
 const route = useRoute()
@@ -63,12 +61,6 @@ const focus = () => {
 };
 const handleChangeLanguage = value => {
     // console.log(`selected ${value}`);
-};
-
-//Search
-const onSearch = searchValue => {
-    // console.log('use value', searchValue);
-    // console.log('or use this.value', value.value);
 };
 
 // Drawer header style
@@ -186,7 +178,7 @@ const handleRouter = () => {
 }
 
 .navbar-container {
-    max-width: 1220px;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
