@@ -88,10 +88,10 @@
   </div>
 </template>
 
-<script setup >
+<script setup>
 import { ref, computed, onMounted } from 'vue';
 //Antd Components
-import { Table, Input, Button, Space, Typography, Dropdown, Menu, MenuItem } from 'ant-design-vue';
+import { Table, Input, Button, Space, Typography, Dropdown, Menu, MenuItem, message } from 'ant-design-vue';
 //Antd Icons
 import { SearchOutlined, ShoppingCartOutlined, EyeOutlined, MoreOutlined } from '@ant-design/icons-vue';
 //FireStore
@@ -166,7 +166,7 @@ const addToCart = (medicine) => {
   console.log('Savatga qo\'shildi:', medicine);
   // State management orqali savatga qo'shish:
   // store.dispatch('cart/addItem', medicine);
-  alert(`${medicine.name} savatga qo'shildi!`);
+  message.success(`${medicine.name} savatga qo'shildi`)
 };
 
 const getDocuments = async () => {
@@ -178,8 +178,8 @@ const getDocuments = async () => {
       ...doc.data()
     }))
   } catch (error) {
-    console.log(error.message)
-  }finally{
+    message.error(error.message)
+  } finally {
     loading.value = false;
   }
 }
