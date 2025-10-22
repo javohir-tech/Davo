@@ -10,16 +10,11 @@
 
     <!-- Qidiruv bo'limi -->
     <div class="search-section">
-      <Input
-        v-model:value="searchQuery"
-        placeholder="Dori nomini kiriting..."
-        size="large"
-        class="search-input"
-        allowClear
-      >
-        <template #prefix>
-          <SearchOutlined class="search-icon" />
-        </template>
+      <Input v-model:value="searchQuery" placeholder="Dori nomini kiriting..." size="large" class="search-input"
+        allowClear>
+      <template #prefix>
+        <SearchOutlined class="search-icon" />
+      </template>
       </Input>
       <div v-if="searchQuery" class="search-results-info">
         {{ filteredMedicines.length }} ta natija topildi
@@ -28,24 +23,16 @@
 
     <!-- Dorilar jadvali -->
     <div class="table-section">
-      <Table
-        :columns="columns"
-        :data-source="filteredMedicines"
-        :pagination="{
-          current: currentPage,
-          pageSize: pageSize,
-          total: filteredMedicines.length,
-          showSizeChanger: false,
-          showTotal: (total) => `Jami: ${total} ta dori`
-        }"
-        :scroll="{ x: 'max-content' }"
-        :loading="false"
-        rowKey="id"
-        class="medicines-table"
-        @change="(pagination) => currentPage = pagination.current"
-      >
-        <!-- Dori nomi ustuni -->
+      <Table :columns="columns" :data-source="filteredMedicines" :pagination="{
+        current: currentPage,
+        pageSize: pageSize,
+        total: filteredMedicines.length,
+        showSizeChanger: true,
+        showTotal: (total) => `Jami: ${total} ta dori`
+      }" :scroll="{ x: 'max-content' }" :loading="false" rowKey="id" class="medicines-table"
+        @change="(pagination) => currentPage = pagination.current">
         <template #bodyCell="{ column, record }">
+          <!-- Dori nomi ustuni -->
           <template v-if="column.key === 'name'">
             <a @click="viewMedicine(record.id)" class="medicine-name">
               {{ record.name }}
@@ -68,21 +55,11 @@
           <template v-else-if="column.key === 'actions'">
             <!-- Desktop: Tugmalar -->
             <Space :size="8" class="desktop-actions">
-              <Button
-                type="link"
-                size="small"
-                @click="viewMedicine(record.id)"
-                class="action-btn"
-              >
+              <Button type="link" size="small" @click="viewMedicine(record.id)" class="action-btn">
                 <EyeOutlined />
                 <span class="btn-text">Batafsil</span>
               </Button>
-              <Button
-                type="primary"
-                size="small"
-                @click="addToCart(record)"
-                class="cart-btn"
-              >
+              <Button type="primary" size="small" @click="addToCart(record)" class="cart-btn">
                 <ShoppingCartOutlined />
                 <span class="btn-text">Savat</span>
               </Button>
@@ -96,10 +73,10 @@
               <template #overlay>
                 <Menu>
                   <MenuItem key="view" @click="viewMedicine(record.id)">
-                    <EyeOutlined /> Batafsil ko'rish
+                  <EyeOutlined /> Batafsil ko'rish
                   </MenuItem>
                   <MenuItem key="cart" @click="addToCart(record)">
-                    <ShoppingCartOutlined /> Savatga qo'shish
+                  <ShoppingCartOutlined /> Savatga qo'shish
                   </MenuItem>
                 </Menu>
               </template>
@@ -111,9 +88,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from 'vue';
+//Antd Components
 import { Table, Input, Button, Space, Typography, Dropdown, Menu } from 'ant-design-vue';
+//Antd Icons
 import { SearchOutlined, ShoppingCartOutlined, EyeOutlined, MoreOutlined } from '@ant-design/icons-vue';
 
 const { Title } = Typography;
@@ -142,101 +121,73 @@ const mockMedicines = [
   { id: 20, name: 'Prednisolone', category: 'Gormon dori', price: 12500, manufacturer: 'HormonMed', stock: 115 },
 ];
 
-export default {
-  name: 'MedicinesList',
-  components: {
-    Table,
-    Input,
-    Button,
-    Space,
-    Title,
-    Dropdown,
-    Menu,
-    MenuItem: Menu.Item,
-    SearchOutlined,
-    ShoppingCartOutlined,
-    EyeOutlined,
-    MoreOutlined,
-  },
-  setup() {
-    const searchQuery = ref('');
-    const currentPage = ref(1);
-    const pageSize = ref(10);
+const searchQuery = ref('');
+const currentPage = ref(1);
+const pageSize = ref(10);
 
-    // Qidiruv funksiyasi
-    const filteredMedicines = computed(() => {
-      if (!searchQuery.value) {
-        return mockMedicines;
-      }
-      return mockMedicines.filter(medicine =>
-        medicine.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-      );
-    });
-
-    // Jadval ustunlari
-    const columns = [
-      {
-        title: 'Dori nomi',
-        dataIndex: 'name',
-        key: 'name',
-      },
-      {
-        title: 'Kategoriya',
-        dataIndex: 'category',
-        key: 'category',
-        responsive: ['md']
-      },
-      {
-        title: 'Narxi',
-        dataIndex: 'price',
-        key: 'price',
-      },
-      {
-        title: 'Ishlab chiqaruvchi',
-        dataIndex: 'manufacturer',
-        key: 'manufacturer',
-        responsive: ['lg']
-      },
-      {
-        title: 'Omborda',
-        dataIndex: 'stock',
-        key: 'stock',
-        responsive: ['sm']
-      },
-      {
-        title: 'Amallar',
-        key: 'actions',
-        align: 'center',
-      }
-    ];
-
-    // Dori sahifasiga o'tish
-    const viewMedicine = (medicineId) => {
-      console.log(`Dori sahifasiga o'tish: /medicines/${medicineId}`);
-      // Router push qilish uchun:
-      // router.push({ name: 'MedicineDetail', params: { id: medicineId } });
-      alert(`Dori #${medicineId} sahifasiga o'tiladi (router keyinchalik qo'shiladi)`);
-    };
-
-    // Savatga qo'shish
-    const addToCart = (medicine) => {
-      console.log('Savatga qo\'shildi:', medicine);
-      // State management orqali savatga qo'shish:
-      // store.dispatch('cart/addItem', medicine);
-      alert(`${medicine.name} savatga qo'shildi!`);
-    };
-
-    return {
-      searchQuery,
-      currentPage,
-      pageSize,
-      filteredMedicines,
-      columns,
-      viewMedicine,
-      addToCart
-    };
+// Qidiruv funksiyasi
+const filteredMedicines = computed(() => {
+  if (!searchQuery.value) {
+    return mockMedicines;
   }
-}
+  return mockMedicines.filter(medicine =>
+    medicine.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
+// Jadval ustunlari
+const columns = [
+  {
+    title: 'Dori nomi',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Kategoriya',
+    dataIndex: 'category',
+    key: 'category',
+    responsive: ['md']
+  },
+  {
+    title: 'Narxi',
+    dataIndex: 'price',
+    key: 'price',
+  },
+  {
+    title: 'Ishlab chiqaruvchi',
+    dataIndex: 'manufacturer',
+    key: 'manufacturer',
+    responsive: ['lg']
+  },
+  {
+    title: 'Omborda',
+    dataIndex: 'stock',
+    key: 'stock',
+    responsive: ['sm']
+  },
+  {
+    title: 'Amallar',
+    key: 'actions',
+    align: 'center',
+  }
+];
+
+// Dori sahifasiga o'tish
+const viewMedicine = (medicineId) => {
+  console.log(`Dori sahifasiga o'tish: /medicines/${medicineId}`);
+  // Router push qilish uchun:
+  // router.push({ name: 'MedicineDetail', params: { id: medicineId } });
+  alert(`Dori #${medicineId} sahifasiga o'tiladi (router keyinchalik qo'shiladi)`);
+};
+
+// Savatga qo'shish
+const addToCart = (medicine) => {
+  console.log('Savatga qo\'shildi:', medicine);
+  // State management orqali savatga qo'shish:
+  // store.dispatch('cart/addItem', medicine);
+  alert(`${medicine.name} savatga qo'shildi!`);
+};
+
 </script>
 
 <style scoped>
@@ -412,7 +363,7 @@ export default {
   .mobile-actions {
     display: none !important;
   }
-  
+
   .desktop-actions {
     display: inline-flex !important;
   }

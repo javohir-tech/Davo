@@ -118,10 +118,6 @@ const handleRouter = () => {
                 <!-- Desktop Login Button -->
                 <div style="display: flex; align-items: center;">
                     <a-space direction="horizontal">
-                        <div class="search-btn">
-                            <a-input-search v-model:value="value" placeholder="input search text"
-                                style=" box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" enter-button @search="onSearch" />
-                        </div>
                         <a-select class="select-item-desktop" ref="select" v-model:value="value1"
                             style="width: 60px ; margin-right: 10px;" @focus="focus" @change="handleChangeLanguage">
                             <a-select-option value="uzb">UZ</a-select-option>
@@ -273,13 +269,6 @@ brand img {
 
 .desktop-menu :deep(.ant-menu-item::after) {
     display: none;
-}
-
-/* Search Btn */
-.search-btn {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
 }
 
 /* Login Button */
