@@ -5,17 +5,18 @@ import { ref, reactive } from 'vue';
 import { MenuOutlined, LoginOutlined } from '@ant-design/icons-vue';
 //Route
 import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router';
 
 // State
 const drawerVisible = ref(false);
 const selectedKeys = ref(['1']);
-const activeLink = ref('1');
 //Select language
 const value1 = ref('UZ');
 //Search
 const value = ref('')
 //Router
 const router = useRouter()
+const route = useRoute()
 
 // Menu items
 const menuItems = [
@@ -84,11 +85,9 @@ const showDrawer = () => {
 const handleMenuClick = (key) => {
     selectedKeys.value = [key];
     drawerVisible.value = false;
-    activeLink.value = key;
 };
 
 const handleRouter = () => {
-    activeLink.value = 0;
     drawerVisible.value = false;
     router.push('/login')
 }
@@ -99,7 +98,7 @@ const handleRouter = () => {
         <a-layout-header class="navbar">
             <div class="navbar-container">
                 <!-- Brand -->
-                <div class="brand" @click="() => activeLink = '1'">
+                <div class="brand">
                     <RouterLink to="/">
                         <img src="../../assets/wlogo.png" alt="brand image">
                     </RouterLink>
@@ -107,8 +106,8 @@ const handleRouter = () => {
 
                 <!-- Desktop Menu -->
                 <a-menu v-model:selectedKeys="selectedKeys" mode="horizontal" class="desktop-menu">
-                    <a-menu-item v-for="item in menuItems" :key="item.key" @click="() => activeLink = item.key">
-                        <RouterLink :to="item.path" :class="item.key === activeLink ? 'activeLink' : ''">
+                    <a-menu-item v-for="item in menuItems" :key="item.key">
+                        <RouterLink :to="item.path" :class="route.path === item.path ? 'activeLink' : ''">
                             {{ item.label }}
                             <span class="under-line"></span>
                         </RouterLink>
@@ -155,7 +154,7 @@ const handleRouter = () => {
                 <!-- Drawer Menu Items -->
                 <div class="drawer-menu">
                     <RouterLink v-for="item in menuItems" :key="item.key" :to="item.path" class="drawer-menu-item"
-                        :class="item.key === activeLink ? 'active' : ''" @click="handleMenuClick(item.key)">
+                        :class="route.path===item.path ? 'active' : ''" @click="handleMenuClick(item.key)">
                         {{ item.label }}
                     </RouterLink>
                 </div>

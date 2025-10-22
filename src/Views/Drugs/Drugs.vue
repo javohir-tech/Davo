@@ -89,11 +89,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 //Antd Components
 import { Table, Input, Button, Space, Typography, Dropdown, Menu } from 'ant-design-vue';
 //Antd Icons
 import { SearchOutlined, ShoppingCartOutlined, EyeOutlined, MoreOutlined } from '@ant-design/icons-vue';
+//FireStore
+import { collection, getDocs, query } from "firebase/firestore";
+import { db } from '@/FireBase/config';
 
 const { Title } = Typography;
 
@@ -187,6 +190,21 @@ const addToCart = (medicine) => {
   // store.dispatch('cart/addItem', medicine);
   alert(`${medicine.name} savatga qo'shildi!`);
 };
+
+const getDocuments = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "drugs"));
+    querySnapshot.forEach((query) => {
+      console.log(query.data())
+    })
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+onMounted(() => {
+  getDocuments()
+})
 
 </script>
 
