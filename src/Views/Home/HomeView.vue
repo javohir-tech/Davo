@@ -341,7 +341,7 @@ const handleContact = () => {
 /* Hero Section */
 .hero-section {
     padding: 80px 5%;
-    background: linear-gradient(135deg, rgba(24, 144, 255, 0.95) 0%, rgba(9, 109, 217, 0.95) 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 600px;
     display: flex;
     align-items: center;
@@ -499,7 +499,7 @@ const handleContact = () => {
     min-width: 100px;
     padding: 20px;
     border-radius: 15px;
-    background: linear-gradient(135deg, #e6f7ff 0%, #bae7ff 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     transition: transform 0.3s ease;
 }
 
@@ -510,13 +510,13 @@ const handleContact = () => {
 .stat-item h3 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #0050b3;
+    color:  #FFF;
     margin-bottom: 5px;
 }
 
 .stat-item p {
     font-size: 0.95rem;
-    color: #096dd9;
+    color: #ffffff;
     font-weight: 500;
 }
 
