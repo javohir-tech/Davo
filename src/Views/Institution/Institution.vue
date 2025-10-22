@@ -1,5 +1,8 @@
 <template>
-    <div class="branches-container">
+    <div class="example" v-if="loading">
+        <a-spin tip="Loading..." />
+    </div>
+    <div class="branches-container" v-else-if="!loading && filialsData.length !== 0">
         <div class="branches-wrapper">
             <!-- Header -->
             <div class="header-section">
@@ -148,6 +151,13 @@
             </a-modal>
         </div>
     </div>
+    <div v-else-if="!loading && filialsData.length === 0">
+        <a-result status="404" title="404" sub-title="Sorry, the page you visited does not exist.">
+            <template #extra>
+                <a-button type="primary" @click="handleReload">Reload</a-button>
+            </template>
+        </a-result>
+    </div>
 </template>
 
 <script setup>
@@ -202,6 +212,10 @@ const handlePageChange = (page) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+const handleReload = () => {
+    window.location.reload()
+}
+
 const getFilials = async () => {
     loading.value = true
     try {
@@ -223,9 +237,21 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.example {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.05);
+    height: 100vh;
+    width: 100vw;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 30px 50px;
+}
+
 .branches-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, rgba(24, 144, 255, 0.95) 0%, rgba(9, 109, 217, 0.95) 100%);
     padding: 40px 20px;
 }
 
