@@ -232,7 +232,7 @@ const matchedDoctors = computed(() => {
   return doctors.filter(d => normalizeSpecialty(d.specialty) === spec);
 });
 
-// --- Methods ---
+// --- Methods ---  
 function truncate(text, len = 80) {
   if (!text) return '';
   return text.length > len ? text.slice(0, len) + '...' : text;

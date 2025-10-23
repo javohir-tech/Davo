@@ -1,6 +1,6 @@
 <script setup>
 //Antd
-import { Modal, Card, Typography, Button, InputSearch, Menu, Row, Col, Pagination, Grid } from "ant-design-vue"
+import { Modal, Card, Typography, Button, InputSearch, Menu, Row, Col, Pagination, Grid, message } from "ant-design-vue"
 import { computed, ref } from "vue";
 
 const searchQuery = ref('')
@@ -73,7 +73,7 @@ const paginatedServices = computed(() => {
 const matchedDoctors = computed(() => {
     if (!selectedServise.value) return [];
     const spec = normalizeSpecialty(selectedServise.value.specialty);
-    return doctors.filter(d => normalizeSpecialty(d) === spec)
+    return doctors.filter(d => normalizeSpecialty(d.specialty) === spec)
 })
 
 
@@ -83,8 +83,12 @@ function truncate(text, len = 80) {
     return text.length > len ? text.slice(0, len) + "..." : text
 }
 
+function docCount(docSpecialty) {
+    return doctors.filter(d => d.specialty.toLocaleLowerCase() === docSpecialty.toLocaleLowerCase()).length
+}
+
 function normalizeSpecialty(str) {
-    if (str) return ""
+    if (!str) return ""
     return String(str).toLocaleLowerCase().replace(/\s+/g, '')
 }
 
@@ -110,12 +114,22 @@ function getLavelColor(lavel) {
     }
     return colors[lavel] || 'default'
 }
-</script>
 
+function selectDoc(doc) {
+    message.success(doc)
+}
+
+function onSearchEnter() {
+    currentPage.value = 1;
+}
+
+
+</script>
 <template>
     <div class="article-container">
         <div class="header">
-            <InputSearch placeholder="Maqolani izlang" v-model:value="searchQuery" allow-clear @press-enter="" />
+            <InputSearch placeholder="Maqolani izlang" v-model:value="searchQuery" allow-clear
+                @press-enter="onSearchEnter" />
         </div>
         <div class="articles-section">
             <Row :gutter="[16, 16]">
@@ -134,6 +148,9 @@ function getLavelColor(lavel) {
                         <a-tag :color="getLavelColor(service.level)">
                             {{ service.level }}
                         </a-tag>
+                    </div>
+                    <div>
+                        {{ docCount(service.specialty) }}
                     </div>
                 </Card>
                 </Col>
@@ -161,11 +178,16 @@ function getLavelColor(lavel) {
                         </a-descriptions>
                     </a-descriptions>
                     <a-diviter />
-                    <a-list :data-source="matchedDoctors" :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 2 }">
-                        <template #renderItem="{item}">
-                            <a-card hoverable>
-
-                            </a-card>
+                    <a-list style="margin-top: 20px;" :data-source="matchedDoctors"
+                        :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 2 }">
+                        <template #renderItem="{ item }">
+                            <a-list-item>
+                                <a-card hoverable>
+                                    <p>{{ item.fullName }}</p>
+                                    <p>{{ item.specialty }}</p>
+                                    <Button type="primary" @click="selectDoc(item.fullName)">batafsil</Button>
+                                </a-card>
+                            </a-list-item>
                         </template>
                     </a-list>
                 </div>
