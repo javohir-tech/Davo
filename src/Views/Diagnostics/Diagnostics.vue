@@ -14,18 +14,18 @@
 
       <!-- Search Section -->
       <div class="header">
-        <a-input v-model:value="search" size="large" placeholder="Xizmatni qidiring..." allow-clear
+        <Input v-model:value="search" size="large" placeholder="Xizmatni qidiring..." allow-clear
           @pressEnter="onSearchEnter" style="max-width: 360px; width: 100%;" class="input-search">
           <template #prefix>
             <SearchOutlined />
           </template>
-        </a-input>
+        </Input>
       </div>
 
       <!-- Servicies -->
-      <a-row :gutter="[16, 16]" class="cards-row">
-        <a-col v-for="service in paginatedServices" :key="service.id" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-          <a-card hoverable class="service-card" @click="openModal(service)">
+      <Row :gutter="[16, 16]" class="cards-row">
+        <Col v-for="service in paginatedServices" :key="service.id" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+          <Card hoverable class="service-card" @click="openModal(service)">
             <template #title>
               <div class="card-title-wrapper">
                 <MedicineBoxOutlined class="card-icon" />
@@ -39,58 +39,58 @@
               </p>
               <p class="service-desc">{{ truncate(service.description, 100) }}</p>
               <div class="card-meta">
-                <a-tag :color="getLevelColor(service.level)">
+                <Tag :color="getLevelColor(service.level)">
                   {{ service.level }}
-                </a-tag>
+                </Tag>
                 <span class="doctors-count">
                   <TeamOutlined style="margin-right: 5px" />
                   {{ countDoctors(service.specialty) }} doktor
                 </span>
               </div>
             </div>
-          </a-card>
-        </a-col>
-      </a-row>
+          </Card>
+        </Col>
+      </Row>
 
       <!-- Pagination -->
       <div class="pagination-wrap">
-        <a-pagination v-model:current="currentPage" :page-size="pageSize" :total="filteredServices.length"
+        <Pagination v-model:current="currentPage" :page-size="pageSize" :total="filteredServices.length"
           @change="onPageChange" :show-size-changer="paginatedServices.length >= 10" />
       </div>
 
       <!-- Xizmat modal -->
-      <a-modal v-model:open="modalVisible" :title="selectedService?.title" :width="720" @cancel="closeModal"
+      <Modal v-model:open="modalVisible" :title="selectedService?.title" :width="720" @cancel="closeModal"
         :footer="null" destroyOnClose>
         <div v-if="selectedService" class="modal-content">
-          <a-descriptions bordered :column="1" size="middle">
-            <a-descriptions-item label="Ta'rif">
+          <Descriptions bordered :column="1" size="middle">
+            <Descriptions-item label="Ta'rif">
               {{ selectedService.description }}
-            </a-descriptions-item>
-            <a-descriptions-item label="Mutaxassislik">
-              <a-tag color="blue">{{ selectedService.specialty }}</a-tag>
-            </a-descriptions-item>
-            <a-descriptions-item label="Daraja">
-              <a-tag :color="getLevelColor(selectedService.level)">
+            </Descriptions-item>
+            <Descriptions-item label="Mutaxassislik">
+              <Tag color="blue">{{ selectedService.specialty }}</Tag>
+            </Descriptions-item>
+            <Descriptions-item label="Daraja">
+              <Tag :color="getLevelColor(selectedService.level)">
                 {{ selectedService.level }}
-              </a-tag>
-            </a-descriptions-item>
-          </a-descriptions>
+              </Tag>
+            </Descriptions-item>
+          </Descriptions>
 
-          <a-divider orientation="middle">
+          <Divider orientation="middle">
             <TeamOutlined /> Ushbu xizmatni bajara oladigan doktorlar
-          </a-divider>
+          </Divider>
 
           <div v-if="matchedDoctors.length" class="doctors-list">
-            <a-list :data-source="matchedDoctors" :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 2 }">
+            <List :data-source="matchedDoctors" :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 2 }">
               <template #renderItem="{ item }">
-                <a-list-item>
-                  <a-card hoverable class="doctor-card">
+                <List-item>
+                  <Card hoverable class="doctor-card">
                     <div class="doctor-header">
-                      <a-avatar :size="50" style="background-color: #667eea">
+                      <Avatar :size="50" style="background-color: #667eea">
                         <template #icon>
                           <UserOutlined />
                         </template>
-                      </a-avatar>
+                      </Avatar>
                       <div class="doctor-info">
                         <div class="doctor-name">{{ item.fullName }}</div>
                         <div class="doctor-specialty">
@@ -100,7 +100,7 @@
                       </div>
                     </div>
 
-                    <a-divider style="margin: 12px 0" />
+                    <Divider style="margin: 12px 0" />
 
                     <div class="doctor-details">
                       <p>
@@ -121,24 +121,44 @@
                       </p>
                     </div>
 
-                    <a-button type="primary" block @click="onSelectDoctor(item)" style="margin-top: 10px">
+                    <Button type="primary" block @click="onSelectDoctor(item)" style="margin-top: 10px">
                       <EyeOutlined /> Ko'rish
-                    </a-button>
-                  </a-card>
-                </a-list-item>
+                    </Button>
+                  </Card>
+                </List-item>
               </template>
-            </a-list>
+            </List>
           </div>
 
-          <a-empty v-else description="Ushbu xizmatga mos doktor topilmadi" />
+          <Empty v-else description="Ushbu xizmatga mos doktor topilmadi" />
         </div>
-      </a-modal>
+      </Modal>
     </div>
   </div>
 </template>
 
 <script setup>
+//Vue
 import { ref, computed } from 'vue';
+//ANTD
+import {
+  Typography,
+  Row,
+  Col,
+  Input,
+  Tag,
+  Card,
+  Divider,
+  Button,
+  Avatar,
+  Descriptions,
+  DescriptionsItem,
+  List,
+  ListItem,
+  Empty,
+  Modal,
+  Pagination
+} from 'ant-design-vue';
 import { message } from 'ant-design-vue';
 import {
   SearchOutlined,
@@ -151,7 +171,6 @@ import {
   BankOutlined,
   EyeOutlined,
 } from '@ant-design/icons-vue';
-import { Typography } from 'ant-design-vue';
 
 const { Title } = Typography
 
