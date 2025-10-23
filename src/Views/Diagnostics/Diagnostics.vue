@@ -1,162 +1,135 @@
 <template>
-    <div class="services-container">
-        <div class="services-page">
-          <div class="header">
-            <h2>Xizmatlar</h2>
-            <a-input
-              v-model:value="search"
-              placeholder="Xizmatni qidiring..."
-              allow-clear
-              @pressEnter="onSearchEnter"
-              style="max-width: 360px; width: 100%;"
-            >
-              <template #suffix>
-                <SearchOutlined />
-              </template>
-            </a-input>
-          </div>
-      
-          <a-row :gutter="[16, 16]" class="cards-row">
-            <a-col
-              v-for="service in paginatedServices"
-              :key="service.id"
-              :xs="24"
-              :sm="12"
-              :md="8"
-              :lg="8"
-              :xl="8"
-            >
-              <a-card
-                hoverable
-                class="service-card"
-                @click="openModal(service)"
-              >
-                <template #title>
-                  <div class="card-title-wrapper">
-                    <MedicineBoxOutlined class="card-icon" />
-                    <span>{{ service.title }}</span>
-                  </div>
-                </template>
-                <div class="card-content">
-                  <p class="service-specialty">
-                    <UserOutlined style="margin-right: 5px" />
-                    {{ service.specialty }}
-                  </p>
-                  <p class="service-desc">{{ truncate(service.description, 100) }}</p>
-                  <div class="card-meta">
-                    <a-tag :color="getLevelColor(service.level)">
-                      {{ service.level }}
-                    </a-tag>
-                    <span class="doctors-count">
-                      <TeamOutlined style="margin-right: 5px" />
-                      {{ countDoctors(service.specialty) }} doktor
-                    </span>
-                  </div>
-                </div>
-              </a-card>
-            </a-col>
-          </a-row>
-      
-          <div class="pagination-wrap">
-            <a-pagination
-              v-model:current="currentPage"
-              :page-size="pageSize"
-              :total="filteredServices.length"
-              @change="onPageChange"
-              :show-size-changer="false"
-              show-quick-jumper
-            />
-          </div>
-      
-          <!-- Xizmat modal -->
-          <a-modal
-            v-model:open="modalVisible"
-            :title="selectedService?.title"
-            :width="720"
-            @cancel="closeModal"
-            :footer="null"
-            destroyOnClose
-          >
-            <div v-if="selectedService" class="modal-content">
-              <a-descriptions bordered :column="1" size="middle">
-                <a-descriptions-item label="Ta'rif">
-                  {{ selectedService.description }}
-                </a-descriptions-item>
-                <a-descriptions-item label="Mutaxassislik">
-                  <a-tag color="blue">{{ selectedService.specialty }}</a-tag>
-                </a-descriptions-item>
-                <a-descriptions-item label="Daraja">
-                  <a-tag :color="getLevelColor(selectedService.level)">
-                    {{ selectedService.level }}
-                  </a-tag>
-                </a-descriptions-item>
-              </a-descriptions>
-      
-              <a-divider orientation="left">
-                <TeamOutlined /> Ushbu xizmatni bajara oladigan doktorlar
-              </a-divider>
-      
-              <div v-if="matchedDoctors.length" class="doctors-list">
-                <a-list
-                  :data-source="matchedDoctors"
-                  :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 2 }"
-                >
-                  <template #renderItem="{ item }">
-                    <a-list-item>
-                      <a-card hoverable class="doctor-card">
-                        <div class="doctor-header">
-                          <a-avatar :size="50" style="background-color: #667eea">
-                            <template #icon><UserOutlined /></template>
-                          </a-avatar>
-                          <div class="doctor-info">
-                            <div class="doctor-name">{{ item.fullName }}</div>
-                            <div class="doctor-specialty">
-                              <MedicineBoxOutlined style="margin-right: 5px" />
-                              {{ item.specialty }}
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <a-divider style="margin: 12px 0" />
-                        
-                        <div class="doctor-details">
-                          <p>
-                            <ClockCircleOutlined style="color: #667eea; margin-right: 5px" />
-                            <strong>Tajriba:</strong> {{ item.experience }} yil
-                          </p>
-                          <p>
-                            <CalendarOutlined style="color: #667eea; margin-right: 5px" />
-                            <strong>Ish kunlari:</strong> {{ item.workDays }}
-                          </p>
-                          <p>
-                            <DollarOutlined style="color: #667eea; margin-right: 5px" />
-                            <strong>Konsultatsiya:</strong> {{ formatMoney(item.consultationFee) }}
-                          </p>
-                          <p>
-                            <BankOutlined style="color: #667eea; margin-right: 5px" />
-                            <strong>Ta'lim:</strong> {{ item.education }}
-                          </p>
-                        </div>
-                        
-                        <a-button 
-                          type="primary" 
-                          block 
-                          @click="onSelectDoctor(item)"
-                          style="margin-top: 10px"
-                        >
-                          <EyeOutlined /> Ko'rish
-                        </a-button>
-                      </a-card>
-                    </a-list-item>
-                  </template>
-                </a-list>
+  <div class="services-container">
+    <div class="services-page">
+      <div class="header">
+        <Title :level="2">
+          <span>
+            <UserOutlined />
+          </span>
+          Xizmatlar
+        </Title>
+        <p class="header-subtitle">Biz sizga yugori darajada xizmatlarni taklif qilamiz</p>
+      </div>
+      <div class="header">
+        <a-input v-model:value="search" placeholder="Xizmatni qidiring..." allow-clear @pressEnter="onSearchEnter"
+          style="max-width: 360px; width: 100%;">
+          <template #suffix>
+            <SearchOutlined />
+          </template>
+        </a-input>
+      </div>
+
+      <a-row :gutter="[16, 16]" class="cards-row">
+        <a-col v-for="service in paginatedServices" :key="service.id" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+          <a-card hoverable class="service-card" @click="openModal(service)">
+            <template #title>
+              <div class="card-title-wrapper">
+                <MedicineBoxOutlined class="card-icon" />
+                <span>{{ service.title }}</span>
               </div>
-              
-              <a-empty v-else description="Ushbu xizmatga mos doktor topilmadi" />
+            </template>
+            <div class="card-content">
+              <p class="service-specialty">
+                <UserOutlined style="margin-right: 5px" />
+                {{ service.specialty }}
+              </p>
+              <p class="service-desc">{{ truncate(service.description, 100) }}</p>
+              <div class="card-meta">
+                <a-tag :color="getLevelColor(service.level)">
+                  {{ service.level }}
+                </a-tag>
+                <span class="doctors-count">
+                  <TeamOutlined style="margin-right: 5px" />
+                  {{ countDoctors(service.specialty) }} doktor
+                </span>
+              </div>
             </div>
-          </a-modal>
+          </a-card>
+        </a-col>
+      </a-row>
+
+      <div class="pagination-wrap">
+        <a-pagination v-model:current="currentPage" :page-size="pageSize" :total="filteredServices.length"
+          @change="onPageChange" :show-size-changer="false" show-quick-jumper />
+      </div>
+
+      <!-- Xizmat modal -->
+      <a-modal v-model:open="modalVisible" :title="selectedService?.title" :width="720" @cancel="closeModal"
+        :footer="null" destroyOnClose>
+        <div v-if="selectedService" class="modal-content">
+          <a-descriptions bordered :column="1" size="middle">
+            <a-descriptions-item label="Ta'rif">
+              {{ selectedService.description }}
+            </a-descriptions-item>
+            <a-descriptions-item label="Mutaxassislik">
+              <a-tag color="blue">{{ selectedService.specialty }}</a-tag>
+            </a-descriptions-item>
+            <a-descriptions-item label="Daraja">
+              <a-tag :color="getLevelColor(selectedService.level)">
+                {{ selectedService.level }}
+              </a-tag>
+            </a-descriptions-item>
+          </a-descriptions>
+
+          <a-divider orientation="left">
+            <TeamOutlined /> Ushbu xizmatni bajara oladigan doktorlar
+          </a-divider>
+
+          <div v-if="matchedDoctors.length" class="doctors-list">
+            <a-list :data-source="matchedDoctors" :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 2 }">
+              <template #renderItem="{ item }">
+                <a-list-item>
+                  <a-card hoverable class="doctor-card">
+                    <div class="doctor-header">
+                      <a-avatar :size="50" style="background-color: #667eea">
+                        <template #icon>
+                          <UserOutlined />
+                        </template>
+                      </a-avatar>
+                      <div class="doctor-info">
+                        <div class="doctor-name">{{ item.fullName }}</div>
+                        <div class="doctor-specialty">
+                          <MedicineBoxOutlined style="margin-right: 5px" />
+                          {{ item.specialty }}
+                        </div>
+                      </div>
+                    </div>
+
+                    <a-divider style="margin: 12px 0" />
+
+                    <div class="doctor-details">
+                      <p>
+                        <ClockCircleOutlined style="color: #667eea; margin-right: 5px" />
+                        <strong>Tajriba:</strong> {{ item.experience }} yil
+                      </p>
+                      <p>
+                        <CalendarOutlined style="color: #667eea; margin-right: 5px" />
+                        <strong>Ish kunlari:</strong> {{ item.workDays }}
+                      </p>
+                      <p>
+                        <DollarOutlined style="color: #667eea; margin-right: 5px" />
+                        <strong>Konsultatsiya:</strong> {{ formatMoney(item.consultationFee) }}
+                      </p>
+                      <p>
+                        <BankOutlined style="color: #667eea; margin-right: 5px" />
+                        <strong>Ta'lim:</strong> {{ item.education }}
+                      </p>
+                    </div>
+
+                    <a-button type="primary" block @click="onSelectDoctor(item)" style="margin-top: 10px">
+                      <EyeOutlined /> Ko'rish
+                    </a-button>
+                  </a-card>
+                </a-list-item>
+              </template>
+            </a-list>
+          </div>
+
+          <a-empty v-else description="Ushbu xizmatga mos doktor topilmadi" />
         </div>
+      </a-modal>
     </div>
+  </div>
 </template>
 
 <script setup>
@@ -173,6 +146,9 @@ import {
   BankOutlined,
   EyeOutlined,
 } from '@ant-design/icons-vue';
+import { Typography } from 'ant-design-vue';
+
+const { Title } = Typography
 
 // --- Doktorlar massiv ---
 const doctors = [
@@ -233,8 +209,8 @@ const selectedService = ref(null);
 const filteredServices = computed(() => {
   const q = String(search.value || '').trim().toLowerCase();
   if (!q) return services;
-  return services.filter(s => 
-    s.title.toLowerCase().includes(q) || 
+  return services.filter(s =>
+    s.title.toLowerCase().includes(q) ||
     (s.description && s.description.toLowerCase().includes(q)) ||
     s.specialty.toLowerCase().includes(q)
   );
@@ -305,11 +281,11 @@ function onSearchEnter() {
 </script>
 
 <style scoped>
-
-.services-container{
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
+.services-container {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
 }
+
 .services-page {
   padding: 24px;
   max-width: 1400px;
@@ -318,10 +294,7 @@ function onSearchEnter() {
 }
 
 .header {
-  display: flex;
   gap: 16px;
-  align-items: center;
-  justify-content: space-between;
   margin-bottom: 24px;
   flex-wrap: wrap;
   background: white;
@@ -338,6 +311,12 @@ function onSearchEnter() {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.header-subtitle {
+  margin: 8px 0px 0px 48px;
+  color: #8c8c8c;
+  font-size: 14px;
 }
 
 .cards-row {
@@ -492,6 +471,17 @@ function onSearchEnter() {
     width: 100%;
     margin-bottom: 8px;
     font-size: 1.5rem;
+  }
+
+  .header-subtitle {
+    margin-left: 40px;
+  }
+}
+
+@media (max-width :576px) {
+  .header-subtitle{
+    margin-left: 36px;
+    font-size: 12px;
   }
 }
 </style>

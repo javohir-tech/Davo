@@ -9,7 +9,7 @@ import Navbar from '@/Components/Navbar/Navbar.vue';
         <Navbar />
         <main>
             <router-view v-slot="{ Component }">
-                <KeepAlive :include="['Drugs', 'Doctors']" :exclude="[]">
+                <KeepAlive :include="[]" :exclude="[]">
                     <component :is="Component" />
                 </KeepAlive>
             </router-view>
