@@ -1,6 +1,6 @@
 <script setup>
 //Antd
-import { Modal, Card, Typography, Button, InputSearch, Menu, Row, Col, Pagination } from "ant-design-vue"
+import { Modal, Card, Typography, Button, InputSearch, Menu, Row, Col, Pagination, Grid } from "ant-design-vue"
 import { computed, ref } from "vue";
 
 const searchQuery = ref('')
@@ -8,6 +8,29 @@ const currentPage = ref(1);
 const pageSize = ref(6);
 const modalVisible = ref(false)
 const selectedServise = ref(null)
+
+const doctors = [
+    { id: 1, fullName: 'Jamshid Aliyev', specialty: 'Kardiolog', experience: 15, workDays: 'Dush-Juma', consultationFee: 150000, education: 'Toshkent tibbiyot akademiyasi' },
+    { id: 2, fullName: 'Malika Karimova', specialty: 'Stomatolog', experience: 8, workDays: 'Dush-Shanba', consultationFee: 120000, education: 'Samarqand tibbiyot instituti' },
+    { id: 3, fullName: 'Bobur Rahimov', specialty: 'Urolog', experience: 12, workDays: 'Sesh-Juma', consultationFee: 180000, education: 'Toshkent tibbiyot akademiyasi' },
+    { id: 4, fullName: 'Dilnoza Ahmadova', specialty: 'Pediatr', experience: 10, workDays: 'Dush-Shanba', consultationFee: 100000, education: 'Andijon tibbiyot instituti' },
+    { id: 5, fullName: 'Aziz Tursunov', specialty: 'Nevrolog', experience: 20, workDays: 'Dush-Juma', consultationFee: 200000, education: 'Toshkent tibbiyot akademiyasi' },
+    { id: 6, fullName: 'Sevara Yusupova', specialty: 'Dermatolog', experience: 7, workDays: 'Chor-Shanba', consultationFee: 130000, education: 'Buxoro tibbiyot instituti' },
+    { id: 7, fullName: 'Otabek Nazarov', specialty: 'Ortoped', experience: 14, workDays: 'Dush-Juma', consultationFee: 170000, education: 'Toshkent tibbiyot akademiyasi' },
+    { id: 8, fullName: 'Nodira Ismailova', specialty: 'Ginekolog', experience: 11, workDays: 'Dush-Shanba', consultationFee: 160000, education: 'Samarqand tibbiyot instituti' },
+    { id: 9, fullName: 'Rustam Ergashev', specialty: 'Oftalmolog', experience: 9, workDays: 'Sesh-Juma', consultationFee: 140000, education: "Farg'ona tibbiyot instituti" },
+    { id: 10, fullName: 'Zilola Mahmudova', specialty: 'Endokrinolog', experience: 13, workDays: 'Dush-Shanba', consultationFee: 175000, education: 'Toshkent tibbiyot akademiyasi' },
+    { id: 11, fullName: 'Jasur Abdullayev', specialty: 'Lor', experience: 16, workDays: 'Dush-Juma', consultationFee: 135000, education: 'Namangan tibbiyot instituti' },
+    { id: 12, fullName: 'Feruza Hasanova', specialty: 'Terapevt', experience: 6, workDays: 'Dush-Shanba', consultationFee: 90000, education: 'Andijon tibbiyot instituti' },
+    { id: 13, fullName: 'Sanjar Umarov', specialty: 'Xirurg', experience: 18, workDays: 'Dush-Juma', consultationFee: 250000, education: 'Toshkent tibbiyot akademiyasi' },
+    { id: 14, fullName: 'Muhabbat Saidova', specialty: 'Allergolog', experience: 5, workDays: 'Chor-Shanba', consultationFee: 110000, education: 'Buxoro tibbiyot instituti' },
+    { id: 15, fullName: 'Davron Mirzayev', specialty: 'Gastroenterolog', experience: 17, workDays: 'Sesh-Juma', consultationFee: 190000, education: 'Toshkent tibbiyot akademiyasi' },
+    { id: 16, fullName: 'Gulnora Qodirova', specialty: 'Stomatolog', experience: 12, workDays: 'Dush-Shanba', consultationFee: 125000, education: 'Samarqand tibbiyot instituti' },
+    { id: 17, fullName: 'Ilhom Sharipov', specialty: 'Urolog', experience: 10, workDays: 'Dush-Juma', consultationFee: 165000, education: 'Toshkent tibbiyot akademiyasi' },
+    { id: 18, fullName: 'Kamola Nurmatova', specialty: 'Pediatr', experience: 8, workDays: 'Dush-Shanba', consultationFee: 95000, education: "Farg'ona tibbiyot instituti" },
+    { id: 19, fullName: 'Sherzod Holmatov', specialty: 'Kardiolog', experience: 14, workDays: 'Sesh-Juma', consultationFee: 185000, education: 'Toshkent tibbiyot akademiyasi' },
+    { id: 20, fullName: 'Adolat Rashidova', specialty: 'Nevrolog', experience: 11, workDays: 'Dush-Shanba', consultationFee: 170000, education: 'Samarqand tibbiyot instituti' },
+];
 
 const services = [
     { id: 1, title: 'Kardiologiya (Tashxis & Davolash)', specialty: 'Kardiolog', description: 'Yurak kasalliklarini tashxislash va davolash: EKQ, stress-test, gipotoniya, gipertenziya va boshqalar.', level: 'Advanced' },
@@ -47,11 +70,22 @@ const paginatedServices = computed(() => {
     return filteredServices.value.slice(start, start + pageSize.value)
 })
 
+const matchedDoctors = computed(() => {
+    if (!selectedServise.value) return [];
+    const spec = normalizeSpecialty(selectedServise.value.specialty);
+    return doctors.filter(d => normalizeSpecialty(d) === spec)
+})
+
 
 //methods
 function truncate(text, len = 80) {
     if (!text) return " ";
     return text.length > len ? text.slice(0, len) + "..." : text
+}
+
+function normalizeSpecialty(str) {
+    if (str) return ""
+    return String(str).toLocaleLowerCase().replace(/\s+/g, '')
 }
 
 function onPageChange(page) {
@@ -60,12 +94,21 @@ function onPageChange(page) {
 }
 
 function modalOpen(servise) {
-    modalVisible.value= true
+    modalVisible.value = true
     selectedServise.value = servise
 }
 
 function modalClose() {
+    selectedServise.value = null;
+}
 
+function getLavelColor(lavel) {
+    const colors = {
+        'Advanced': 'green',
+        'Standard': 'blue',
+        'Special': 'purple'
+    }
+    return colors[lavel] || 'default'
 }
 </script>
 
@@ -88,7 +131,7 @@ function modalClose() {
                     </div>
                     <a-divider />
                     <div>
-                        <a-tag>
+                        <a-tag :color="getLavelColor(service.level)">
                             {{ service.level }}
                         </a-tag>
                     </div>
@@ -99,8 +142,33 @@ function modalClose() {
             <Pagination v-model:current="currentPage" :page-size="pageSize" :total="filteredServices.length"
                 style="margin-top: 10px;" @change="onPageChange" />
 
-            <Modal v-model:open="modalVisible" :title="selectedServise?.title" :footer="null" @cancel="modalClose" destroyOnClose>
-                
+            <Modal :width="720" v-model:open="modalVisible" :title="selectedServise?.title" :footer="null"
+                @cancel="modalClose" destroyOnClose>
+                <div>
+                    <a-descriptions bordered size="middle" :column="1">
+                        <a-descriptions-item label="Ta'rif">
+                            {{ selectedServise.description }}
+                        </a-descriptions-item>
+                        <a-descriptions-item label="Mutahasislik">
+                            <a-tag color="blue">
+                                {{ selectedServise.specialty }}
+                            </a-tag>
+                        </a-descriptions-item>
+                        <a-descriptions label="daraja">
+                            <a-tag :color="getLavelColor(selectedServise.level)">
+                                {{ selectedServise.level }}
+                            </a-tag>
+                        </a-descriptions>
+                    </a-descriptions>
+                    <a-diviter />
+                    <a-list :data-source="matchedDoctors" :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 2 }">
+                        <template #renderItem="{item}">
+                            <a-card hoverable>
+
+                            </a-card>
+                        </template>
+                    </a-list>
+                </div>
             </Modal>
         </div>
     </div>
