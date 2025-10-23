@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "title": "Kardiologiya (Tashxis & Davolash)",
+        "specialty": "Kardiolog",
+        "description": "Yurak kasalliklarini tashxislash va davolash: EKQ, stress-test, gipotoniya, gipertenziya va boshqalar.",
+        "level": "Advanced"
+    },
+    {
+        "id": 2,
+        "title": "Stomatologiya",
+        "specialty": "Stomatolog",
+        "description": "Profilaktika, plombalash, protezlash, og'riqsiz tish davolash va kosmetik stomatologiya xizmatlari.",
+        "level": "Standard"
+    },
+    {
+        "id": 3,
+        "title": "Urologiya",
+        "specialty": "Urolog",
+        "description": "Buyrak va siydik yo'llari kasalliklari tashxisi va jarrohlik muolajalari.",
+        "level": "Advanced"
+    },
+    {
+        "id": 4,
+        "title": "Pediatriya",
+        "specialty": "Pediatr",
+        "description": "Bolalar sog'lig'i, emlashlar, rivojlanish monitoringi va shoshilinch yordam.",
+        "level": "Standard"
+    },
+    {
+        "id": 5,
+        "title": "Nevrologiya",
+        "specialty": "Nevrolog",
+        "description": "Nerv tizimi kasalliklari: bosh og'rig'i, uyqusizlik, asab kasalliklarini tashxislash va davolash.",
+        "level": "Advanced"
+    },
+    {
+        "id": 6,
+        "title": "Dermatologiya",
+        "specialty": "Dermatolog",
+        "description": "Terining kasalliklarini tashxislash va davolash, kosmetik protseduralar.",
+        "level": "Standard"
+    },
+    {
+        "id": 7,
+        "title": "Ortopediya",
+        "specialty": "Ortoped",
+        "description": "Suyak, bo'g'im va mushak kasalliklari; travma va reabilitatsiya.",
+        "level": "Standard"
+    },
+    {
+        "id": 8,
+        "title": "Ginekologiya",
+        "specialty": "Ginekolog",
+        "description": "Ayollar salomatligi: konsultatsiya, tashxis, homiladorlik monitoringi.",
+        "level": "Advanced"
+    },
+    {
+        "id": 9,
+        "title": "Oftalmologiya",
+        "specialty": "Oftalmolog",
+        "description": "Ko'z kasalliklari tashxisi va davolash, kontakt linzalar va ko'rish tuzatish.",
+        "level": "Standard"
+    },
+    {
+        "id": 10,
+        "title": "Endokrinologiya",
+        "specialty": "Endokrinolog",
+        "description": "Gormon tashxislari va davolash: qalqonsimon bez, diabet, va boshqalar.",
+        "level": "Advanced"
+    },
+    {
+        "id": 11,
+        "title": "Lor (ENT)",
+        "specialty": "Lor",
+        "description": "Burun, quloq, tomoq kasalliklari, audiometriya va endoskopiya.",
+        "level": "Standard"
+    },
+    {
+        "id": 12,
+        "title": "Terapiya",
+        "specialty": "Terapevt",
+        "description": "Ichki organlar kasalliklarini konservativ davolash va konsultatsiya.",
+        "level": "Standard"
+    },
+    {
+        "id": 13,
+        "title": "Xirurgiya",
+        "specialty": "Xirurg",
+        "description": "Operativ aralashuvlar va jarrohlik muolajalari.",
+        "level": "Advanced"
+    },
+    {
+        "id": 14,
+        "title": "Allergologiya",
+        "specialty": "Allergolog",
+        "description": "Allergik kasalliklarni tashxislash va immunoterapiya.",
+        "level": "Standard"
+    },
+    {
+        "id": 15,
+        "title": "Gastroenterologiya",
+        "specialty": "Gastroenterolog",
+        "description": "Ichak va oshqozon kasalliklari tashxisi, endoskopiya xizmatlari.",
+        "level": "Advanced"
+    },
+    {
+        "id": 16,
+        "title": "Stomatologik (Ortodontiya)",
+        "specialty": "Stomatolog",
+        "description": "Tish to'g'rilash va ortodontik xizmatlar.",
+        "level": "Special"
+    },
+    {
+        "id": 17,
+        "title": "Urologiya (Andrologiya)",
+        "specialty": "Urolog",
+        "description": "Erkak salomatligi va urologik muolajalar.",
+        "level": "Advanced"
+    },
+    {
+        "id": 18,
+        "title": "Pediatriya (Neonatologiya)",
+        "specialty": "Pediatr",
+        "description": "Yangi tug'ilgan chaqaloqlar va neonatal parvarish.",
+        "level": "Special"
+    },
+    {
+        "id": 19,
+        "title": "Kardiologiya (Reabilitatsiya)",
+        "specialty": "Kardiolog",
+        "description": "Yurak kasalliklaridan keyingi reabilitatsiya va nazorat.",
+        "level": "Special"
+    },
+    {
+        "id": 20,
+        "title": "Nevrologiya (Reabilitatsiya)",
+        "specialty": "Nevrolog",
+        "description": "Asab tizimi kasalliklaridan keyingi reabilitatsiya va fizioterapiya.",
+        "level": "Special"
+    }
+]

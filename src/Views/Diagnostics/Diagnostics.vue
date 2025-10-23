@@ -44,7 +44,7 @@
               </Tag>
               <span class="doctors-count">
                 <TeamOutlined style="margin-right: 5px" />
-                {{ countDoctors(service.specialty) }} doktor
+                {{ loading ? " " : countDoctors(service.specialty) }} doktor
               </span>
             </div>
           </div>
@@ -80,7 +80,11 @@
             <TeamOutlined /> Ushbu xizmatni bajara oladigan doktorlar
           </Divider>
 
-          <div v-if="matchedDoctors.length" class="doctors-list">
+          <div v-if="loading" class="loading-spin">
+            <Spin />
+          </div>
+
+          <div v-else-if="matchedDoctors.length && !loading" class="doctors-list">
             <List :data-source="matchedDoctors" :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 2 }">
               <template #renderItem="{ item }">
                 <List-item>
@@ -157,7 +161,8 @@ import {
   ListItem,
   Empty,
   Modal,
-  Pagination
+  Pagination,
+  Spin
 } from 'ant-design-vue';
 import { message } from 'ant-design-vue';
 import {
@@ -172,59 +177,15 @@ import {
   EyeOutlined,
 } from '@ant-design/icons-vue';
 
-//FireBase
-import { collection, getDocs } from "firebase/firestore";
-import { db } from '@/FireBase/config';
+//Hooks
+import useDocs from '@/Hooks/useDocs';
+//Local Data
+// --- Xizmatlar massiv ---
+import services from "@/Data/services.json"
+
+const { data, loading, getData } = useDocs('doctors');
 
 const { Title } = Typography
-
-// --- Doktorlar massiv ---
-const doctors = [
-  { id: 1, fullName: 'Jamshid Aliyev', specialty: 'Kardiolog', experience: 15, workDays: 'Dush-Juma', consultationFee: 150000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 2, fullName: 'Malika Karimova', specialty: 'Stomatolog', experience: 8, workDays: 'Dush-Shanba', consultationFee: 120000, education: 'Samarqand tibbiyot instituti' },
-  { id: 3, fullName: 'Bobur Rahimov', specialty: 'Urolog', experience: 12, workDays: 'Sesh-Juma', consultationFee: 180000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 4, fullName: 'Dilnoza Ahmadova', specialty: 'Pediatr', experience: 10, workDays: 'Dush-Shanba', consultationFee: 100000, education: 'Andijon tibbiyot instituti' },
-  { id: 5, fullName: 'Aziz Tursunov', specialty: 'Nevrolog', experience: 20, workDays: 'Dush-Juma', consultationFee: 200000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 6, fullName: 'Sevara Yusupova', specialty: 'Dermatolog', experience: 7, workDays: 'Chor-Shanba', consultationFee: 130000, education: 'Buxoro tibbiyot instituti' },
-  { id: 7, fullName: 'Otabek Nazarov', specialty: 'Ortoped', experience: 14, workDays: 'Dush-Juma', consultationFee: 170000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 8, fullName: 'Nodira Ismailova', specialty: 'Ginekolog', experience: 11, workDays: 'Dush-Shanba', consultationFee: 160000, education: 'Samarqand tibbiyot instituti' },
-  { id: 9, fullName: 'Rustam Ergashev', specialty: 'Oftalmolog', experience: 9, workDays: 'Sesh-Juma', consultationFee: 140000, education: "Farg'ona tibbiyot instituti" },
-  { id: 10, fullName: 'Zilola Mahmudova', specialty: 'Endokrinolog', experience: 13, workDays: 'Dush-Shanba', consultationFee: 175000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 11, fullName: 'Jasur Abdullayev', specialty: 'Lor', experience: 16, workDays: 'Dush-Juma', consultationFee: 135000, education: 'Namangan tibbiyot instituti' },
-  { id: 12, fullName: 'Feruza Hasanova', specialty: 'Terapevt', experience: 6, workDays: 'Dush-Shanba', consultationFee: 90000, education: 'Andijon tibbiyot instituti' },
-  { id: 13, fullName: 'Sanjar Umarov', specialty: 'Xirurg', experience: 18, workDays: 'Dush-Juma', consultationFee: 250000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 14, fullName: 'Muhabbat Saidova', specialty: 'Allergolog', experience: 5, workDays: 'Chor-Shanba', consultationFee: 110000, education: 'Buxoro tibbiyot instituti' },
-  { id: 15, fullName: 'Davron Mirzayev', specialty: 'Gastroenterolog', experience: 17, workDays: 'Sesh-Juma', consultationFee: 190000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 16, fullName: 'Gulnora Qodirova', specialty: 'Stomatolog', experience: 12, workDays: 'Dush-Shanba', consultationFee: 125000, education: 'Samarqand tibbiyot instituti' },
-  { id: 17, fullName: 'Ilhom Sharipov', specialty: 'Urolog', experience: 10, workDays: 'Dush-Juma', consultationFee: 165000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 18, fullName: 'Kamola Nurmatova', specialty: 'Pediatr', experience: 8, workDays: 'Dush-Shanba', consultationFee: 95000, education: "Farg'ona tibbiyot instituti" },
-  { id: 19, fullName: 'Sherzod Holmatov', specialty: 'Kardiolog', experience: 14, workDays: 'Sesh-Juma', consultationFee: 185000, education: 'Toshkent tibbiyot akademiyasi' },
-  { id: 20, fullName: 'Adolat Rashidova', specialty: 'Nevrolog', experience: 11, workDays: 'Dush-Shanba', consultationFee: 170000, education: 'Samarqand tibbiyot instituti' },
-];
-
-// --- Xizmatlar massiv ---
-const services = [
-  { id: 1, title: 'Kardiologiya (Tashxis & Davolash)', specialty: 'Kardiolog', description: 'Yurak kasalliklarini tashxislash va davolash: EKQ, stress-test, gipotoniya, gipertenziya va boshqalar.', level: 'Advanced' },
-  { id: 2, title: 'Stomatologiya', specialty: 'Stomatolog', description: 'Profilaktika, plombalash, protezlash, og\'riqsiz tish davolash va kosmetik stomatologiya xizmatlari.', level: 'Standard' },
-  { id: 3, title: 'Urologiya', specialty: 'Urolog', description: 'Buyrak va siydik yo\'llari kasalliklari tashxisi va jarrohlik muolajalari.', level: 'Advanced' },
-  { id: 4, title: 'Pediatriya', specialty: 'Pediatr', description: 'Bolalar sog\'lig\'i, emlashlar, rivojlanish monitoringi va shoshilinch yordam.', level: 'Standard' },
-  { id: 5, title: 'Nevrologiya', specialty: 'Nevrolog', description: 'Nerv tizimi kasalliklari: bosh og\'rig\'i, uyqusizlik, asab kasalliklarini tashxislash va davolash.', level: 'Advanced' },
-  { id: 6, title: 'Dermatologiya', specialty: 'Dermatolog', description: 'Terining kasalliklarini tashxislash va davolash, kosmetik protseduralar.', level: 'Standard' },
-  { id: 7, title: 'Ortopediya', specialty: 'Ortoped', description: 'Suyak, bo\'g\'im va mushak kasalliklari; travma va reabilitatsiya.', level: 'Standard' },
-  { id: 8, title: 'Ginekologiya', specialty: 'Ginekolog', description: 'Ayollar salomatligi: konsultatsiya, tashxis, homiladorlik monitoringi.', level: 'Advanced' },
-  { id: 9, title: 'Oftalmologiya', specialty: 'Oftalmolog', description: 'Ko\'z kasalliklari tashxisi va davolash, kontakt linzalar va ko\'rish tuzatish.', level: 'Standard' },
-  { id: 10, title: 'Endokrinologiya', specialty: 'Endokrinolog', description: 'Gormon tashxislari va davolash: qalqonsimon bez, diabet, va boshqalar.', level: 'Advanced' },
-  { id: 11, title: 'Lor (ENT)', specialty: 'Lor', description: 'Burun, quloq, tomoq kasalliklari, audiometriya va endoskopiya.', level: 'Standard' },
-  { id: 12, title: 'Terapiya', specialty: 'Terapevt', description: 'Ichki organlar kasalliklarini konservativ davolash va konsultatsiya.', level: 'Standard' },
-  { id: 13, title: 'Xirurgiya', specialty: 'Xirurg', description: 'Operativ aralashuvlar va jarrohlik muolajalari.', level: 'Advanced' },
-  { id: 14, title: 'Allergologiya', specialty: 'Allergolog', description: 'Allergik kasalliklarni tashxislash va immunoterapiya.', level: 'Standard' },
-  { id: 15, title: 'Gastroenterologiya', specialty: 'Gastroenterolog', description: 'Ichak va oshqozon kasalliklari tashxisi, endoskopiya xizmatlari.', level: 'Advanced' },
-  { id: 16, title: 'Stomatologik (Ortodontiya)', specialty: 'Stomatolog', description: 'Tish to\'g\'rilash va ortodontik xizmatlar.', level: 'Special' },
-  { id: 17, title: 'Urologiya (Andrologiya)', specialty: 'Urolog', description: 'Erkak salomatligi va urologik muolajalar.', level: 'Advanced' },
-  { id: 18, title: 'Pediatriya (Neonatologiya)', specialty: 'Pediatr', description: 'Yangi tug\'ilgan chaqaloqlar va neonatal parvarish.', level: 'Special' },
-  { id: 19, title: 'Kardiologiya (Reabilitatsiya)', specialty: 'Kardiolog', description: 'Yurak kasalliklaridan keyingi reabilitatsiya va nazorat.', level: 'Special' },
-  { id: 20, title: 'Nevrologiya (Reabilitatsiya)', specialty: 'Nevrolog', description: 'Asab tizimi kasalliklaridan keyingi reabilitatsiya va fizioterapiya.', level: 'Special' },
-];
 
 // --- Reactive state ---
 const search = ref('');
@@ -232,8 +193,6 @@ const currentPage = ref(1);
 const pageSize = 6;
 const modalVisible = ref(false);
 const selectedService = ref(null);
-const serviceDoctors = ref([])
-const loading = ref(false)
 
 // --- Computed ---
 const filteredServices = computed(() => {
@@ -254,7 +213,7 @@ const paginatedServices = computed(() => {
 const matchedDoctors = computed(() => {
   if (!selectedService.value) return [];
   const spec = normalizeSpecialty(selectedService.value.specialty);
-  return doctors.filter(d => normalizeSpecialty(d.specialty) === spec);
+  return data.value.filter(d => normalizeSpecialty(d.specialty) === spec);
 });
 
 // --- Methods ---  
@@ -264,7 +223,7 @@ function truncate(text, len = 80) {
 }
 
 function countDoctors(specialty) {
-  return doctors.filter(d => normalizeSpecialty(d.specialty) === normalizeSpecialty(specialty)).length;
+  return data.value.filter(d => normalizeSpecialty(d.specialty) === normalizeSpecialty(specialty)).length;
 }
 
 function normalizeSpecialty(str) {
@@ -308,24 +267,9 @@ function onPageChange(page) {
 function onSearchEnter() {
   currentPage.value = 1;
 }
+
 onMounted(() => {
-  const getDoctors = async () => {
-    loading.value = true;
-    try {
-      const querySnapshot = await getDocs(collection(db, 'doctors'));
-      serviceDoctors.value = querySnapshot.docs.map(doc => {
-        return {
-          id: doc.id,
-          ...doc
-        }
-      })
-    } catch (error) {
-      message.error(error.message)
-    } finally {
-      loading.value = false;
-    }
-  }
-  getDoctors()
+  getData();
 })
 
 </script>
@@ -497,6 +441,13 @@ onMounted(() => {
   color: #4a5568;
   display: flex;
   align-items: center;
+}
+
+.loading-spin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
 }
 
 /* Pagination */
