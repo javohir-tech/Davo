@@ -1,6 +1,7 @@
 <template>
   <div class="services-container">
     <div class="services-page">
+      <!-- Header -->
       <div class="header">
         <Title :level="2">
           <span>
@@ -10,6 +11,8 @@
         </Title>
         <p class="header-subtitle">Biz sizga yugori darajada xizmatlarni taklif qilamiz</p>
       </div>
+
+      <!-- Search Section -->
       <div class="header">
         <a-input v-model:value="search" size="large" placeholder="Xizmatni qidiring..." allow-clear
           @pressEnter="onSearchEnter" style="max-width: 360px; width: 100%;" class="input-search">
@@ -19,6 +22,7 @@
         </a-input>
       </div>
 
+      <!-- Servicies -->
       <a-row :gutter="[16, 16]" class="cards-row">
         <a-col v-for="service in paginatedServices" :key="service.id" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
           <a-card hoverable class="service-card" @click="openModal(service)">
@@ -48,9 +52,10 @@
         </a-col>
       </a-row>
 
+      <!-- Pagination -->
       <div class="pagination-wrap">
         <a-pagination v-model:current="currentPage" :page-size="pageSize" :total="filteredServices.length"
-          @change="onPageChange" :show-size-changer="false" show-quick-jumper />
+          @change="onPageChange" :show-size-changer="paginatedServices.length >= 10" />
       </div>
 
       <!-- Xizmat modal -->
@@ -71,7 +76,7 @@
             </a-descriptions-item>
           </a-descriptions>
 
-          <a-divider orientation="left">
+          <a-divider orientation="middle">
             <TeamOutlined /> Ushbu xizmatni bajara oladigan doktorlar
           </a-divider>
 
@@ -319,7 +324,7 @@ function onSearchEnter() {
   font-size: 14px;
 }
 
-.input-search{
+.input-search {
   max-width: 500px;
 }
 
