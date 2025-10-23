@@ -11,9 +11,9 @@
         <p class="header-subtitle">Biz sizga yugori darajada xizmatlarni taklif qilamiz</p>
       </div>
       <div class="header">
-        <a-input v-model:value="search" placeholder="Xizmatni qidiring..." allow-clear @pressEnter="onSearchEnter"
-          style="max-width: 360px; width: 100%;">
-          <template #suffix>
+        <a-input v-model:value="search" size="large" placeholder="Xizmatni qidiring..." allow-clear
+          @pressEnter="onSearchEnter" style="max-width: 360px; width: 100%;" class="input-search">
+          <template #prefix>
             <SearchOutlined />
           </template>
         </a-input>
@@ -319,6 +319,10 @@ function onSearchEnter() {
   font-size: 14px;
 }
 
+.input-search{
+  max-width: 500px;
+}
+
 .cards-row {
   margin-top: 8px;
 }
@@ -479,7 +483,7 @@ function onSearchEnter() {
 }
 
 @media (max-width :576px) {
-  .header-subtitle{
+  .header-subtitle {
     margin-left: 36px;
     font-size: 12px;
   }
