@@ -1,5 +1,6 @@
 <template>
   <div class="doctors-container">
+    <!--heaader sections-->
     <div class="header-section">
       <Title :level="2" class="page-title">
         <span class="title-icon">👨‍⚕️</span>
@@ -95,9 +96,12 @@ import { ref, computed, onMounted } from 'vue';
 //ANTD
 import { Table, Input, Button, Typography, Dropdown, Menu, MenuItem } from 'ant-design-vue';
 import { SearchOutlined, EyeOutlined, MoreOutlined } from '@ant-design/icons-vue';
-//FireStore
-import { collection, getDocs } from "firebase/firestore";
-import { db } from '@/FireBase/config';
+//Columns
+import columns from '@/Data/doctorsColumns'
+//Hooks
+import useDocs from '@/Hooks/useDocs';
+
+const { data, loading, getData } = useDocs('doctors')
 
 const { Title } = Typography;
 
@@ -105,57 +109,18 @@ const { Title } = Typography;
 const searchQuery = ref('');
 const currentPage = ref(1);
 const pageSize = ref(10);
-const doctorsData = ref([]);
-const loading = ref(false);
 
 // Qidiruv funksiyasi (ism va mutaxassislik bo'yicha)
 const filteredDoctors = computed(() => {
   if (!searchQuery.value) {
-    return doctorsData.value;
+    return data.value;
   }
   const query = searchQuery.value.toLowerCase();
-  return doctorsData.value.filter(doctor =>
+  return data.value.filter(doctor =>
     doctor.fullName.toLowerCase().includes(query) ||
     doctor.specialty.toLowerCase().includes(query)
   );
 });
-
-// Jadval ustunlari
-const columns = [
-  {
-    title: 'F.I.O',
-    dataIndex: 'fullName',
-    key: 'fullName',
-  },
-  {
-    title: 'Mutaxassislik',
-    dataIndex: 'specialty',
-    key: 'specialty',
-  },
-  {
-    title: 'Tajriba',
-    dataIndex: 'experience',
-    key: 'experience',
-    responsive: ['md']
-  },
-  {
-    title: 'Qabul kunlari',
-    dataIndex: 'workDays',
-    key: 'workDays',
-    responsive: ['lg']
-  },
-  {
-    title: 'Qabul narxi',
-    dataIndex: 'consultationFee',
-    key: 'consultationFee',
-    responsive: ['md']
-  },
-  {
-    title: 'Amallar',
-    key: 'actions',
-    align: 'center',
-  }
-];
 
 // Doktor sahifasiga o'tish
 const viewDoctor = (doctorId) => {
@@ -167,21 +132,7 @@ const viewDoctor = (doctorId) => {
 
 
 onMounted(() => {
-  const getDoctorsData = async () => {
-    loading.value = true
-    try {
-      const querySnapshot = await getDocs(collection(db, 'doctors'));
-      doctorsData.value = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-    } catch (error) {
-      console.log(error.message)
-    } finally {
-      loading.value = false;
-    }
-  }
-  getDoctorsData()
+  getData()
 })
 
 </script>

@@ -98,7 +98,7 @@ import { SearchOutlined, ShoppingCartOutlined, EyeOutlined, MoreOutlined } from 
 //Hooks
 import useDocs from '@/Hooks/useDocs'
 //Colums
-import columns from '@/Data/drugsTableColumns'
+import columns from '@/Data/drugsColumns'
 
 const { data, loading, getData } = useDocs('medicines')
 

@@ -1,0 +1,35 @@
+[
+  {
+    "title": "F.I.O",
+    "dataIndex": "fullName",
+    "key": "fullName"
+  },
+  {
+    "title": "Mutaxassislik",
+    "dataIndex": "specialty",
+    "key": "specialty"
+  },
+  {
+    "title": "Tajriba",
+    "dataIndex": "experience",
+    "key": "experience",
+    "responsive": ["md"]
+  },
+  {
+    "title": "Qabul kunlari",
+    "dataIndex": "workDays",
+    "key": "workDays",
+    "responsive": ["lg"]
+  },
+  {
+    "title": "Qabul narxi",
+    "dataIndex": "consultationFee",
+    "key": "consultationFee",
+    "responsive": ["md"]
+  },
+  {
+    "title": "Amallar",
+    "key": "actions",
+    "align": "center"
+  }
+]
