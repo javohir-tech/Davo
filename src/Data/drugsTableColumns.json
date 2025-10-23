@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Dori nomi",
+    "dataIndex": "name",
+    "key": "name"
+  },
+  {
+    "title": "Kategoriya",
+    "dataIndex": "category",
+    "key": "category",
+    "responsive": ["md"]
+  },
+  {
+    "title": "Narxi",
+    "dataIndex": "price",
+    "key": "price"
+  },
+  {
+    "title": "Ishlab chiqaruvchi",
+    "dataIndex": "manufacturer",
+    "key": "manufacturer",
+    "responsive": ["lg"]
+  },
+  {
+    "title": "Omborda",
+    "dataIndex": "stock",
+    "key": "stock",
+    "responsive": ["sm"]
+  },
+  {
+    "title": "Amallar",
+    "key": "actions",
+    "align": "center"
+  }
+]

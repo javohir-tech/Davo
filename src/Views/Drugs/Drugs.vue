@@ -1,5 +1,6 @@
 <template>
   <div class="medicines-container">
+    <!-- Header section-->
     <div class="header-section">
       <Title :level="2" class="page-title">
         <span class="title-icon">💊</span>
@@ -94,64 +95,29 @@ import { ref, computed, onMounted } from 'vue';
 import { Table, Input, Button, Space, Typography, Dropdown, Menu, MenuItem, message } from 'ant-design-vue';
 //Antd Icons
 import { SearchOutlined, ShoppingCartOutlined, EyeOutlined, MoreOutlined } from '@ant-design/icons-vue';
-//FireStore
-import { collection, getDocs } from "firebase/firestore";
-import { db } from '@/FireBase/config';
+//Hooks
+import useDocs from '@/Hooks/useDocs'
+//Colums
+import columns from '@/Data/drugsTableColumns'
+
+const { data, loading, getData } = useDocs('medicines')
 
 const { Title } = Typography;
 
 const searchQuery = ref('');
 const currentPage = ref(1);
 const pageSize = ref(10);
-const medicines = ref([]);
-const loading = ref(false);
 
 // Qidiruv funksiyasi
 const filteredMedicines = computed(() => {
   if (!searchQuery.value) {
-    return medicines.value;
+    return data.value;
   }
-  return medicines.value.filter(medicine =>
+  return data.value.filter(medicine =>
     medicine.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 
-// Jadval ustunlari
-const columns = [
-  {
-    title: 'Dori nomi',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Kategoriya',
-    dataIndex: 'category',
-    key: 'category',
-    responsive: ['md']
-  },
-  {
-    title: 'Narxi',
-    dataIndex: 'price',
-    key: 'price',
-  },
-  {
-    title: 'Ishlab chiqaruvchi',
-    dataIndex: 'manufacturer',
-    key: 'manufacturer',
-    responsive: ['lg']
-  },
-  {
-    title: 'Omborda',
-    dataIndex: 'stock',
-    key: 'stock',
-    responsive: ['sm']
-  },
-  {
-    title: 'Amallar',
-    key: 'actions',
-    align: 'center',
-  }
-];
 
 // Dori sahifasiga o'tish
 const viewMedicine = (medicineId) => {
@@ -170,22 +136,7 @@ const addToCart = (medicine) => {
 };
 
 onMounted(() => {
-  const getDocuments = async () => {
-    loading.value = true;
-    try {
-      const querySnapshot = await getDocs(collection(db, "medicines"));
-      medicines.value = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-    } catch (error) {
-      message.error(error.message)
-    } finally {
-      loading.value = false;
-    }
-  }
-
-  getDocuments()
+  getData()
 })
 
 </script>
