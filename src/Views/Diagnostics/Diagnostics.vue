@@ -16,39 +16,39 @@
       <div class="header">
         <Input v-model:value="search" size="large" placeholder="Xizmatni qidiring..." allow-clear
           @pressEnter="onSearchEnter" style="max-width: 360px; width: 100%;" class="input-search">
-          <template #prefix>
-            <SearchOutlined />
-          </template>
+        <template #prefix>
+          <SearchOutlined />
+        </template>
         </Input>
       </div>
 
       <!-- Servicies -->
       <Row :gutter="[16, 16]" class="cards-row">
         <Col v-for="service in paginatedServices" :key="service.id" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-          <Card hoverable class="service-card" @click="openModal(service)">
-            <template #title>
-              <div class="card-title-wrapper">
-                <MedicineBoxOutlined class="card-icon" />
-                <span>{{ service.title }}</span>
-              </div>
-            </template>
-            <div class="card-content">
-              <p class="service-specialty">
-                <UserOutlined style="margin-right: 5px" />
-                {{ service.specialty }}
-              </p>
-              <p class="service-desc">{{ truncate(service.description, 100) }}</p>
-              <div class="card-meta">
-                <Tag :color="getLevelColor(service.level)">
-                  {{ service.level }}
-                </Tag>
-                <span class="doctors-count">
-                  <TeamOutlined style="margin-right: 5px" />
-                  {{ countDoctors(service.specialty) }} doktor
-                </span>
-              </div>
+        <Card hoverable class="service-card" @click="openModal(service)">
+          <template #title>
+            <div class="card-title-wrapper">
+              <MedicineBoxOutlined class="card-icon" />
+              <span>{{ service.title }}</span>
             </div>
-          </Card>
+          </template>
+          <div class="card-content">
+            <p class="service-specialty">
+              <UserOutlined style="margin-right: 5px" />
+              {{ service.specialty }}
+            </p>
+            <p class="service-desc">{{ truncate(service.description, 100) }}</p>
+            <div class="card-meta">
+              <Tag :color="getLevelColor(service.level)">
+                {{ service.level }}
+              </Tag>
+              <span class="doctors-count">
+                <TeamOutlined style="margin-right: 5px" />
+                {{ countDoctors(service.specialty) }} doktor
+              </span>
+            </div>
+          </div>
+        </Card>
         </Col>
       </Row>
 
@@ -139,7 +139,7 @@
 
 <script setup>
 //Vue
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, toRaw } from 'vue';
 //ANTD
 import {
   Typography,
@@ -171,6 +171,10 @@ import {
   BankOutlined,
   EyeOutlined,
 } from '@ant-design/icons-vue';
+
+//FireBase
+import { collection, getDocs } from "firebase/firestore";
+import { db } from '@/FireBase/config';
 
 const { Title } = Typography
 
@@ -228,6 +232,8 @@ const currentPage = ref(1);
 const pageSize = 6;
 const modalVisible = ref(false);
 const selectedService = ref(null);
+const serviceDoctors = ref([])
+const loading = ref(false)
 
 // --- Computed ---
 const filteredServices = computed(() => {
@@ -302,6 +308,26 @@ function onPageChange(page) {
 function onSearchEnter() {
   currentPage.value = 1;
 }
+onMounted(() => {
+  const getDoctors = async () => {
+    loading.value = true;
+    try {
+      const querySnapshot = await getDocs(collection(db, 'doctors'));
+      serviceDoctors.value = querySnapshot.docs.map(doc => {
+        return {
+          id: doc.id,
+          ...doc
+        }
+      })
+    } catch (error) {
+      message.error(error.message)
+    } finally {
+      loading = false;
+    }
+  }
+  getDoctors()
+})
+
 </script>
 
 <style scoped>

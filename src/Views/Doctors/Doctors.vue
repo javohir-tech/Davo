@@ -165,22 +165,22 @@ const viewDoctor = (doctorId) => {
   alert(`Doktor #${doctorId} sahifasiga o'tiladi (router keyinchalik qo'shiladi)`);
 };
 
-const getDoctorsData = async () => {
-  loading.value = true
-  try {
-    const querySnapshot = await getDocs(collection(db, 'doctors'));
-    doctorsData.value = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
-    }))
-  } catch (error) {
-    console.log(error.message)
-  } finally {
-    loading.value = false;
-  }
-}
 
 onMounted(() => {
+  const getDoctorsData = async () => {
+    loading.value = true
+    try {
+      const querySnapshot = await getDocs(collection(db, 'doctors'));
+      doctorsData.value = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+    } catch (error) {
+      console.log(error.message)
+    } finally {
+      loading.value = false;
+    }
+  }
   getDoctorsData()
 })
 

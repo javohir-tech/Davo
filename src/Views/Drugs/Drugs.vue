@@ -169,23 +169,22 @@ const addToCart = (medicine) => {
   message.success(`${medicine.name} savatga qo'shildi`)
 };
 
-const getDocuments = async () => {
-  loading.value = true;
-  try {
-    const querySnapshot = await getDocs(collection(db, "medicines"));
-    medicines.value = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }))
-  } catch (error) {
-    message.error(error.message)
-  } finally {
-    loading.value = false;
-  }
-}
-
-
 onMounted(() => {
+  const getDocuments = async () => {
+    loading.value = true;
+    try {
+      const querySnapshot = await getDocs(collection(db, "medicines"));
+      medicines.value = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+    } catch (error) {
+      message.error(error.message)
+    } finally {
+      loading.value = false;
+    }
+  }
+
   getDocuments()
 })
 

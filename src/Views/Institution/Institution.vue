@@ -216,22 +216,21 @@ const handleReload = () => {
     window.location.reload()
 }
 
-const getFilials = async () => {
-    loading.value = true
-    try {
-        const querySnapshot = await getDocs(collection(db, 'filias'));
-        filialsData.value = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-    } catch (error) {
-        message.error(error.message)
-    } finally {
-        loading.value = false;
-    }
-}
-
 onMounted(() => {
+    const getFilials = async () => {
+        loading.value = true
+        try {
+            const querySnapshot = await getDocs(collection(db, 'filias'));
+            filialsData.value = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+        } catch (error) {
+            message.error(error.message)
+        } finally {
+            loading.value = false;
+        }
+    }
     getFilials()
 })
 </script>
