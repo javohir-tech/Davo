@@ -322,7 +322,7 @@ onMounted(() => {
     } catch (error) {
       message.error(error.message)
     } finally {
-      loading = false;
+      loading.value = false;
     }
   }
   getDoctors()
