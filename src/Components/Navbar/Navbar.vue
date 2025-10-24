@@ -80,7 +80,6 @@ const handleRouter = () => {
                             <a-select 
                                 v-model:value="value1"
                                 class="select-language" 
-                                bordered={false}
                                 @focus="focus" 
                                 @change="handleChangeLanguage"
                             >
