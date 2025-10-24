@@ -1,0 +1,37 @@
+[
+  {
+    "key": "1",
+    "label": "Bosh Sahifa",
+    "path": "/"
+  },
+  {
+    "key": "2",
+    "label": "Dorila",
+    "path": "/drugs"
+  },
+  {
+    "key": "3",
+    "label": "Shaxslar",
+    "path": "/doctors"
+  },
+  {
+    "key": "4",
+    "label": "Muassasa",
+    "path": "/institution"
+  },
+  {
+    "key": "5",
+    "label": "Xizmatlar",
+    "path": "/diagnostics"
+  },
+  {
+    "key": "6",
+    "label": "Maqolalar",
+    "path": "/articls"
+  },
+  {
+    "key": "7",
+    "label": "Intervyu",
+    "path": "/intervyu"
+  }
+]

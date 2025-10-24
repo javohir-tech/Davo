@@ -77,9 +77,8 @@ import {
 } from '@ant-design/icons-vue';
 
 // 
-const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHAD_ID = import.meta.env.VITE_TELEGRAM_CHAD_ID;
-
+const Token = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+const chatId = import.meta.env.VITE_TELEGRAM_CHAD_ID;
 // Form ref
 const formRef = ref();
 
@@ -168,7 +167,7 @@ ${data.description}
 ⏰ Sana: ${new Date().toLocaleString('uz-UZ')}
   `.trim();
 
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    const url = `https://api.telegram.org/bot${Token}/sendMessage`;
 
     const response = await fetch(url, {
         method: 'POST',
@@ -176,7 +175,7 @@ ${data.description}
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            chat_id: TELEGRAM_CHAD_ID,
+            chat_id: chatId,
             text: messageText,
         })
     });
