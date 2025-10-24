@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "title": "Yurak-qon tomir kasalliklari oldini olish",
+    "description": "Yurak-qon tomir kasalliklarining oldini olish uchun to'g'ri ovqatlanish, jismoniy faollik va muntazam tekshiruvlar haqida batafsil ma'lumot.",
+    "date": "2025-10-20",
+    "category": "Kardiologiya"
+  },
+  {
+    "id": 2,
+    "title": "Qandli diabet bilan yashash: amaliy maslahatlar",
+    "description": "Qandli diabet bilan og'rigan bemorlar uchun kundalik hayotni osonlashtirish, qand darajasini nazorat qilish va asoratlarga yo'l qo'ymaslik bo'yicha tavsiyalar.",
+    "date": "2025-10-18",
+    "category": "Endokrinologiya"
+  },
+  {
+    "id": 3,
+    "title": "Immunitetni mustahkamlash yo'llari",
+    "description": "Kuz-qish mavsumida immunitetni kuchaytirish, shamollash va grippdan himoyalanish uchun samarali usullar va tavsiyalar.",
+    "date": "2025-10-15",
+    "category": "Immunologiya"
+  },
+  {
+    "id": 4,
+    "title": "Ortiqcha vazn va semizlik muammolari",
+    "description": "Ortiqcha vazn va semizlikning sog'liqqa salbiy ta'siri, sog'lom ozish usullari va parhez dasturlari haqida ma'lumot.",
+    "date": "2025-10-12",
+    "category": "Dietologiya"
+  },
+  {
+    "id": 5,
+    "title": "Stress va depressiyadan qutulish",
+    "description": "Zamonaviy hayotda stress va depressiya bilan kurashish, ruhiy salomatlikni saqlash bo'yicha psixologik maslahatlar.",
+    "date": "2025-10-10",
+    "category": "Psixologiya"
+  },
+  {
+    "id": 6,
+    "title": "Bolalar immunitetini mustahkamlash",
+    "description": "Bolalar organizmining himoya tizimini kuchaytirish, to'g'ri ovqatlanish va витаминlar haqida pediatrlar maslahati.",
+    "date": "2025-10-08",
+    "category": "Pediatriya"
+  },
+  {
+    "id": 7,
+    "title": "Teri kasalliklari va davolash usullari",
+    "description": "Eng keng tarqalgan teri kasalliklari, ularning belgilari va zamonaviy davolash usullari haqida dermatologlarning fikrlari.",
+    "date": "2025-10-05",
+    "category": "Dermatologiya"
+  },
+  {
+    "id": 8,
+    "title": "Tish sog'lig'ini saqlash qoidalari",
+    "description": "Tishlar va og'iz bo'shligi gigienasi, tish kasalliklarining oldini olish va stomatologik muammolarga davo topish.",
+    "date": "2025-10-03",
+    "category": "Stomatologiya"
+  },
+  {
+    "id": 9,
+    "title": "Astma va nafas olish kasalliklari",
+    "description": "Astma va boshqa nafas olish yo'llari kasalliklari bilan yashash, hujumlarning oldini olish va davolash usullari.",
+    "date": "2025-10-01",
+    "category": "Pulmonologiya"
+  },
+  {
+    "id": 10,
+    "title": "Ko'z sog'lig'ini saqlash maslahalari",
+    "description": "Ko'rish qobiliyatini saqlash, ko'z kasalliklarining oldini olish va zamonaviy oftalmologiya imkoniyatlari.",
+    "date": "2025-09-28",
+    "category": "Oftalmologiya"
+  },
+  {
+    "id": 11,
+    "title": "Oshqozon-ichak trakti salomatligi",
+    "description": "Ovqat hazm qilish tizimi kasalliklari, to'g'ri ovqatlanish va gastrit, yarada kabi muammolardan qanday qutilish mumkin.",
+    "date": "2025-09-25",
+    "category": "Gastroenterologiya"
+  },
+  {
+    "id": 12,
+    "title": "Revmatik kasalliklar va bo'g'imlar og'rig'i",
+    "description": "Artrit, artroz va boshqa bo'g'im kasalliklari, ularning davolash usullari va profilaktikasi haqida ma'lumot.",
+    "date": "2025-09-22",
+    "category": "Revmatologiya"
+  }
+]
