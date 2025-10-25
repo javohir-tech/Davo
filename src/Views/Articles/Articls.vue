@@ -1,166 +1,160 @@
 <template>
-  <div class="articles-page">
-    <div class="page-header">
-      <h1 class="page-title">Tibbiy Maqolalar</h1>
-      <p class="page-subtitle">Sog'liqni saqlash va kasalliklarga qarshi kurashish bo'yicha foydali ma'lumotlar</p>
+  <div class="articles-container">
+    <!-- Articles Header Section -->
+    <div class="header-section">
+      <Title :level="2" class="page-title">
+        <span class="header-icon">
+          <ReadOutlined />
+        </span>
+        Maqolalar
+      </Title>
+      <p class="header-subtitle">
+        Sog'liginizni asrash uchun mutahasislarimiz tomonidan berilgan tavsiyalar bilan tanishib chiqishing
+      </p>
     </div>
 
-    <!-- Qidiruv inputi -->
+    <!-- Articles Search Section-->
     <div class="search-section">
-      <a-input-search
-        v-model:value="searchQuery"
-        placeholder="Maqolalarni qidirish..."
-        size="large"
-        :prefix="h(SearchOutlined)"
-        @search="onSearch"
-        allow-clear
-      />
+      <Input v-model:value="searchQuery" allowClear class="search-input"
+        placeholder="Sizni qiziqtirgan mavzu nomini yozing...">
+      <template #prefix>
+        <SearchOutlined class="search-icon" />
+      </template>
+      </Input>
     </div>
 
-    <!-- Maqolalar ro'yxati -->
-    <a-row :gutter="[24, 24]" class="articles-grid">
-      <a-col
-        v-for="article in paginatedArticles"
-        :key="article.id"
-        :xs="24"
-        :sm="24"
-        :md="12"
-        :lg="8"
-        :xl="8"
-      >
-        <a-card hoverable class="article-card">
-          <template #cover>
-            <div class="article-cover">
-              <div class="category-tag">{{ article.category }}</div>
+    <!-- Articles Section -->
+    <Row :gutter="[16, 16]" class="articles-section">
+      <Col v-for="article in paginatedArticles" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+      <Card hoverable class="article-card">
+        <template #cover>
+          <div class="article-cover">
+            <div class="category-tag">{{ article.category }}</div>
+          </div>
+        </template>
+        <CardMeta>
+          <template #title>
+            <div class="">{{ article.title }}</div>
+          </template>
+          <template #description>
+            <div class="article-content">
+              <p class="article-description">{{ article.description }}</p>
+              <div class="article-footer">
+                <span class="article-date">
+                  <CalendarOutlined />
+                  {{ article.date }}
+                </span>
+                <Button type="primary" @click="navigateArticle(article.id)">
+                  Batafsil
+                </Button>
+              </div>
             </div>
           </template>
-          <a-card-meta>
-            <template #title>
-              <div class="article-title">{{ article.title }}</div>
-            </template>
-            <template #description>
-              <div class="article-content">
-                <p class="article-description">{{ article.description }}</p>
-                <div class="article-footer">
-                  <span class="article-date">
-                    <CalendarOutlined />
-                    {{ formatDate(article.date) }}
-                  </span>
-                  <a-button type="primary" @click="viewArticle(article.title)">
-                    Batafsil
-                  </a-button>
-                </div>
-              </div>
-            </template>
-          </a-card-meta>
-        </a-card>
-      </a-col>
-    </a-row>
+        </CardMeta>
+      </Card>
+      </Col>
+    </Row>
 
-    <!-- Natija topilmasa -->
-    <a-empty
-      v-if="filteredArticles.length === 0"
-      description="Maqolalar topilmadi"
-      class="empty-state"
-    />
-
-    <!-- Pagination -->
-    <div v-if="filteredArticles.length > 0" class="pagination-section">
-      <a-pagination
-        v-model:current="currentPage"
-        :total="filteredArticles.length"
-        :page-size="pageSize"
-        :show-size-changer="false"
-        :show-total="(total) => `Jami ${total} ta maqola`"
-        @change="onPageChange"
-      />
+    <!-- Pagination Section -->
+    <div class="pagination-section">
+      <Pagination :current="currentPage" :pageSize="pageSize" :total="articles.length" @change="onPageChange"/>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, h } from 'vue';
-import { SearchOutlined, CalendarOutlined } from '@ant-design/icons-vue';
-//Data
+//Vue
+import { computed, ref } from 'vue';
+//Antd Components
+import { Typography, Input, Row, Col, Card, CardMeta, Button, Pagination, message } from 'ant-design-vue';
+//Antd Styles
+import { ReadOutlined, SearchOutlined, CalendarOutlined } from '@ant-design/icons-vue'
+// Articles
 import articles from '@/Data/articles.json'
 
-// State
+const { Title } = Typography
 const searchQuery = ref('');
 const currentPage = ref(1);
-const pageSize = 6;
+const pageSize = ref(6);
 
-// Filtrlanган maqolalar
+//Computents
 const filteredArticles = computed(() => {
-  if (!searchQuery.value) {
-    return articles;
-  }
-  
-  const query = searchQuery.value.toLowerCase();
-  return articles.filter(article => 
-    article.title.toLowerCase().includes(query) ||
-    article.description.toLowerCase().includes(query) ||
-    article.category.toLowerCase().includes(query)
-  );
-});
+  if (!searchQuery) return articles;
+  return articles.filter(a =>
+    a.title.toLowerCase().includes(searchQuery.value.toLocaleLowerCase()) ||
+    a.category.toLocaleLowerCase().includes(searchQuery.value.toLocaleLowerCase())
+  )
+})
 
-// Sahifaga ko'ra maqolalar
 const paginatedArticles = computed(() => {
-  const start = (currentPage.value - 1) * pageSize;
-  const end = start + pageSize;
-  return filteredArticles.value.slice(start, end);
-});
+  const start = (currentPage.value - 1) * pageSize.value;
+  return filteredArticles.value.slice(start, pageSize.value + start)
+})
 
-// Funksiyalar
-const onSearch = () => {
-  currentPage.value = 1;
-};
+//methods
+function onPageChange(page) {
+  currentPage.value=  page;
+  window.scroll({top:0, behavior:'smooth'})
+}
 
-const onPageChange = (page) => {
-  currentPage.value = page;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
+function navigateArticle(id){
+  // message.success(`${id} idli maqolaga otildi`)
+} 
 
-const viewArticle = (title) => {
-  console.log('Maqola nomi:', title);
-};
-
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return date.toLocaleDateString('uz-UZ', options);
-};
 </script>
 
 <style scoped>
-.articles-page {
-  max-width: 1200px;
+/* Header Section */
+.articles-container {
+  max-width: 1400px;
   margin: 0 auto;
   padding: 24px;
+  background: #f0f2f5;
+  height: 100%;
 }
 
-.page-header {
-  text-align: center;
-  margin-bottom: 40px;
+.header-section,
+.search-section,
+.pagination-section {
+  padding: 32px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 15px;
+  margin-bottom: 16px;
 }
 
 .page-title {
-  font-size: 36px;
-  font-weight: 700;
-  color: #1890ff;
-  margin-bottom: 8px;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #667eea;
 }
 
-.page-subtitle {
-  font-size: 16px;
+.header-icon {
+  font-size: 32px;
+}
+
+.header-subtitle {
+  margin: 8px 10px 0px 48px;
   color: #8c8c8c;
+  font-size: 14px;
 }
 
-.search-section {
-  margin-bottom: 32px;
+/* Search Section */
+
+.search-input {
+  max-width: 500px;
 }
 
-.articles-grid {
-  margin-bottom: 32px;
+.search-icon {
+  color: #1890ff;
+  font-size: 18px;
+}
+
+/* Cards Section */
+.articles-section {
+  margin-bottom: 15px;
 }
 
 .article-card {
@@ -176,6 +170,7 @@ const formatDate = (dateString) => {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
+
 
 .article-cover {
   height: 180px;
@@ -221,17 +216,8 @@ const formatDate = (dateString) => {
 .article-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding-top: 12px;
-  border-top: 1px solid #f0f0f0;
-}
-
-.article-date {
-  color: #8c8c8c;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  border-top: solid 1px #f0f0f0;
 }
 
 .pagination-section {
@@ -239,10 +225,6 @@ const formatDate = (dateString) => {
   justify-content: center;
   margin-top: 40px;
   padding: 20px 0;
-}
-
-.empty-state {
-  margin: 60px 0;
 }
 
 /* Responsive */
@@ -255,7 +237,7 @@ const formatDate = (dateString) => {
     font-size: 28px;
   }
 
-  .page-subtitle {
+  .header-subtitle {
     font-size: 14px;
   }
 
@@ -274,8 +256,8 @@ const formatDate = (dateString) => {
 }
 
 @media (max-width: 576px) {
-  .page-title {
-    font-size: 24px;
+  .header-subtitle {
+    font-size: 12px;
   }
 
   .article-footer {
