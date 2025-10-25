@@ -210,17 +210,6 @@ watch(searchText, () => {
 </script>
 
 <style scoped>
-.example {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.05);
-    height: 100vh;
-    width: 100vw;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    padding: 30px 50px;
-}
 
 .branches-container {
     min-height: 100vh;

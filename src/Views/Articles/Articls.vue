@@ -1,66 +1,69 @@
 <template>
-  <div class="articles-container">
-    <!-- Articles Header Section -->
-    <div class="header-section">
-      <Title :level="2" class="page-title">
-        <span class="header-icon">
-          <ReadOutlined />
-        </span>
-        Maqolalar
-      </Title>
-      <p class="header-subtitle">
-        Sog'liginizni asrash uchun mutahasislarimiz tomonidan berilgan tavsiyalar bilan tanishib chiqishing
-      </p>
-    </div>
-
-    <!-- Articles Search Section-->
-    <div class="search-section">
-      <Input @pressEnter="onSearchEnter" size="large" v-model:value="searchQuery" allowClear class="search-input"
-        placeholder="Sizni qiziqtirgan mavzu nomini yozing...">
-      <template #prefix>
-        <SearchOutlined class="search-icon" />
-      </template>
-      </Input>
-      <div v-if="searchQuery" class="filtered-count">
-        <p>{{ filteredArticles.length }} ta maqola topildi</p>
+  <div style="background: #f0f2f5;">
+    <div class="articles-container">
+      <!-- Articles Header Section -->
+      <div class="header-section">
+        <Title :level="2" class="page-title">
+          <span class="header-icon">
+            <ReadOutlined />
+          </span>
+          Maqolalar
+        </Title>
+        <p class="header-subtitle">
+          Sog'liginizni asrash uchun mutahasislarimiz tomonidan berilgan tavsiyalar bilan tanishib chiqishing
+        </p>
       </div>
-    </div>
 
-    <!-- Articles Section -->
-    <Row :gutter="[16, 16]" class="articles-section">
-      <Col v-for="article in paginatedArticles" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-      <Card hoverable class="article-card">
-        <template #cover>
-          <div class="article-cover">
-            <div class="category-tag">{{ article.category }}</div>
-          </div>
+      <!-- Articles Search Section-->
+      <div class="search-section">
+        <Input @pressEnter="onSearchEnter" size="large" v-model:value="searchQuery" allowClear class="search-input"
+          placeholder="Sizni qiziqtirgan mavzu nomini yozing...">
+        <template #prefix>
+          <SearchOutlined class="search-icon" />
         </template>
-        <CardMeta>
-          <template #title>
-            <div class="">{{ article.title }}</div>
-          </template>
-          <template #description>
-            <div class="article-content">
-              <p class="article-description">{{ article.description }}</p>
-              <div class="article-footer">
-                <span class="article-date">
-                  <CalendarOutlined />
-                  {{ article.date }}
-                </span>
-                <Button type="primary" @click="navigateArticle(article.id)">
-                  Batafsil
-                </Button>
-              </div>
+        </Input>
+        <div v-if="searchQuery" class="filtered-count">
+          <p>{{ filteredArticles.length }} ta maqola topildi</p>
+        </div>
+      </div>
+
+      <!-- Articles Section -->
+      <Row :gutter="[16, 16]" class="articles-section">
+        <Col v-for="article in paginatedArticles" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+        <Card hoverable class="article-card">
+          <template #cover>
+            <div class="article-cover">
+              <div class="category-tag">{{ article.category }}</div>
             </div>
           </template>
-        </CardMeta>
-      </Card>
-      </Col>
-    </Row>
+          <CardMeta>
+            <template #title>
+              <div class="">{{ article.title }}</div>
+            </template>
+            <template #description>
+              <div class="article-content">
+                <p class="article-description">{{ article.description }}</p>
+                <div class="article-footer">
+                  <span class="article-date">
+                    <CalendarOutlined />
+                    {{ article.date }}
+                  </span>
+                  <Button type="primary" @click="navigateArticle(article.id)">
+                    Batafsil
+                  </Button>
+                </div>
+              </div>
+            </template>
+          </CardMeta>
+        </Card>
+        </Col>
+      </Row>
 
-    <!-- Pagination Section -->
-    <div class="pagination-section">
-      <Pagination :current="currentPage" :pageSize="pageSize" :total="filteredArticles.length" @change="onPageChange" />
+      <!-- Pagination Section -->
+      <div class="pagination-section">
+        <Pagination :current="currentPage" :pageSize="pageSize" :total="filteredArticles.length"
+          @change="onPageChange" />
+      </div>
     </div>
   </div>
 </template>
@@ -116,11 +119,11 @@ watch(searchQuery, () => {
 
 <style scoped>
 /* Header Section */
+
 .articles-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 24px;
-  background: #f0f2f5;
   height: 100%;
 }
 
