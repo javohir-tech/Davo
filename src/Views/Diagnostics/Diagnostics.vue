@@ -27,7 +27,14 @@
 
       <!-- Servicies -->
       <Row :gutter="[16, 16]" class="cards-row">
-        <Col v-for="service in paginatedServices" :key="service.id" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+        <Col 
+        v-for="service in paginatedServices" 
+        :key="service.id" 
+        :xs="24" 
+        :sm="12" 
+        :md="8" 
+        :lg="8" 
+        :xl="8">
         <Card hoverable class="service-card" @click="openModal(service)">
           <template #title>
             <div class="card-title-wrapper">
