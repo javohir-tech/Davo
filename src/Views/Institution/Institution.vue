@@ -1,38 +1,33 @@
 <template>
-    <div class="example" v-if="loading">
-        <a-spin tip="Loading..." />
-    </div>
-    <div class="branches-container" v-else-if="!loading && filialsData.length !== 0">
+    <div class="branches-container">
         <div class="branches-wrapper">
             <!-- Header -->
             <div class="header-section">
-                <h1 class="main-title">🏥 Bizning Filiallar</h1>
-                <p class="subtitle">
-                    Toshkent bo'ylab {{ filialsData.length }} ta zamonaviy tibbiyot markazimiz sizning xizmatizda
-                </p>
+                <Title :level="2" class="page-title">
+                    <span class="header-icon">🏥</span>
+                    Bizning Filiallar
+                </Title>
+                <p class="header-subtitle">Toshkent bo'ylab {{ filials.length }} ta zamonaviy tibbiyot markazimiz
+                    sizning xizmatizda</p>
             </div>
 
             <!-- Qidiruv -->
             <div class="search-section">
-                <a-input-search v-model:value="searchText" placeholder="Filial nomi yoki manzili bo'yicha qidiring..."
-                    size="large" allow-clear @search="handleSearch" class="search-input">
-                    <template #enterButton>
-                        <SearchOutlined />
+                <Input v-model:value="searchText" placeholder="Sizni qiziqtirgan mavzu nomini yozing..." size="large"
+                    allow-clear @pressEnter="handleSearch" class="search-input">
+                    <template #prefix>
+                        <SearchOutlined class="search-icon" />
                     </template>
-                </a-input-search>
-            </div>
-
-            <!-- Natijalar soni -->
-            <div v-if="searchText" class="results-count">
-                <a-tag color="default" class="result-tag">
-                    {{ filteredBranches.length }} ta filial topildi
-                </a-tag>
+                </Input>
+                <div v-if="searchText" class="filial-count">
+                    <p>{{ filteredBranches.length }} ta element topildi</p>
+                </div>
             </div>
 
             <!-- Filiallar grid -->
-            <a-row :gutter="[24, 24]" class="branches-grid">
-                <a-col v-for="branch in paginatedBranches" :key="branch.id" :xs="24" :sm="12" :lg="8">
-                    <a-card hoverable class="branch-card" @click="showModal(branch)">
+            <Row :gutter="[24, 24]" class="branches-grid">
+                <Col v-for="branch in paginatedBranches" :key="branch.id" :xs="24" :sm="12" :lg="8">
+                    <Card hoverable class="branch-card" @click="showModal(branch)">
                         <template #cover>
                             <div class="card-image-wrapper">
                                 <img :alt="branch.name" :src="branch.image" class="card-image" />
@@ -42,12 +37,12 @@
                             </div>
                         </template>
 
-                        <a-card-meta>
+                        <CardMeta>
                             <template #title>
                                 <div class="card-title">{{ branch.name }}</div>
                             </template>
                             <template #description>
-                                <a-space direction="vertical" size="small" class="card-content">
+                                <Space direction="vertical" size="small" class="card-content">
                                     <div class="info-row">
                                         <EnvironmentOutlined class="icon icon-location" />
                                         <span class="info-text">{{ branch.address }}</span>
@@ -66,12 +61,12 @@
                                         </span>
                                         <a-tag color="blue">Batafsil</a-tag>
                                     </div>
-                                </a-space>
+                                </Space>
                             </template>
-                        </a-card-meta>
-                    </a-card>
-                </a-col>
-            </a-row>
+                        </CardMeta>
+                    </Card>
+                </Col>
+            </Row>
 
             <!-- Agar natija topilmasa -->
             <div v-if="filteredBranches.length === 0" class="no-results">
@@ -82,13 +77,13 @@
 
             <!-- Pagination -->
             <div v-if="filteredBranches.length > pageSize" class="pagination-wrapper">
-                <a-pagination v-model:current="currentPage" :total="filteredBranches.length" :page-size="pageSize"
+                <Pagination v-model:current="currentPage" :total="filteredBranches.length" :page-size="pageSize"
                     :show-size-changer="false" @change="handlePageChange"
                     :show-total="(total, range) => `${range[0]}-${range[1]} / ${total} ta filial`" />
             </div>
 
             <!-- Modal - Batafsil ma'lumot -->
-            <a-modal v-model:open="isModalVisible" :footer="null" :width="700" :style="{ top: '20px' }">
+            <Modal v-model:open="isModalVisible" :footer="null" :width="700" :style="{ top: '20px' }">
                 <div v-if="selectedBranch" class="modal-content">
                     <img :src="selectedBranch.image" :alt="selectedBranch.name" class="modal-image" />
 
@@ -101,7 +96,7 @@
 
                     <p class="modal-description">{{ selectedBranch.description }}</p>
 
-                    <a-space direction="vertical" size="middle" class="modal-info">
+                    <Space direction="vertical" size="middle" class="modal-info">
                         <div class="modal-info-row">
                             <EnvironmentOutlined class="modal-icon icon-location" />
                             <div>
@@ -125,7 +120,7 @@
                                 <div class="modal-info-value">{{ selectedBranch.workTime }}</div>
                             </div>
                         </div>
-                    </a-space>
+                    </Space>
 
                     <div class="services-section">
                         <div class="services-title">Xizmatlar:</div>
@@ -148,20 +143,13 @@
                         </div>
                     </div>
                 </div>
-            </a-modal>
+            </Modal>
         </div>
-    </div>
-    <div v-else-if="!loading && filialsData.length === 0">
-        <a-result status="404" title="404" sub-title="Sorry, the page you visited does not exist.">
-            <template #extra>
-                <a-button type="primary" @click="handleReload">Reload</a-button>
-            </template>
-        </a-result>
     </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 //Antd
 import {
     SearchOutlined,
@@ -169,23 +157,23 @@ import {
     PhoneOutlined,
     ClockCircleOutlined
 } from '@ant-design/icons-vue';
-import { message } from 'ant-design-vue';
-//FireStore
-import { collection, getDocs, addDoc } from "firebase/firestore";
-import { db } from '@/FireBase/config';
+import { Typography, Row , Col , Card, CardMeta, Space , Modal, Input, Pagination } from 'ant-design-vue';
 
-// Reactive o'zgaruvchilar
+//Import Filials
+import filials from '@/Data/filials.json'
+
+
+const { Title } = Typography
 const searchText = ref('');
 const currentPage = ref(1);
 const selectedBranch = ref(null);
 const isModalVisible = ref(false);
 const pageSize = 6;
-const filialsData = ref([]);
-const loading = ref(false);
 
-// Computed properties
+
+// Computed
 const filteredBranches = computed(() => {
-    return filialsData.value.filter(branch =>
+    return filials.filter(branch =>
         branch.name.toLowerCase().includes(searchText.value.toLowerCase()) ||
         branch.address.toLowerCase().includes(searchText.value.toLowerCase())
     );
@@ -216,22 +204,8 @@ const handleReload = () => {
     window.location.reload()
 }
 
-onMounted(() => {
-    const getFilials = async () => {
-        loading.value = true
-        try {
-            const querySnapshot = await getDocs(collection(db, 'filias'));
-            filialsData.value = querySnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-        } catch (error) {
-            message.error(error.message)
-        } finally {
-            loading.value = false;
-        }
-    }
-    getFilials()
+watch(searchText, () => {
+    currentPage.value = 1
 })
 </script>
 
@@ -250,7 +224,7 @@ onMounted(() => {
 
 .branches-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, rgba(24, 144, 255, 0.95) 0%, rgba(9, 109, 217, 0.95) 100%);
+    background: #f5f7fa;
     padding: 40px 20px;
 }
 
@@ -260,55 +234,54 @@ onMounted(() => {
 }
 
 /* Header */
-.header-section {
-    text-align: center;
-    margin-bottom: 40px;
-    color: white;
+.header-section,
+.search-section {
+    padding: 32px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: 15px;
+    margin-bottom: 16px;
 }
 
-.main-title {
-    font-size: clamp(28px, 5vw, 42px);
+.page-title {
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
     font-weight: 700;
-    margin-bottom: 12px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    gap: 12px;
+    color: #667eea;
 }
 
-.subtitle {
-    font-size: clamp(14px, 2vw, 18px);
-    opacity: 0.95;
-    max-width: 600px;
-    margin: 0 auto;
+.header-icon {
+    font-size: 32px;
+}
+
+.header-subtitle {
+    margin: 8px 10px 0px 48px;
+    color: #8c8c8c;
+    font-size: 14px;
 }
 
 /* Qidiruv */
-.search-section {
-    margin-bottom: 32px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+
+.search-icon {
+    color: #1890ff;
+    font-size: 18px;
 }
 
 .search-input {
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
 }
 
-.search-input :deep(.ant-input-search-button) {
-    border-radius: 0 8px 8px 0;
-}
-
-/* Natijalar */
-.results-count {
-    text-align: center;
-    margin-bottom: 24px;
-}
-
-.result-tag {
-    background: white;
-    color: #667eea;
-    font-weight: 500;
-    padding: 4px 16px;
-    font-size: 14px;
+.filial-count {
+    p {
+        font-size: 14px;
+        margin-top: 10px;
+        margin-bottom: 0;
+        font-weight: 500;
+        color: #52c41a;
+    }
 }
 
 /* Grid */
@@ -565,6 +538,14 @@ onMounted(() => {
         padding: 20px 12px;
     }
 
+    .header-section {
+        padding: 30px 20px;
+    }
+
+    .search-input {
+        max-width: 500px;
+    }
+
     .modal-header {
         flex-direction: column;
         gap: 12px;
@@ -572,6 +553,12 @@ onMounted(() => {
 
     .modal-rating {
         align-self: flex-start;
+    }
+}
+
+@media(max-width:576px) {
+    .search-input {
+        max-width: 100%;
     }
 }
 </style>

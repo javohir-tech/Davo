@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "name": "MedLife Markaz filiali",
+    "address": "Toshkent sh., Amir Temur ko'chasi 108",
+    "description": "Asosiy filialimiz bo'lib, barcha turdagi tibbiy xizmatlar ko'rsatiladi. Zamonaviy asbob-uskunalar va malakali shifokorlar bilan.",
+    "doctors": 25,
+    "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=500&fit=crop",
+    "phone": "+998 71 200-00-01",
+    "rating": 4.8,
+    "services": ["Terapiya", "Kardiologiya", "Nevrologiya", "Pediatriya"],
+    "workTime": "Dushanba-Shanba: 08:00-20:00"
+  },
+  {
+    "id": 2,
+    "name": "MedLife Chilonzor",
+    "address": "Toshkent sh., Chilonzor tumani, 12-kvartal",
+    "description": "Chilonzor aholisi uchun qulay joylashgan zamonaviy tibbiyot markazi.",
+    "doctors": 18,
+    "image": "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&h=500&fit=crop",
+    "phone": "+998 71 200-00-02",
+    "rating": 4.6,
+    "services": ["Terapiya", "Stomatologiya", "Oftalmologiya"],
+    "workTime": "Har kuni: 09:00-19:00"
+  },
+  {
+    "id": 3,
+    "name": "MedLife Yunusobod",
+    "address": "Toshkent sh., Yunusobod tumani, 7-mavze",
+    "description": "Oilaviy shifokorlik va bolalar markazimiz. Qulay narxlar va yuqori sifat.",
+    "doctors": 15,
+    "image": "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&h=500&fit=crop",
+    "phone": "+998 71 200-00-03",
+    "rating": 4.9,
+    "services": ["Pediatriya", "Oilaviy shifokor", "Vaksinatsiya"],
+    "workTime": "Dushanba-Juma: 08:00-18:00"
+  },
+  {
+    "id": 6,
+    "name": "MedLife Mirzo Ulug'bek",
+    "address": "Toshkent sh., Mirzo Ulug'bek tumani, Tashkent 92",
+    "description": "Zamonaviy laboratoriya va diagnostika markazi.",
+    "doctors": 22,
+    "image": "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&h=500&fit=crop",
+    "phone": "+998 71 200-00-06",
+    "rating": 4.8,
+    "services": ["Laboratoriya", "UZI", "MRT"],
+    "workTime": "Har kuni: 08:00-20:00"
+  },
+  {
+    "id": 7,
+    "name": "MedLife Bektemir",
+    "address": "Toshkent sh., Bektemir tumani, Kichik xalqa yo'li",
+    "description": "Mehribonlik va professional yondashuv bilan xizmat ko'rsatamiz.",
+    "doctors": 16,
+    "image": "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&h=500&fit=crop",
+    "phone": "+998 71 200-00-07",
+    "rating": 4.6,
+    "services": ["Terapiya", "Pediatriya", "Fizioterapiya"],
+    "workTime": "Dushanba-Juma: 08:30-18:30"
+  },
+  {
+    "id": 8,
+    "name": "MedLife Uchtepa",
+    "address": "Toshkent sh., Uchtepa tumani, Farobiy ko'chasi",
+    "description": "Eng yangi texnologiyalar va qulay xizmat.",
+    "doctors": 19,
+    "image": "https://images.unsplash.com/photo-1596541223130-5d31a73fb6c6?w=800&h=500&fit=crop",
+    "phone": "+998 71 200-00-08",
+    "rating": 4.7,
+    "services": ["Terapiya", "Kardiologiya", "LOR"],
+    "workTime": "Har kuni: 09:00-20:00"
+  },
+  {
+    "id": 9,
+    "name": "MedLife Yakkasaroy",
+    "address": "Toshkent sh., Yakkasaroy tumani, Bobur ko'chasi",
+    "description": "Premium sifatli tibbiy xizmatlar markazi.",
+    "doctors": 28,
+    "image": "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=800&h=500&fit=crop",
+    "phone": "+998 71 200-00-09",
+    "rating": 4.9,
+    "services": ["VIP palatalar", "Kosmetologiya", "Reabilitatsiya"],
+    "workTime": "Dushanba-Shanba: 08:00-19:00"
+  }
+]
