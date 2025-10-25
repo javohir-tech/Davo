@@ -37,21 +37,23 @@ const routes = [
             },
             {
                 path: 'intervyu',
-                component : Intervyu
+                component: Intervyu
             },
             {
                 path: 'register',
-                component : Register
+                component: Register
             },
             {
-                path:'login',
-                component : Login
+                path: 'login',
+                component: Login
             }
         ]
     }
 ]
 
-export const router = createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+export { router }
