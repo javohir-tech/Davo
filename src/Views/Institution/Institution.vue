@@ -13,7 +13,7 @@
 
             <!-- Qidiruv -->
             <div class="search-section">
-                <Input v-model:value="searchText" placeholder="Sizni qiziqtirgan mavzu nomini yozing..." size="large"
+                <Input v-model:value="searchText" placeholder="Sizga qulay bo'lgan manzilni kiriting..." size="large"
                     allow-clear @pressEnter="handleSearch" class="search-input">
                     <template #prefix>
                         <SearchOutlined class="search-icon" />
