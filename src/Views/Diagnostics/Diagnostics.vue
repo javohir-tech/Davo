@@ -4,7 +4,7 @@
       <!-- Header -->
       <div class="header">
         <Title :level="2">
-          <span>
+          <span class="header-icon">
             <UserOutlined />
           </span>
           Xizmatlar
@@ -17,9 +17,12 @@
         <Input v-model:value="search" size="large" placeholder="Xizmatni qidiring..." allow-clear
           @pressEnter="onSearchEnter" style="max-width: 360px; width: 100%;" class="input-search">
         <template #prefix>
-          <SearchOutlined />
+          <SearchOutlined class="search-icon" />
         </template>
         </Input>
+        <div v-if="search" class="filtered-count">
+          <p>{{ filteredServices.length }} ta xizmat topildi</p>
+        </div>
       </div>
 
       <!-- Servicies -->
@@ -143,7 +146,7 @@
 
 <script setup>
 //Vue
-import { ref, computed, onMounted, toRaw } from 'vue';
+import { ref, computed, onMounted, toRaw, watch } from 'vue';
 //ANTD
 import {
   Typography,
@@ -272,6 +275,10 @@ onMounted(() => {
   getData();
 })
 
+watch(search, () => {
+  currentPage.value = 1
+})
+
 </script>
 
 <style scoped>
@@ -301,20 +308,36 @@ onMounted(() => {
   margin: 0;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #2d3748;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #667eea;
+}
+
+.header-icon {
+  font-size: 32px;
 }
 
 .header-subtitle {
-  margin: 8px 0px 0px 48px;
+  margin: 8px 0px 0px 42px;
   color: #8c8c8c;
   font-size: 14px;
 }
 
 .input-search {
   max-width: 500px;
+}
+
+.search-icon {
+  color: #1890ff;
+  font-size: 18px;
+}
+
+.filtered-count {
+  p {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: 500;
+    color: #52c41a;
+  }
 }
 
 .cards-row {

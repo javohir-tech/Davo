@@ -15,12 +15,15 @@
 
     <!-- Articles Search Section-->
     <div class="search-section">
-      <Input v-model:value="searchQuery" allowClear class="search-input"
+      <Input @pressEnter="onSearchEnter" size="large" v-model:value="searchQuery" allowClear class="search-input"
         placeholder="Sizni qiziqtirgan mavzu nomini yozing...">
       <template #prefix>
         <SearchOutlined class="search-icon" />
       </template>
       </Input>
+      <div v-if="searchQuery" class="filtered-count">
+        <p>{{ filteredArticles.length }} ta maqola topildi</p>
+      </div>
     </div>
 
     <!-- Articles Section -->
@@ -57,14 +60,14 @@
 
     <!-- Pagination Section -->
     <div class="pagination-section">
-      <Pagination :current="currentPage" :pageSize="pageSize" :total="articles.length" @change="onPageChange"/>
+      <Pagination :current="currentPage" :pageSize="pageSize" :total="filteredArticles.length" @change="onPageChange" />
     </div>
   </div>
 </template>
 
 <script setup>
 //Vue
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 //Antd Components
 import { Typography, Input, Row, Col, Card, CardMeta, Button, Pagination, message } from 'ant-design-vue';
 //Antd Styles
@@ -93,13 +96,21 @@ const paginatedArticles = computed(() => {
 
 //methods
 function onPageChange(page) {
-  currentPage.value=  page;
-  window.scroll({top:0, behavior:'smooth'})
+  currentPage.value = page;
+  window.scroll({ top: 0, behavior: 'smooth' })
 }
 
-function navigateArticle(id){
+function navigateArticle(id) {
   // message.success(`${id} idli maqolaga otildi`)
-} 
+}
+
+function onSearchEnter() {
+  currentPage.value = 1
+}
+
+watch(searchQuery, () => {
+  currentPage.value = 1
+})
 
 </script>
 
@@ -127,6 +138,8 @@ function navigateArticle(id){
   margin: 0 !important;
   display: flex;
   align-items: center;
+  font-size: 1.8rem;
+  font-weight: 700;
   gap: 12px;
   color: #667eea;
 }
@@ -150,6 +163,16 @@ function navigateArticle(id){
 .search-icon {
   color: #1890ff;
   font-size: 18px;
+}
+
+.filtered-count {
+  p {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: 500;
+    color: #52c41a;
+  }
 }
 
 /* Cards Section */
