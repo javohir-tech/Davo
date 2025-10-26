@@ -110,7 +110,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const { loading, registerUser } = useAuthFireBase()
+const { loading, registerUser, signInWithGoogle } = useAuthFireBase()
 
 // Form ref
 const formRef = ref()
@@ -178,9 +178,7 @@ const handleRegister = (formData) => {
 
 // Google register function - Bu yerda Google OAuth logikasini yozasiz
 const handleGoogleRegister = () => {
-  console.log("Google orqali ro'yxatdan o'tish")
-
-  message.info("Google orqali ro'yxatdan o'tish...")
+  signInWithGoogle()
 }
 
 // Login page function - Login sahifasiga o'tish

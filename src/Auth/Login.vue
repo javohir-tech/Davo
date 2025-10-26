@@ -91,7 +91,7 @@ import { useAuthFireBase } from '@/Hooks/useAuthFireBase'
 
 import { useRouter } from 'vue-router'
 
-const { loading, loginUser } = useAuthFireBase()
+const { loading, loginUser, signInWithGoogle } = useAuthFireBase()
 
 const router = useRouter()
 // Form ref
@@ -127,12 +127,7 @@ const handleLogin = (formData) => {
 
 // Google login function - Bu yerda Google OAuth logikasini yozasiz
 const handleGoogleLogin = () => {
-  console.log('Google orqali kirish')
-
-  // Bu yerda Google OAuth logikasini yozing
-  // Masalan: window.location.href = 'YOUR_GOOGLE_OAUTH_URL'
-
-  message.info('Google orqali kirish...')
+  signInWithGoogle()
 }
 
 // Forgot password function - Parolni unutish
