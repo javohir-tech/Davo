@@ -42,81 +42,84 @@
         </div>
       </div>
 
-      <!-- Cards Grid -->
-      <div v-if="paginatedDoctors.length > 0" class="cards-grid">
-        <div
+      <!-- Cards Grid using Ant Design Grid -->
+      <Row v-if="paginatedDoctors.length > 0" :gutter="[16, 16]">
+        <Col
           v-for="doctor in paginatedDoctors"
           :key="doctor.id"
-          class="doctor-card"
+          :xs="12"
+          :sm="12"
+          :md="8"
+          :lg="6"
+          :xl="6"
         >
-          <!-- Card header with avatar -->
-          <div class="card-header">
-            <div class="avatar-wrapper">
-              <img
-                v-if="doctor.image"
-                :src="doctor.image"
-                :alt="doctor.fullName"
-                class="doctor-avatar"
-              />
-              <div v-else class="doctor-avatar-placeholder">
-                {{ getInitials(doctor.fullName) }}
+          <div class="doctor-card" @click="viewDoctor(doctor.id)">
+            <!-- Card Header with Avatar and Info -->
+            <div class="card-header">
+              <!-- Avatar Section -->
+              <div class="avatar-wrapper">
+                <img
+                  v-if="doctor.image"
+                  :src="doctor.image"
+                  :alt="doctor.fullName"
+                  class="doctor-avatar"
+                />
+                <div v-else class="doctor-avatar-placeholder">
+                  {{ getInitials(doctor.fullName) }}
+                </div>
+                <div class="online-indicator"></div>
               </div>
-              <div class="online-indicator"></div>
+
+              <!-- Info Section -->
+              <div class="header-info">
+                <h3 class="doctor-name" :title="doctor.fullName">
+                  {{ truncateName(doctor.fullName, 16) }}
+                </h3>
+                <div class="specialty-badge" :title="doctor.specialty">
+                  {{ truncateText(doctor.specialty, 18) }}
+                </div>
+                <div class="experience-tag">
+                  ⭐ {{ doctor.experience }} yil
+                </div>
+              </div>
             </div>
-            <div class="experience-tag">
-              {{ doctor.experience }} yil tajriba
+
+            <!-- Card Body -->
+            <div class="card-body">
+              <!-- Info Items -->
+              <div class="info-item">
+                <CalendarOutlined class="info-icon" />
+                <span class="info-text" :title="doctor.workDays">
+                  {{ truncateText(doctor.workDays, 12) }}
+                </span>
+              </div>
+
+              <div class="info-item">
+                <ClockCircleOutlined class="info-icon" />
+                <span class="info-text">{{ doctor.workTime }}</span>
+              </div>
+
+              <div class="info-item">
+                <PhoneOutlined class="info-icon" />
+                <span class="info-text">{{ doctor.phone }}</span>
+              </div>
+            </div>
+
+            <!-- Card Footer -->
+            <div class="card-footer">
+              <div class="price-section">
+                <span class="price-label">Konsultatsiya</span>
+                <span class="price-value">
+                  {{ formatPrice(doctor.consultationFee) }}
+                </span>
+              </div>
+              <Button type="primary" class="book-btn" size="small">
+                <CalendarOutlined />
+              </Button>
             </div>
           </div>
-
-          <!-- Card body -->
-          <div class="card-body">
-            <h3 class="doctor-name">{{ doctor.fullName }}</h3>
-
-            <div class="specialty-wrapper">
-              <span class="specialty-badge">{{ doctor.specialty }}</span>
-            </div>
-
-            <div class="doctor-details">
-              <div class="detail-row">
-                <CalendarOutlined class="detail-icon" />
-                <span class="detail-text">{{ doctor.workDays }}</span>
-              </div>
-
-              <div class="detail-row">
-                <ClockCircleOutlined class="detail-icon" />
-                <span class="detail-text">{{ doctor.workTime }}</span>
-              </div>
-
-              <div class="detail-row">
-                <PhoneOutlined class="detail-icon" />
-                <span class="detail-text">{{ doctor.phone }}</span>
-              </div>
-            </div>
-
-            <!-- Price section -->
-            <div class="price-section">
-              <div class="price-label">Konsultatsiya:</div>
-              <div class="price-value">
-                {{ doctor.consultationFee.toLocaleString() }}
-                <span class="currency">so'm</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card footer -->
-          <div class="card-footer">
-            <Button
-              type="primary"
-              block
-              class="appointment-btn"
-              @click="viewDoctor(doctor.id)"
-            >
-              <CalendarOutlined />
-              Qabulga yozilish
-            </Button>
-          </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
 
       <!-- Agar natija topilmasa -->
       <div v-else class="no-results">
@@ -148,7 +151,7 @@
   //VUE
   import { ref, computed, onMounted, watch } from 'vue'
   //ANTD
-  import { Input, Button, Typography } from 'ant-design-vue'
+  import { Input, Button, Typography, Row, Col } from 'ant-design-vue'
   import {
     SearchOutlined,
     CalendarOutlined,
@@ -164,7 +167,7 @@
 
   const searchQuery = ref('')
   const currentPage = ref(1)
-  const pageSize = ref(10)
+  const pageSize = ref(12)
 
   // Qidiruv funksiyasi
   const filteredDoctors = computed(() => {
@@ -195,6 +198,27 @@
     return names[0][0]
   }
 
+  // Ism qisqartirish
+  const truncateName = (name, maxLength) => {
+    if (name.length > maxLength) {
+      return name.substring(0, maxLength) + '...'
+    }
+    return name
+  }
+
+  // Matn qisqartirish
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...'
+    }
+    return text
+  }
+
+  // Narxni formatlash
+  const formatPrice = (price) => {
+    return price.toLocaleString() + ' so\'m'
+  }
+
   // Doktor sahifasiga o'tish
   const viewDoctor = (doctorId) => {
     console.log(`Doktor sahifasiga o'tish: /doctors/${doctorId}`)
@@ -221,52 +245,60 @@
 <style scoped>
   .doctors-container {
     padding: 24px;
-    background: #f0f2f5;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
   }
 
   /* Header bo'limi */
   .header-section {
-    background: white;
-    padding: 32px;
-    border-radius: 12px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 24px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .page-title {
     margin: 0 !important;
-    color: #1890ff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     display: flex;
     align-items: center;
     gap: 12px;
   }
 
   .title-icon {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .subtitle {
-    margin: 8px 0 0 48px;
+    margin: 6px 0 0 44px;
     color: #8c8c8c;
     font-size: 14px;
   }
 
   /* Qidiruv bo'limi */
   .search-section {
-    background: white;
-    padding: 24px;
-    border-radius: 12px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .search-input {
     max-width: 600px;
+    border-radius: 12px;
   }
 
   .search-icon {
-    color: #1890ff;
+    color: #667eea;
     font-size: 18px;
   }
 
@@ -283,26 +315,26 @@
     justify-content: center;
     align-items: center;
     min-height: 400px;
-    background: white;
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
   }
 
   /* Cards wrapper */
   .cards-wrapper {
-    background: white;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   /* Results header */
   .results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     padding-bottom: 16px;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 2px solid rgba(102, 126, 234, 0.1);
   }
 
   .results-count {
@@ -312,52 +344,47 @@
   }
 
   .count-badge {
-    background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 6px 16px;
     border-radius: 20px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 15px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
   }
 
   .count-text {
     color: #8c8c8c;
-    font-size: 15px;
-  }
-
-  /* Cards Grid */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-    margin-bottom: 32px;
+    font-size: 14px;
   }
 
   /* Doctor Card */
   .doctor-card {
     background: white;
-    border: 1px solid #f0f0f0;
     border-radius: 16px;
     overflow: hidden;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 2px solid transparent;
   }
 
   .doctor-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-    border-color: #1890ff;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
   }
 
-  /* Card Header */
+  /* Card Header - Horizontal Layout */
   .card-header {
-    background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
-    padding: 24px 20px 60px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     position: relative;
     overflow: hidden;
   }
@@ -367,221 +394,204 @@
     position: absolute;
     top: -50%;
     right: -30%;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
   }
 
+  /* Avatar Wrapper */
   .avatar-wrapper {
     position: relative;
-    margin-bottom: 12px;
+    flex-shrink: 0;
     z-index: 1;
   }
 
   .doctor-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
     object-fit: cover;
-    border: 4px solid white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .doctor-avatar-placeholder {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: 4px solid white;
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 36px;
+    font-size: 22px;
     font-weight: 700;
     color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .online-indicator {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 16px;
-    height: 16px;
+    top: -4px;
+    right: -4px;
+    width: 14px;
+    height: 14px;
     background: #52c41a;
-    border: 3px solid white;
+    border: 2px solid white;
     border-radius: 50%;
-    animation: pulse 2s infinite;
+    box-shadow: 0 0 8px rgba(82, 196, 26, 0.5);
   }
 
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
+  /* Header Info */
+  .header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+    z-index: 1;
+  }
 
-    50% {
-      opacity: 0.8;
-      transform: scale(1.1);
-    }
+  .doctor-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .specialty-badge {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 3px 8px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: inline-block;
+    align-self: flex-start;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
   .experience-tag {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    color: white;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    z-index: 1;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
   }
 
   /* Card Body */
   .card-body {
-    padding: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: -40px;
-    position: relative;
-    z-index: 2;
   }
 
-  .doctor-name {
-    font-size: 18px;
-    font-weight: 600;
-    color: #262626;
-    margin: 0;
-    text-align: center;
-    line-height: 1.3;
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .specialty-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 8px;
-  }
-
-  .specialty-badge {
-    padding: 6px 16px;
-    background: linear-gradient(135deg, #e6f7ff 0%, #bae7ff 100%);
-    color: #1890ff;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    border: 1px solid #91d5ff;
-    display: inline-block;
-  }
-
-  .doctor-details {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 12px;
-    background: #fafafa;
-    border-radius: 12px;
-  }
-
-  .detail-row {
+  .info-item {
     display: flex;
     align-items: center;
     gap: 10px;
+    padding: 8px 10px;
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+    border-radius: 10px;
+    border: 1px solid #e6e9ff;
   }
 
-  .detail-icon {
+  .info-icon {
     font-size: 16px;
-    color: #1890ff;
-    min-width: 20px;
+    color: #667eea;
+    flex-shrink: 0;
   }
 
-  .detail-text {
-    font-size: 13px;
-    color: #595959;
-    line-height: 1.4;
-  }
-
-  /* Price Section */
-  .price-section {
-    background: linear-gradient(135deg, #fff7e6 0%, #ffe7ba 100%);
-    padding: 12px;
-    border-radius: 12px;
-    margin-top: auto;
-    text-align: center;
-  }
-
-  .price-label {
-    font-size: 12px;
-    color: #8c8c8c;
-    margin-bottom: 4px;
-  }
-
-  .price-value {
-    font-size: 20px;
-    font-weight: 700;
-    color: #fa8c16;
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .currency {
-    font-size: 13px;
+  .info-text {
+    font-size: 11px;
+    color: #262626;
     font-weight: 500;
-    color: #8c8c8c;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
   }
 
   /* Card Footer */
   .card-footer {
-    padding: 12px;
-    background: #fafafa;
-    border-top: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #fff7e6 0%, #ffe7ba 100%);
+    border-top: 2px solid #ffd591;
   }
 
-  .appointment-btn {
+  .price-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .price-label {
+    font-size: 9px;
+    color: #8c8c8c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .price-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fa8c16;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .book-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    height: 40px;
-    border-radius: 8px;
-    font-weight: 600;
+    border-radius: 10px;
     background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
     border: none;
+    box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
     transition: all 0.3s;
-    font-size: 14px;
+    flex-shrink: 0;
   }
 
-  .appointment-btn:hover {
+  .book-btn:hover {
     background: linear-gradient(135deg, #73d13d 0%, #95de64 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
+    box-shadow: 0 6px 16px rgba(82, 196, 26, 0.4);
   }
 
   /* No results */
   .no-results {
     text-align: center;
-    padding: 80px 20px;
+    padding: 60px 20px;
   }
 
   .no-results-icon {
-    font-size: 64px;
-    margin-bottom: 20px;
+    font-size: 48px;
+    margin-bottom: 16px;
     opacity: 0.5;
   }
 
   .no-results-title {
     color: #595959;
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 8px;
   }
 
@@ -594,36 +604,32 @@
   .pagination-wrapper {
     display: flex;
     justify-content: center;
-    padding-top: 24px;
-    border-top: 2px solid #f0f0f0;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 2px solid rgba(102, 126, 234, 0.1);
   }
 
   /* Responsive */
-  @media (max-width: 1200px) {
-    .cards-grid {
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    }
-  }
-
   @media (max-width: 768px) {
     .doctors-container {
       padding: 16px;
     }
 
     .header-section {
-      padding: 20px;
+      padding: 16px;
     }
 
     .page-title {
-      font-size: 24px !important;
+      font-size: 22px !important;
     }
 
     .title-icon {
-      font-size: 28px;
+      font-size: 26px;
     }
 
     .subtitle {
-      margin-left: 40px;
+      margin-left: 38px;
+      font-size: 13px;
     }
 
     .search-section {
@@ -636,17 +642,6 @@
 
     .cards-wrapper {
       padding: 16px;
-    }
-
-    .cards-grid {
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
-    }
-
-    .results-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
     }
   }
 
@@ -664,23 +659,45 @@
       margin-left: 36px;
     }
 
-    .cards-grid {
-      grid-template-columns: 1fr;
+    .card-header {
+      padding: 12px;
+      gap: 10px;
     }
 
     .doctor-avatar,
     .doctor-avatar-placeholder {
-      width: 90px;
-      height: 90px;
+      width: 50px;
+      height: 50px;
     }
 
     .doctor-avatar-placeholder {
-      font-size: 32px;
+      font-size: 20px;
     }
 
     .doctor-name {
-      font-size: 16px;
-      min-height: auto;
+      font-size: 12px;
+    }
+
+    .specialty-badge {
+      font-size: 9px;
+      padding: 2px 6px;
+    }
+
+    .card-body {
+      padding: 12px;
+    }
+
+    .info-text {
+      font-size: 10px;
+    }
+
+    .price-value {
+      font-size: 12px;
+    }
+
+    .book-btn {
+      width: 32px;
+      height: 32px;
     }
   }
 </style>

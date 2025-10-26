@@ -34,7 +34,7 @@
 
     <!-- Dorilar kartochkalari -->
     <div v-else class="cards-wrapper">
-      <!-- Natijalar soni va tartibga solish -->
+      <!-- Natijalar soni -->
       <div class="results-header">
         <div class="results-count">
           <span class="count-badge">{{ filteredMedicines.length }}</span>
@@ -42,85 +42,95 @@
         </div>
       </div>
 
-      <!-- Cards Grid -->
-      <div v-if="paginatedMedicines.length > 0" class="cards-grid">
-        <div
+      <!-- Cards Grid using Ant Design Grid -->
+      <Row v-if="paginatedMedicines.length > 0" :gutter="[16, 16]">
+        <Col
           v-for="medicine in paginatedMedicines"
           :key="medicine.id"
-          class="medicine-card"
+          :xs="12"
+          :sm="12"
+          :md="8"
+          :lg="6"
+          :xl="6"
         >
-          <!-- Card header with image -->
-          <div class="card-header">
-            <div class="medicine-icon">💊</div>
-            <div
-              :class="[
-                'stock-indicator',
-                medicine.stock < 100 ? 'low-stock' : 'in-stock',
-              ]"
-            >
-              <span class="stock-dot"></span>
-              {{ medicine.stock < 100 ? 'Kam qoldi' : 'Mavjud' }}
-            </div>
-          </div>
-
-          <!-- Card body -->
-          <div class="card-body">
-            <h3 class="medicine-name">{{ medicine.name }}</h3>
-
-            <div class="medicine-details">
-              <div class="detail-item">
-                <span class="detail-label">Ishlab chiqaruvchi:</span>
-                <span class="detail-value">{{ medicine.manufacturer }}</span>
-              </div>
-
-              <div class="detail-item">
-                <span class="detail-label">Kategoriya:</span>
-                <span class="detail-value">{{ medicine.category }}</span>
-              </div>
-
-              <div class="detail-item">
-                <span class="detail-label">Omborda:</span>
-                <span
-                  :class="['stock-value', medicine.stock < 100 ? 'low' : '']"
-                >
-                  {{ medicine.stock }} ta
-                </span>
+          <div class="medicine-card">
+            <!-- Card header -->
+            <div class="card-header">
+              <div class="medicine-icon">💊</div>
+              <div
+                :class="[
+                  'stock-indicator',
+                  medicine.stock < 100 ? 'low-stock' : 'in-stock',
+                ]"
+              >
+                <span class="stock-dot"></span>
+                {{ medicine.stock < 100 ? 'Kam' : 'Mavjud' }}
               </div>
             </div>
 
-            <!-- Price section -->
-            <div class="price-section">
-              <div class="price-label">Narxi:</div>
-              <div class="price-value">
-                {{ medicine.price.toLocaleString() }}
-                <span class="currency">so'm</span>
+            <!-- Card body -->
+            <div class="card-body">
+              <h3 class="medicine-name" :title="medicine.name">
+                {{ truncateName(medicine.name, 35) }}
+              </h3>
+
+              <div class="medicine-details">
+                <div class="detail-row">
+                  <span class="detail-label">Ishlab chiqaruvchi:</span>
+                  <span class="detail-value" :title="medicine.manufacturer">
+                    {{ truncateText(medicine.manufacturer, 15) }}
+                  </span>
+                </div>
+
+                <div class="detail-row">
+                  <span class="detail-label">Kategoriya:</span>
+                  <span class="detail-value" :title="medicine.category">
+                    {{ truncateText(medicine.category, 15) }}
+                  </span>
+                </div>
+
+                <div class="detail-row">
+                  <span class="detail-label">Omborda:</span>
+                  <span
+                    :class="['stock-value', medicine.stock < 100 ? 'low' : '']"
+                  >
+                    {{ medicine.stock }} ta
+                  </span>
+                </div>
+              </div>
+
+              <!-- Price section -->
+              <div class="price-section">
+                <div class="price-value">
+                  {{ medicine.price.toLocaleString() }}
+                  <span class="currency">so'm</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Card footer with actions -->
-          <div class="card-footer">
-            <Button
-              type="default"
-              block
-              class="view-btn"
-              @click="viewMedicine(medicine.id)"
-            >
-              <EyeOutlined />
-              Batafsil
-            </Button>
-            <Button
-              type="primary"
-              block
-              class="cart-btn"
-              @click="addToCart(medicine)"
-            >
-              <ShoppingCartOutlined />
-              Savatga
-            </Button>
+            <!-- Card footer -->
+            <div class="card-footer">
+              <Button
+                type="default"
+                size="small"
+                class="view-btn"
+                @click="viewMedicine(medicine.id)"
+              >
+                <EyeOutlined />
+              </Button>
+              <Button
+                type="primary"
+                size="small"
+                class="cart-btn"
+                @click="addToCart(medicine)"
+              >
+                <ShoppingCartOutlined />
+                Savat
+              </Button>
+            </div>
           </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
 
       <!-- Agar natija topilmasa -->
       <div v-else class="no-results">
@@ -152,7 +162,7 @@
 <script setup>
   import { ref, computed, onMounted, watch } from 'vue'
   //Antd Components
-  import { Input, Button, Typography, message } from 'ant-design-vue'
+  import { Input, Button, Typography, Row, Col, message } from 'ant-design-vue'
   //Antd Icons
   import {
     SearchOutlined,
@@ -168,7 +178,7 @@
 
   const searchQuery = ref('')
   const currentPage = ref(1)
-  const pageSize = ref(10)
+  const pageSize = ref(12)
 
   // Qidiruv funksiyasi
   const filteredMedicines = computed(() => {
@@ -186,6 +196,21 @@
     const end = start + pageSize.value
     return filteredMedicines.value.slice(start, end)
   })
+
+  // Matn qisqartirish
+  const truncateName = (name, maxLength) => {
+    if (name.length > maxLength) {
+      return name.substring(0, maxLength) + '...'
+    }
+    return name
+  }
+
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...'
+    }
+    return text
+  }
 
   // Dori sahifasiga o'tish
   const viewMedicine = (medicineId) => {
@@ -226,9 +251,9 @@
   /* Header bo'limi */
   .header-section {
     background: white;
-    padding: 32px;
+    padding: 24px;
     border-radius: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 
@@ -241,11 +266,11 @@
   }
 
   .title-icon {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .subtitle {
-    margin: 8px 0 0 48px;
+    margin: 6px 0 0 44px;
     color: #8c8c8c;
     font-size: 14px;
   }
@@ -253,9 +278,9 @@
   /* Qidiruv bo'limi */
   .search-section {
     background: white;
-    padding: 24px;
+    padding: 20px;
     border-radius: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 
@@ -288,17 +313,14 @@
   /* Cards wrapper */
   .cards-wrapper {
     background: white;
-    padding: 24px;
+    padding: 20px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 
   /* Results header */
   .results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     padding-bottom: 16px;
     border-bottom: 2px solid #f0f0f0;
   }
@@ -312,82 +334,58 @@
   .count-badge {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 6px 16px;
+    padding: 4px 14px;
     border-radius: 20px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .count-text {
     color: #8c8c8c;
-    font-size: 15px;
-  }
-
-  /* Cards Grid */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-    margin-bottom: 32px;
+    font-size: 14px;
   }
 
   /* Medicine Card */
   .medicine-card {
     background: white;
     border: 1px solid #f0f0f0;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
+    height: 100%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
   .medicine-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
     border-color: #1890ff;
   }
 
   /* Card Header */
   .card-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
+    padding: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card-header::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 200px;
-    height: 200px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
   }
 
   .medicine-icon {
-    font-size: 40px;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-    position: relative;
-    z-index: 1;
+    font-size: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 
   .stock-indicator {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
     font-weight: 500;
-    position: relative;
-    z-index: 1;
   }
 
   .stock-indicator.in-stock {
@@ -403,10 +401,9 @@
   }
 
   .stock-dot {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    animation: pulse 2s infinite;
   }
 
   .in-stock .stock-dot {
@@ -417,72 +414,62 @@
     background: #faad14;
   }
 
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    50% {
-      opacity: 0.6;
-      transform: scale(1.2);
-    }
-  }
-
   /* Card Body */
   .card-body {
-    padding: 16px;
+    padding: 14px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
 
   .medicine-name {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #262626;
     margin: 0;
     line-height: 1.4;
-    min-height: 18px;
+    min-height: 42px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .medicine-details {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
-  .detail-item {
+  .detail-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px dashed #f0f0f0;
-  }
-
-  .detail-item:last-child {
-    border-bottom: none;
+    padding: 4px 0;
+    gap: 8px;
   }
 
   .detail-label {
-    font-size: 13px;
+    font-size: 12px;
     color: #8c8c8c;
+    flex-shrink: 0;
   }
 
   .detail-value {
-    font-size: 14px;
+    font-size: 12px;
     color: #262626;
     font-weight: 500;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .stock-value {
-    padding: 4px 12px;
+    padding: 2px 8px;
     background: #f6ffed;
     color: #52c41a;
-    border-radius: 12px;
-    font-size: 13px;
+    border-radius: 8px;
+    font-size: 12px;
     font-weight: 600;
     border: 1px solid #b7eb8f;
   }
@@ -496,19 +483,13 @@
   /* Price Section */
   .price-section {
     background: linear-gradient(135deg, #f0f7ff 0%, #e6f4ff 100%);
-    padding: 12px;
-    border-radius: 12px;
+    padding: 10px;
+    border-radius: 8px;
     margin-top: auto;
   }
 
-  .price-label {
-    font-size: 12px;
-    color: #8c8c8c;
-    margin-bottom: 4px;
-  }
-
   .price-value {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #1890ff;
     display: flex;
@@ -517,17 +498,17 @@
   }
 
   .currency {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     color: #595959;
   }
 
   /* Card Footer */
   .card-footer {
-    padding: 12px;
+    padding: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
     background: #fafafa;
     border-top: 1px solid #f0f0f0;
   }
@@ -536,19 +517,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    height: 36px;
-    border-radius: 8px;
-    font-weight: 500;
+    height: 32px;
+    width: 32px;
+    border-radius: 6px;
     border: 1px solid #d9d9d9;
     transition: all 0.3s;
-    font-size: 14px;
+    padding: 0;
   }
 
   .view-btn:hover {
     border-color: #1890ff;
     color: #1890ff;
-    transform: translateY(-2px);
   }
 
   .cart-btn {
@@ -556,36 +535,35 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    height: 36px;
-    border-radius: 8px;
+    height: 32px;
+    border-radius: 6px;
     font-weight: 500;
     background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
     border: none;
     transition: all 0.3s;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .cart-btn:hover {
     background: linear-gradient(135deg, #73d13d 0%, #95de64 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
+    box-shadow: 0 2px 8px rgba(82, 196, 26, 0.3);
   }
 
   /* No results */
   .no-results {
     text-align: center;
-    padding: 80px 20px;
+    padding: 60px 20px;
   }
 
   .no-results-icon {
-    font-size: 64px;
-    margin-bottom: 20px;
+    font-size: 48px;
+    margin-bottom: 16px;
     opacity: 0.5;
   }
 
   .no-results-title {
     color: #595959;
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 8px;
   }
 
@@ -598,37 +576,31 @@
   .pagination-wrapper {
     display: flex;
     justify-content: center;
-    padding-top: 24px;
+    padding-top: 20px;
+    margin-top: 20px;
     border-top: 2px solid #f0f0f0;
   }
 
   /* Responsive */
-  @media (max-width: 1200px) {
-    .cards-grid {
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-    }
-  }
-
   @media (max-width: 768px) {
     .medicines-container {
       padding: 16px;
     }
 
     .header-section {
-      padding: 20px;
+      padding: 16px;
     }
 
     .page-title {
-      font-size: 24px !important;
+      font-size: 22px !important;
     }
 
     .title-icon {
-      font-size: 28px;
+      font-size: 26px;
     }
 
     .subtitle {
-      margin-left: 40px;
+      margin-left: 38px;
       font-size: 13px;
     }
 
@@ -636,23 +608,8 @@
       padding: 16px;
     }
 
-    .search-input {
-      max-width: 100%;
-    }
-
     .cards-wrapper {
       padding: 16px;
-    }
-
-    .cards-grid {
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-    }
-
-    .results-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
     }
   }
 
@@ -670,21 +627,13 @@
       margin-left: 36px;
     }
 
-    .cards-grid {
-      grid-template-columns: 1fr;
-    }
-
     .medicine-name {
-      font-size: 16px;
-      min-height: auto;
+      font-size: 14px;
+      min-height: 40px;
     }
 
     .price-value {
-      font-size: 20px;
-    }
-
-    .card-footer {
-      grid-template-columns: 1fr;
+      font-size: 16px;
     }
   }
 </style>
