@@ -21,7 +21,8 @@ export function useAuthFireBase() {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user
-            store.addUser(username, user.accessToken)
+            localStorage.setItem('token', user.accessToken)
+            store.addUser(username, user.email, user.accessToken, user.photoURL)
 
             await updateProfile(user, {
                 displayName: username
@@ -53,7 +54,8 @@ export function useAuthFireBase() {
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
 
             const user = userCredential.user;
-            store.addUser(username, user.accessToken)
+            localStorage.setItem('token', user.accessToken)
+            store.addUser(username, user.email, user.accessToken, user.photoURL)
             message.success('Kirish muvaffaqiyatli!')
             router.push('/');
             console.log(user)
@@ -70,7 +72,8 @@ export function useAuthFireBase() {
             const result = await signInWithPopup(auth, provider)
 
             const user = result.user
-            store.addUser(username, user.accessToken)
+            store.addUser(user.displayName, user.email, user.accessToken, user.photoURL)
+            localStorage.setItem('token', user.accessToken)
 
             await setDoc(doc(db, 'users', user.uid), {
                 username: user.displayName,
@@ -90,10 +93,19 @@ export function useAuthFireBase() {
         }
     }
 
+    function logOut(){
+        store.clearStore()
+        localStorage.clear()
+        sessionStorage.clear()
+        router.push('/')
+        message.success('Sea a soon')
+    }
+
     return {
         loading,
         registerUser,
         loginUser,
-        signInWithGoogle
+        signInWithGoogle, 
+        logOut
     }
 }

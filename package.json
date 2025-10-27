@@ -12,6 +12,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dicebear/collection": "^9.2.4",
+    "@dicebear/core": "^9.2.4",
     "@vercel/speed-insights": "^1.2.0",
     "ant-design-vue": "^4.2.6",
     "firebase": "^12.4.0",

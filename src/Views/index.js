@@ -5,5 +5,7 @@ import Institution from './Institution/Institution.vue'
 import Diagnostics from './Diagnostics/Diagnostics.vue'
 import Articls from './Articles/Articls.vue'
 import Intervyu from './Intervyu/Intervyu.vue'
+import Profile from './Profile/Profile.vue'
+import Shop from './Shop/Shop.vue'
 
-export { HomeView, Drugs, Doctors, Institution, Diagnostics, Articls, Intervyu }
+export { HomeView, Drugs, Doctors, Institution, Diagnostics, Articls, Intervyu, Profile , Shop }

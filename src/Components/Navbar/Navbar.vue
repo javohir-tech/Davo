@@ -7,16 +7,32 @@ import {
   LoginOutlined,
   CloseOutlined,
   GlobalOutlined,
+  UserOutlined,
+  ShoppingCartOutlined,
+  LogoutOutlined
 } from '@ant-design/icons-vue'
 //Route
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 //Menu Items
 import menuItems from '@/Data/menuItems.json'
+//user store
+import { useUsersStore } from '@/Store/useUserStore'
+//Dicebear
+import { createAvatar } from '@dicebear/core';
+import { initials } from '@dicebear/collection';
+//Hooks
+import { useAuthFireBase } from '@/Hooks/useAuthFireBase'
 
+const { logOut } = useAuthFireBase()
+
+//store
+const store = useUsersStore();
+const token = localStorage.getItem('token')
+//Avatar
+const profilImgURl = ref(null)
 // State
 const drawerVisible = ref(false)
-const selectedKeys = ref(['1'])
 //Select language
 const value1 = ref('UZ')
 //Router
@@ -43,8 +59,7 @@ const showDrawer = () => {
   drawerVisible.value = true
 }
 
-const handleMenuClick = (key) => {
-  selectedKeys.value = [key]
+const handleMenuClick = () => {
   drawerVisible.value = false
 }
 
@@ -52,6 +67,21 @@ const handleRouter = () => {
   drawerVisible.value = false
   router.push('/login')
 }
+
+const getAvatar = () => {
+  const avatar = createAvatar(initials, {
+    'seed': store.username
+  })
+  profilImgURl.value = avatar.toDataUri()
+
+  return profilImgURl.value
+}
+
+const LogOutProfile = ()=>{
+  logOut()
+  drawerVisible.value = false
+}
+
 </script>
 
 <template>
@@ -67,7 +97,7 @@ const handleRouter = () => {
         </div>
 
         <!-- Desktop Menu -->
-        <a-menu v-model:selectedKeys="selectedKeys" mode="horizontal" class="desktop-menu">
+        <a-menu mode="horizontal" class="desktop-menu">
           <a-menu-item v-for="item in menuItems" :key="item.key" class="menu-item-custom">
             <RouterLink :to="item.path" :class="route.path === item.path ? 'activeLink' : ''">
               {{ item.label }}
@@ -90,14 +120,31 @@ const handleRouter = () => {
             </div>
 
             <!-- Login Button -->
-            <a-button type="primary" class="login-btn" @click="handleRouter">
+            <a-badge :count="0" v-if="store.token || token" type="primary">
+              <a-dropdown @click.prevent>
+                <img :src="store.photoURL ?? getAvatar()" style="width: 36px; border-radius: 100%;" alt="user img">
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item @click="">
+                      <UserOutlined/>
+                      <RouterLink to="/profile"> Profile</RouterLink>
+                    </a-menu-item>
+                    <a-menu-item @click="">
+                      <ShoppingCartOutlined />
+                      <RouterLink to="/shop"> Savat</RouterLink>
+                    </a-menu-item>
+                    <a-menu-item @click="logOut ">
+                      <LogoutOutlined /> Log Out
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </a-badge>
+            <a-button v-else type="primary" class="login-btn" @click="handleRouter">
               <template #icon>
                 <LoginOutlined />
               </template>
               Kirish
-            </a-button>
-            <a-button type="primary">
-              profile
             </a-button>
           </a-space>
         </div>
@@ -120,22 +167,41 @@ const handleRouter = () => {
             <a-select-option value="EN">🇬🇧 EN</a-select-option>
             <a-select-option value="RU">🇷🇺 RU</a-select-option>
           </a-select>
+          <a-badge :count="0" v-if="store.token || token" type="primary">
+            <a-dropdown @click.prevent>
+              <img :src="store.photoURL ?? getAvatar()" style="width: 36px; border-radius: 100%;" alt="user img">
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item @click="handleMenuClick">
+                    <UserOutlined />
+                    <RouterLink to="/profile"> Profile</RouterLink>
+                  </a-menu-item>
+                  <a-menu-item @click="handleMenuClick">
+                    <ShoppingCartOutlined />
+                    <RouterLink to="/shop"> Savat</RouterLink>
+                  </a-menu-item>
+                  <a-menu-item @click="LogOutProfile">
+                    <LogoutOutlined /> Log Out
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </a-badge>
           <CloseOutlined @click="drawerVisible = false" class="close-icon" />
         </a-space>
       </template>
-
       <div class="drawer-content">
         <!-- Drawer Menu Items -->
         <div class="drawer-menu">
           <RouterLink v-for="item in menuItems" :key="item.key" :to="item.path" class="drawer-menu-item"
-            :class="route.path === item.path ? 'active' : ''" @click="handleMenuClick(item.key)">
+            :class="route.path === item.path ? 'active' : ''" @click="handleMenuClick">
             <span class="menu-item-dot"></span>
             {{ item.label }}
           </RouterLink>
         </div>
 
         <!-- Drawer Login Button -->
-        <div class="drawer-footer">
+        <div class="drawer-footer" v-if="!store.token || !token">
           <a-button type="primary" block size="large" class="drawer-login-btn" @click="handleRouter">
             <template #icon>
               <LoginOutlined />
@@ -162,6 +228,8 @@ const handleRouter = () => {
   line-height: 70px;
   height: 70px;
   backdrop-filter: blur(10px);
+  width: 100%;
+  overflow: hidden;
 }
 
 .navbar-container {
@@ -171,6 +239,8 @@ const handleRouter = () => {
   justify-content: space-between;
   align-items: center;
   height: 70px;
+  width: 100%;
+  gap: 16px;
 }
 
 /* ============================================ */
@@ -179,6 +249,7 @@ const handleRouter = () => {
 .brand {
   position: relative;
   z-index: 2;
+  flex-shrink: 0;
 }
 
 .brand-link {
@@ -211,20 +282,21 @@ const handleRouter = () => {
 /* ============================================ */
 .desktop-menu {
   flex: 1;
-  margin: 0 40px;
+  margin: 0 24px;
   background: transparent;
   border: none;
   line-height: 70px;
   display: flex;
   justify-content: center;
+  min-width: 0;
 }
 
 .desktop-menu :deep(.ant-menu-item) {
   color: rgba(255, 255, 255, 0.95);
   font-weight: 500;
   font-size: 15px;
-  margin: 0 8px;
-  padding: 0 16px;
+  margin: 0 4px;
+  padding: 0 12px;
   border-radius: 8px;
   transition: all 0.3s ease;
 }
@@ -273,7 +345,8 @@ const handleRouter = () => {
 .desktop-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 /* Language Selector */
@@ -351,6 +424,7 @@ const handleRouter = () => {
   width: 44px;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .mobile-menu-btn:hover {
@@ -487,6 +561,37 @@ const handleRouter = () => {
 /* ============================================ */
 /* RESPONSIVE DESIGN */
 /* ============================================ */
+
+/* Planshet (768px - 1024px) */
+@media (max-width: 1200px) {
+  .navbar {
+    padding: 0 24px;
+  }
+
+  .navbar-container {
+    gap: 12px;
+  }
+
+  .desktop-menu {
+    margin: 0 16px;
+  }
+
+  .desktop-menu :deep(.ant-menu-item) {
+    font-size: 14px;
+    margin: 0 2px;
+    padding: 0 10px;
+  }
+
+  .desktop-actions {
+    gap: 8px;
+  }
+
+  .login-btn {
+    padding: 0 16px;
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 992px) {
   .navbar {
     padding: 0 20px;
@@ -504,13 +609,31 @@ const handleRouter = () => {
   }
 
   .brand-logo {
+    width: 110px;
+  }
+
+  .navbar-container {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 16px;
+  }
+
+  .brand-logo {
     width: 100px;
+  }
+
+  .brand-link {
+    padding: 6px 12px;
   }
 }
 
 @media (max-width: 576px) {
   .navbar {
-    padding: 0 16px;
+    padding: 0 12px;
     height: 64px;
     line-height: 64px;
   }
@@ -523,6 +646,19 @@ const handleRouter = () => {
     width: 90px;
   }
 
+  .brand-link {
+    padding: 4px 8px;
+  }
+
+  .mobile-menu-btn {
+    height: 40px;
+    width: 40px;
+  }
+
+  .menu-icon {
+    font-size: 20px;
+  }
+
   .drawer-footer {
     padding: 20px;
   }
@@ -530,6 +666,21 @@ const handleRouter = () => {
   .drawer-login-btn {
     height: 48px;
     font-size: 15px;
+  }
+}
+
+@media (max-width: 375px) {
+  .navbar {
+    padding: 0 8px;
+  }
+
+  .brand-logo {
+    width: 80px;
+  }
+
+  .mobile-menu-btn {
+    height: 36px;
+    width: 36px;
   }
 }
 

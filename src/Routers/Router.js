@@ -10,6 +10,8 @@ import {
   HomeView,
   Institution,
   Intervyu,
+  Profile,
+  Shop,
 } from '@/Views'
 //Auth
 import { Login, Register } from '@/Auth'
@@ -42,6 +44,14 @@ const routes = [
       {
         path: 'articls',
         component: Articls,
+      },
+      {
+        path: 'profile',
+        component : Profile
+      },
+      {
+        path : 'shop',
+        component : Shop
       },
       {
         path: 'intervyu',
