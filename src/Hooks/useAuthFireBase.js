@@ -53,6 +53,7 @@ export function useAuthFireBase() {
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
 
             const user = userCredential.user;
+            store.addUser(username, user.accessToken)
             message.success('Kirish muvaffaqiyatli!')
             router.push('/');
             console.log(user)
@@ -69,6 +70,7 @@ export function useAuthFireBase() {
             const result = await signInWithPopup(auth, provider)
 
             const user = result.user
+            store.addUser(username, user.accessToken)
 
             await setDoc(doc(db, 'users', user.uid), {
                 username: user.displayName,
