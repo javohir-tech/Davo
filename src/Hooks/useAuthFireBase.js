@@ -11,7 +11,7 @@ import { message } from "ant-design-vue";
 
 export function useAuthFireBase() {
     const loading = ref(false);
-
+    const accessToken = ref(null);
     const router = useRouter()
 
     async function registerUser(email, password, username) {
@@ -54,7 +54,6 @@ export function useAuthFireBase() {
             message.success('Kirish muvaffaqiyatli!')
             router.push('/');
             console.log(user)
-            return { success: true, user };
         } catch (error) {
             message.error(error.code)
         } finally {

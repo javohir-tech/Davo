@@ -1,57 +1,57 @@
 <script setup>
-  //Vue
-  import { ref, reactive } from 'vue'
-  //Antd icons
-  import {
-    MenuOutlined,
-    LoginOutlined,
-    CloseOutlined,
-    GlobalOutlined,
-  } from '@ant-design/icons-vue'
-  //Route
-  import { useRouter } from 'vue-router'
-  import { useRoute } from 'vue-router'
-  //Menu Items
-  import menuItems from '@/Data/menuItems.json'
+//Vue
+import { ref, reactive } from 'vue'
+//Antd icons
+import {
+  MenuOutlined,
+  LoginOutlined,
+  CloseOutlined,
+  GlobalOutlined,
+} from '@ant-design/icons-vue'
+//Route
+import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
+//Menu Items
+import menuItems from '@/Data/menuItems.json'
 
-  // State
-  const drawerVisible = ref(false)
-  const selectedKeys = ref(['1'])
-  //Select language
-  const value1 = ref('UZ')
-  //Router
-  const router = useRouter()
-  const route = useRoute()
+// State
+const drawerVisible = ref(false)
+const selectedKeys = ref(['1'])
+//Select language
+const value1 = ref('UZ')
+//Router
+const router = useRouter()
+const route = useRoute()
 
-  //Select
-  const focus = () => {
-    // console.log('focus');
-  }
-  const handleChangeLanguage = (value) => {
-    // console.log(`selected ${value}`);
-  }
+//Select
+const focus = () => {
+  // console.log('focus');
+}
+const handleChangeLanguage = (value) => {
+  // console.log(`selected ${value}`);
+}
 
-  // Drawer header style
-  const drawerHeaderStyle = {
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    color: 'white',
-    borderBottom: 'none',
-  }
+// Drawer header style
+const drawerHeaderStyle = {
+  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  color: 'white',
+  borderBottom: 'none',
+}
 
-  // Methods
-  const showDrawer = () => {
-    drawerVisible.value = true
-  }
+// Methods
+const showDrawer = () => {
+  drawerVisible.value = true
+}
 
-  const handleMenuClick = (key) => {
-    selectedKeys.value = [key]
-    drawerVisible.value = false
-  }
+const handleMenuClick = (key) => {
+  selectedKeys.value = [key]
+  drawerVisible.value = false
+}
 
-  const handleRouter = () => {
-    drawerVisible.value = false
-    router.push('/login')
-  }
+const handleRouter = () => {
+  drawerVisible.value = false
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -61,30 +61,15 @@
         <!-- Brand -->
         <div class="brand">
           <RouterLink to="/" class="brand-link">
-            <img
-              src="../../assets/wlogo.png"
-              alt="DAVO.UZ"
-              class="brand-logo"
-            />
+            <img src="../../assets/wlogo.png" alt="DAVO.UZ" class="brand-logo" />
             <div class="brand-glow"></div>
           </RouterLink>
         </div>
 
         <!-- Desktop Menu -->
-        <a-menu
-          v-model:selectedKeys="selectedKeys"
-          mode="horizontal"
-          class="desktop-menu"
-        >
-          <a-menu-item
-            v-for="item in menuItems"
-            :key="item.key"
-            class="menu-item-custom"
-          >
-            <RouterLink
-              :to="item.path"
-              :class="route.path === item.path ? 'activeLink' : ''"
-            >
+        <a-menu v-model:selectedKeys="selectedKeys" mode="horizontal" class="desktop-menu">
+          <a-menu-item v-for="item in menuItems" :key="item.key" class="menu-item-custom">
+            <RouterLink :to="item.path" :class="route.path === item.path ? 'activeLink' : ''">
               {{ item.label }}
               <span class="under-line"></span>
             </RouterLink>
@@ -97,12 +82,7 @@
             <!-- Language Selector -->
             <div class="language-selector">
               <GlobalOutlined class="globe-icon" />
-              <a-select
-                v-model:value="value1"
-                class="select-language"
-                @focus="focus"
-                @change="handleChangeLanguage"
-              >
+              <a-select v-model:value="value1" class="select-language" @focus="focus" @change="handleChangeLanguage">
                 <a-select-option value="UZ">UZ</a-select-option>
                 <a-select-option value="EN">EN</a-select-option>
                 <a-select-option value="RU">RU</a-select-option>
@@ -116,6 +96,9 @@
               </template>
               Kirish
             </a-button>
+            <a-button type="primary">
+              profile
+            </a-button>
           </a-space>
         </div>
 
@@ -127,24 +110,12 @@
     </a-layout-header>
 
     <!-- Mobile Drawer -->
-    <a-drawer
-      v-model:open="drawerVisible"
-      title="DAVO.UZ"
-      placement="right"
-      :width="300"
-      :headerStyle="drawerHeaderStyle"
-      :bodyStyle="{ padding: 0, background: '#f9fafb' }"
-      :closable="false"
-    >
+    <a-drawer v-model:open="drawerVisible" title="DAVO.UZ" placement="right" :width="300"
+      :headerStyle="drawerHeaderStyle" :bodyStyle="{ padding: 0, background: '#f9fafb' }" :closable="false">
       <template #extra>
         <a-space :size="12">
-          <a-select
-            v-model:value="value1"
-            class="select-mobile"
-            @focus="focus"
-            @change="handleChangeLanguage"
-            :bordered="false"
-          >
+          <a-select v-model:value="value1" class="select-mobile" @focus="focus" @change="handleChangeLanguage"
+            :bordered="false">
             <a-select-option value="UZ">🇺🇿 UZ</a-select-option>
             <a-select-option value="EN">🇬🇧 EN</a-select-option>
             <a-select-option value="RU">🇷🇺 RU</a-select-option>
@@ -156,14 +127,8 @@
       <div class="drawer-content">
         <!-- Drawer Menu Items -->
         <div class="drawer-menu">
-          <RouterLink
-            v-for="item in menuItems"
-            :key="item.key"
-            :to="item.path"
-            class="drawer-menu-item"
-            :class="route.path === item.path ? 'active' : ''"
-            @click="handleMenuClick(item.key)"
-          >
+          <RouterLink v-for="item in menuItems" :key="item.key" :to="item.path" class="drawer-menu-item"
+            :class="route.path === item.path ? 'active' : ''" @click="handleMenuClick(item.key)">
             <span class="menu-item-dot"></span>
             {{ item.label }}
           </RouterLink>
@@ -171,13 +136,7 @@
 
         <!-- Drawer Login Button -->
         <div class="drawer-footer">
-          <a-button
-            type="primary"
-            block
-            size="large"
-            class="drawer-login-btn"
-            @click="handleRouter"
-          >
+          <a-button type="primary" block size="large" class="drawer-login-btn" @click="handleRouter">
             <template #icon>
               <LoginOutlined />
             </template>
@@ -190,436 +149,436 @@
 </template>
 
 <style scoped>
-  /* ============================================ */
-  /* NAVBAR BASE STYLES */
-  /* ============================================ */
+/* ============================================ */
+/* NAVBAR BASE STYLES */
+/* ============================================ */
+.navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0 32px;
+  line-height: 70px;
+  height: 70px;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+/* ============================================ */
+/* BRAND LOGO */
+/* ============================================ */
+.brand {
+  position: relative;
+  z-index: 2;
+}
+
+.brand-link {
+  display: block;
+  position: relative;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brand-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.brand-logo {
+  width: 130px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+  transition: all 0.3s ease;
+}
+
+.brand-link:hover .brand-logo {
+  filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3));
+}
+
+/* ============================================ */
+/* DESKTOP MENU */
+/* ============================================ */
+.desktop-menu {
+  flex: 1;
+  margin: 0 40px;
+  background: transparent;
+  border: none;
+  line-height: 70px;
+  display: flex;
+  justify-content: center;
+}
+
+.desktop-menu :deep(.ant-menu-item) {
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  font-size: 15px;
+  margin: 0 8px;
+  padding: 0 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.desktop-menu :deep(.ant-menu-item:hover) {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.desktop-menu :deep(.ant-menu-item) a {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+  color: inherit;
+}
+
+.desktop-menu :deep(.ant-menu-item) a:hover {
+  color: #ffffff;
+}
+
+.under-line {
+  height: 3px;
+  background: linear-gradient(90deg,
+      #ffffff 0%,
+      rgba(255, 255, 255, 0.6) 100%);
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 0;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
+}
+
+.desktop-menu :deep(.ant-menu-item) a:hover .under-line,
+.activeLink .under-line {
+  width: 100%;
+}
+
+.desktop-menu :deep(.ant-menu-item::after) {
+  display: none;
+}
+
+/* ============================================ */
+/* DESKTOP ACTIONS */
+/* ============================================ */
+.desktop-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Language Selector */
+.language-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.language-selector:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.globe-icon {
+  color: white;
+  font-size: 18px;
+}
+
+.select-language {
+  width: 65px;
+}
+
+.select-language :deep(.ant-select-selector) {
+  background: transparent !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 0 !important;
+}
+
+.select-language :deep(.ant-select-arrow) {
+  color: white;
+}
+
+.select-language :deep(.ant-select-selection-item) {
+  padding: 0 !important;
+}
+
+/* Login Button */
+.login-btn {
+  height: 40px;
+  padding: 0 24px;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 10px;
+  background: white;
+  color: #667eea;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.login-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  background: #ffffff !important;
+  color: #667eea !important;
+}
+
+/* ============================================ */
+/* MOBILE MENU BUTTON */
+/* ============================================ */
+.mobile-menu-btn {
+  display: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px;
+  border-radius: 10px;
+  height: 44px;
+  width: 44px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  transform: scale(1.05);
+}
+
+.menu-icon {
+  font-size: 22px;
+  color: white;
+}
+
+/* ============================================ */
+/* DRAWER STYLES */
+/* ============================================ */
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f9fafb;
+}
+
+.drawer-menu {
+  flex: 1;
+  padding: 24px 0;
+}
+
+.drawer-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.menu-item-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  margin-right: 12px;
+  transition: all 0.3s ease;
+}
+
+.drawer-menu-item:hover {
+  background: linear-gradient(90deg,
+      rgba(102, 126, 234, 0.1) 0%,
+      transparent 100%);
+  color: #667eea;
+  border-left-color: #667eea;
+  padding-left: 28px;
+}
+
+.drawer-menu-item:hover .menu-item-dot {
+  background: #667eea;
+  transform: scale(1.3);
+}
+
+.drawer-menu-item.active {
+  background: linear-gradient(90deg,
+      rgba(102, 126, 234, 0.15) 0%,
+      transparent 100%);
+  color: #667eea;
+  border-left-color: #667eea;
+  font-weight: 600;
+}
+
+.drawer-menu-item.active .menu-item-dot {
+  background: #667eea;
+  transform: scale(1.3);
+}
+
+/* Drawer Footer */
+.drawer-footer {
+  padding: 24px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.drawer-login-btn {
+  height: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.drawer-login-btn:hover {
+  box-shadow: 0 6px 24px rgba(102, 126, 234, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Mobile Select */
+.select-mobile {
+  width: 90px;
+}
+
+.select-mobile :deep(.ant-select-selector) {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.select-mobile :deep(.ant-select-arrow) {
+  color: white;
+}
+
+.close-icon {
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.close-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* ============================================ */
+/* RESPONSIVE DESIGN */
+/* ============================================ */
+@media (max-width: 992px) {
   .navbar {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 0 32px;
-    line-height: 70px;
-    height: 70px;
-    backdrop-filter: blur(10px);
+    padding: 0 20px;
   }
 
-  .navbar-container {
-    max-width: 1400px;
-    margin: 0 auto;
+  .desktop-menu,
+  .desktop-actions {
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    height: 70px;
-  }
-
-  /* ============================================ */
-  /* BRAND LOGO */
-  /* ============================================ */
-  .brand {
-    position: relative;
-    z-index: 2;
-  }
-
-  .brand-link {
-    display: block;
-    position: relative;
-    padding: 8px 16px;
-    border-radius: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .brand-link:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-  }
-
-  .brand-logo {
-    width: 130px;
-    height: auto;
-    display: block;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
-    transition: all 0.3s ease;
-  }
-
-  .brand-link:hover .brand-logo {
-    filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3));
-  }
-
-  /* ============================================ */
-  /* DESKTOP MENU */
-  /* ============================================ */
-  .desktop-menu {
-    flex: 1;
-    margin: 0 40px;
-    background: transparent;
-    border: none;
-    line-height: 70px;
-    display: flex;
     justify-content: center;
   }
 
-  .desktop-menu :deep(.ant-menu-item) {
-    color: rgba(255, 255, 255, 0.95);
-    font-weight: 500;
-    font-size: 15px;
-    margin: 0 8px;
+  .brand-logo {
+    width: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
     padding: 0 16px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    height: 64px;
+    line-height: 64px;
   }
 
-  .desktop-menu :deep(.ant-menu-item:hover) {
-    background: rgba(255, 255, 255, 0.15);
+  .navbar-container {
+    height: 64px;
   }
 
-  .desktop-menu :deep(.ant-menu-item) a {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 4px;
-    color: inherit;
-  }
-
-  .desktop-menu :deep(.ant-menu-item) a:hover {
-    color: #ffffff;
-  }
-
-  .under-line {
-    height: 3px;
-    background: linear-gradient(
-      90deg,
-      #ffffff 0%,
-      rgba(255, 255, 255, 0.6) 100%
-    );
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 0;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
-  }
-
-  .desktop-menu :deep(.ant-menu-item) a:hover .under-line,
-  .activeLink .under-line {
-    width: 100%;
-  }
-
-  .desktop-menu :deep(.ant-menu-item::after) {
-    display: none;
-  }
-
-  /* ============================================ */
-  /* DESKTOP ACTIONS */
-  /* ============================================ */
-  .desktop-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  /* Language Selector */
-  .language-selector {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 6px 12px;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-  }
-
-  .language-selector:hover {
-    background: rgba(255, 255, 255, 0.25);
-  }
-
-  .globe-icon {
-    color: white;
-    font-size: 18px;
-  }
-
-  .select-language {
-    width: 65px;
-  }
-
-  .select-language :deep(.ant-select-selector) {
-    background: transparent !important;
-    border: none !important;
-    color: white !important;
-    font-weight: 600;
-    padding: 0 !important;
-  }
-
-  .select-language :deep(.ant-select-arrow) {
-    color: white;
-  }
-
-  .select-language :deep(.ant-select-selection-item) {
-    padding: 0 !important;
-  }
-
-  /* Login Button */
-  .login-btn {
-    height: 40px;
-    padding: 0 24px;
-    font-weight: 600;
-    font-size: 15px;
-    border-radius: 10px;
-    background: white;
-    color: #667eea;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .login-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    background: #ffffff !important;
-    color: #667eea !important;
-  }
-
-  /* ============================================ */
-  /* MOBILE MENU BUTTON */
-  /* ============================================ */
-  .mobile-menu-btn {
-    display: none;
-    border: none;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 10px;
-    border-radius: 10px;
-    height: 44px;
-    width: 44px;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-  }
-
-  .mobile-menu-btn:hover {
-    background: rgba(255, 255, 255, 0.25) !important;
-    transform: scale(1.05);
-  }
-
-  .menu-icon {
-    font-size: 22px;
-    color: white;
-  }
-
-  /* ============================================ */
-  /* DRAWER STYLES */
-  /* ============================================ */
-  .drawer-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background: #f9fafb;
-  }
-
-  .drawer-menu {
-    flex: 1;
-    padding: 24px 0;
-  }
-
-  .drawer-menu-item {
-    display: flex;
-    align-items: center;
-    padding: 16px 24px;
-    color: #374151;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 15px;
-    border-left: 4px solid transparent;
-    transition: all 0.3s ease;
-    position: relative;
-  }
-
-  .menu-item-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #cbd5e1;
-    margin-right: 12px;
-    transition: all 0.3s ease;
-  }
-
-  .drawer-menu-item:hover {
-    background: linear-gradient(
-      90deg,
-      rgba(102, 126, 234, 0.1) 0%,
-      transparent 100%
-    );
-    color: #667eea;
-    border-left-color: #667eea;
-    padding-left: 28px;
-  }
-
-  .drawer-menu-item:hover .menu-item-dot {
-    background: #667eea;
-    transform: scale(1.3);
-  }
-
-  .drawer-menu-item.active {
-    background: linear-gradient(
-      90deg,
-      rgba(102, 126, 234, 0.15) 0%,
-      transparent 100%
-    );
-    color: #667eea;
-    border-left-color: #667eea;
-    font-weight: 600;
-  }
-
-  .drawer-menu-item.active .menu-item-dot {
-    background: #667eea;
-    transform: scale(1.3);
-  }
-
-  /* Drawer Footer */
-  .drawer-footer {
-    padding: 24px;
-    background: white;
-    border-top: 1px solid #e5e7eb;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
-  }
-
-  .drawer-login-btn {
-    height: 50px;
-    font-weight: 600;
-    font-size: 16px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
-    transition: all 0.3s ease;
-  }
-
-  .drawer-login-btn:hover {
-    box-shadow: 0 6px 24px rgba(102, 126, 234, 0.5);
-    transform: translateY(-2px);
-  }
-
-  /* Mobile Select */
-  .select-mobile {
+  .brand-logo {
     width: 90px;
   }
 
-  .select-mobile :deep(.ant-select-selector) {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border: none !important;
-    color: white !important;
-    font-weight: 600;
-    border-radius: 8px;
-    backdrop-filter: blur(10px);
+  .drawer-footer {
+    padding: 20px;
   }
 
-  .select-mobile :deep(.ant-select-arrow) {
-    color: white;
+  .drawer-login-btn {
+    height: 48px;
+    font-size: 15px;
+  }
+}
+
+/* ============================================ */
+/* ANIMATIONS */
+/* ============================================ */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
   }
 
-  .close-icon {
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 6px;
-    transition: all 0.3s ease;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
+}
 
-  .close-icon:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
-  }
+.drawer-menu-item {
+  animation: slideIn 0.3s ease-out;
+  animation-fill-mode: both;
+}
 
-  /* ============================================ */
-  /* RESPONSIVE DESIGN */
-  /* ============================================ */
-  @media (max-width: 992px) {
-    .navbar {
-      padding: 0 20px;
-    }
+.drawer-menu-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
 
-    .desktop-menu,
-    .desktop-actions {
-      display: none !important;
-    }
+.drawer-menu-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
 
-    .mobile-menu-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+.drawer-menu-item:nth-child(3) {
+  animation-delay: 0.15s;
+}
 
-    .brand-logo {
-      width: 100px;
-    }
-  }
+.drawer-menu-item:nth-child(4) {
+  animation-delay: 0.2s;
+}
 
-  @media (max-width: 576px) {
-    .navbar {
-      padding: 0 16px;
-      height: 64px;
-      line-height: 64px;
-    }
+.drawer-menu-item:nth-child(5) {
+  animation-delay: 0.25s;
+}
 
-    .navbar-container {
-      height: 64px;
-    }
+.drawer-menu-item:nth-child(6) {
+  animation-delay: 0.3s;
+}
 
-    .brand-logo {
-      width: 90px;
-    }
-
-    .drawer-footer {
-      padding: 20px;
-    }
-
-    .drawer-login-btn {
-      height: 48px;
-      font-size: 15px;
-    }
-  }
-
-  /* ============================================ */
-  /* ANIMATIONS */
-  /* ============================================ */
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  .drawer-menu-item {
-    animation: slideIn 0.3s ease-out;
-    animation-fill-mode: both;
-  }
-
-  .drawer-menu-item:nth-child(1) {
-    animation-delay: 0.05s;
-  }
-  .drawer-menu-item:nth-child(2) {
-    animation-delay: 0.1s;
-  }
-  .drawer-menu-item:nth-child(3) {
-    animation-delay: 0.15s;
-  }
-  .drawer-menu-item:nth-child(4) {
-    animation-delay: 0.2s;
-  }
-  .drawer-menu-item:nth-child(5) {
-    animation-delay: 0.25s;
-  }
-  .drawer-menu-item:nth-child(6) {
-    animation-delay: 0.3s;
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
 </style>
