@@ -67,7 +67,7 @@ const router = createRouter({
 router.beforeEach((to, form, next) => {
   const authPages = ['/login', '/register'];
 
-  const user = true;
+  const user = false;
 
   if (user && authPages.includes(to.path)) {
     next('/')
