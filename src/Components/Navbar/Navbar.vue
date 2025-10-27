@@ -1,6 +1,6 @@
 <script setup>
 //Vue
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 //Antd icons
 import {
   MenuOutlined,
@@ -77,11 +77,6 @@ const getAvatar = () => {
   return profilImgURl.value
 }
 
-const LogOutProfile = ()=>{
-  logOut()
-  drawerVisible.value = false
-}
-
 </script>
 
 <template>
@@ -126,15 +121,12 @@ const LogOutProfile = ()=>{
                 <template #overlay>
                   <a-menu>
                     <a-menu-item @click="">
-                      <UserOutlined/>
+                      <UserOutlined />
                       <RouterLink to="/profile"> Profile</RouterLink>
                     </a-menu-item>
                     <a-menu-item @click="">
                       <ShoppingCartOutlined />
                       <RouterLink to="/shop"> Savat</RouterLink>
-                    </a-menu-item>
-                    <a-menu-item @click="logOut ">
-                      <LogoutOutlined /> Log Out
                     </a-menu-item>
                   </a-menu>
                 </template>
@@ -180,9 +172,6 @@ const LogOutProfile = ()=>{
                     <ShoppingCartOutlined />
                     <RouterLink to="/shop"> Savat</RouterLink>
                   </a-menu-item>
-                  <a-menu-item @click="LogOutProfile">
-                    <LogoutOutlined /> Log Out
-                  </a-menu-item>
                 </a-menu>
               </template>
             </a-dropdown>
@@ -201,7 +190,7 @@ const LogOutProfile = ()=>{
         </div>
 
         <!-- Drawer Login Button -->
-        <div class="drawer-footer" v-if="!store.token || !token">
+        <div class="drawer-footer" v-if="!store.token && !token">
           <a-button type="primary" block size="large" class="drawer-login-btn" @click="handleRouter">
             <template #icon>
               <LoginOutlined />
