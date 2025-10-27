@@ -7,5 +7,6 @@ import Articls from './Articles/Articls.vue'
 import Intervyu from './Intervyu/Intervyu.vue'
 import Profile from './Profile/Profile.vue'
 import Shop from './Shop/Shop.vue'
+import Medicine from './Medicine/Medicine.vue'
 
-export { HomeView, Drugs, Doctors, Institution, Diagnostics, Articls, Intervyu, Profile , Shop }
+export { HomeView, Drugs, Doctors, Institution, Diagnostics, Articls, Intervyu, Profile , Shop, Medicine }

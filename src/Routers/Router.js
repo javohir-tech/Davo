@@ -10,6 +10,7 @@ import {
   HomeView,
   Institution,
   Intervyu,
+  Medicine,
   Profile,
   Shop,
 } from '@/Views'
@@ -28,6 +29,10 @@ const routes = [
       {
         path: 'drugs',
         component: Drugs,
+      },
+      {
+        path : 'drugs/:id',
+        component : Medicine
       },
       {
         path: 'doctors',
