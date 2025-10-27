@@ -64,4 +64,17 @@ const router = createRouter({
   routes,
 })
 
+router.beforeEach((to, form, next) => {
+  const authPages = ['/login', '/register'];
+
+  const user = true;
+
+  if (user && authPages.includes(to.path)) {
+    next('/')
+  }
+
+  next()
+
+})
+
 export { router }
