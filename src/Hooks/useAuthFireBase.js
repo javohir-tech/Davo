@@ -7,19 +7,21 @@ import { auth, db } from "@/FireBase/config"
 import { doc, setDoc } from "firebase/firestore";
 //Antd
 import { message } from "ant-design-vue";
-
+//Users Store
+import { useUsersStore } from "@/Store/useUserStore";
 
 export function useAuthFireBase() {
     const loading = ref(false);
-    const accessToken = ref(null);
+
+    const store = useUsersStore();
     const router = useRouter()
 
     async function registerUser(email, password, username) {
         loading.value = true
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
             const user = userCredential.user
+            store.addUser(username, user.accessToken)
 
             await updateProfile(user, {
                 displayName: username
