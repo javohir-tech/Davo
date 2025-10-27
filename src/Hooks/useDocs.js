@@ -1,7 +1,7 @@
 //Vue
 import { ref } from 'vue'
 //Firebaasse
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import { db } from '@/FireBase/config'
 //Antd
 import { message } from 'ant-design-vue'
@@ -27,9 +27,30 @@ export default function useDocs(collectionName) {
     }
   }
 
+  async function getDocumentById(collectionName, docId) {
+    loading.value = true;
+    try {
+      const docRef = doc(db, collectionName, docId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        console.log(docSnap.data())
+        return docSnap.data()
+      } else {
+        console.log('No such document');
+        return null;
+      }
+    } catch (error) {
+      console.log(error)
+    }finally{
+      loading.value = false
+    }
+  }
+
   return {
     data,
     loading,
     getData,
+    getDocumentById
   }
 }

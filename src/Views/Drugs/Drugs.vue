@@ -95,10 +95,18 @@
               <Button type="default" size="small" class="view-btn" @click=" router.push(`/drugs/${medicine.id}`)">
                 <EyeOutlined />
               </Button>
-              <Button type="primary" size="small" class="cart-btn" @click="addToCart(medicine)">
+              <Button v-if="!drugsStore.isSelected(medicine.id)" type="primary" size="small" class="cart-btn"
+                @click="addToCart(medicine)">
                 <ShoppingCartOutlined />
                 Savat
               </Button>
+              <div v-else class="quatity-control">
+                <Button @click="drugsStore.decrementQuantity(medicine.id)" type="primary" class="cart-btn"
+                  :icon="h(MinusOutlined)" />
+                <span class="select-count">{{ drugsStore.getQuantity(medicine.id) }}</span>
+                <Button @click="drugsStore.incrementQuantity(medicine.id)" type="primary" class="cart-btn"
+                  :icon="h(PlusOutlined)" />
+              </div>
             </div>
           </div>
           </Col>
@@ -122,7 +130,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, h } from 'vue'
 //Antd Components
 import { Input, Button, Typography, Row, Col, message } from 'ant-design-vue'
 //Antd Icons
@@ -130,16 +138,18 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
   EyeOutlined,
+  PlusOutlined,
+  MinusOutlined
 } from '@ant-design/icons-vue'
 //Hooks
 import useDocs from '@/Hooks/useDocs'
 //Store
 import { useDrugsStore } from '@/Store/useDrugsStore'
-//data
+//
 import drugs from '@/Data/drugs.json'
-import { db } from '@/FireBase/config'
-import { addDoc, collection } from 'firebase/firestore'
 import { router } from '@/Routers/Router'
+import { addDoc, collection, updateDoc } from 'firebase/firestore'
+import { db } from '@/FireBase/config'
 const drugsStore = useDrugsStore()
 const { data, loading, getData } = useDocs('medicines')
 
@@ -181,17 +191,9 @@ const truncateText = (text, maxLength) => {
   return text
 }
 
-// Dori sahifasiga o'tish
-const viewMedicine = (medicineId) => {
-  console.log(`Dori sahifasiga o'tish: /medicines/${medicineId}`)
-  alert(
-    `Dori #${medicineId} sahifasiga o'tiladi (router keyinchalik qo'shiladi)`
-  )
-}
-
 // Savatga qo'shish
 const addToCart = (medicine) => {
-  drugsStore.addDrug(medicine)
+  drugsStore.addDrug({ ...medicine, quantity: 1 })
   message.success(`${medicine.name} savatga qo'shildi!`)
 }
 
@@ -201,8 +203,26 @@ const handlePageChange = (page) => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+async function uploadMedicines() {
+  try {
+    const medicinesRef = collection(db, 'medicines');
+
+    for (const medicine of drugs) {
+      const docRef = await addDoc(medicinesRef, medicine);
+      await updateDoc(docRef, { id: docRef.id })
+      console.log(`${medicine.name} yuklandi ${docRef.id}`);
+    }
+
+    console.log('Barcha dorilar muvaffaqiyatli yuklandi!');
+  } catch (error) {
+    console.error('Xatolik:', error);
+  }
+}
+
+
 onMounted(() => {
   getData()
+  // uploadMedicines()
 })
 
 watch(searchQuery, () => {
@@ -516,6 +536,18 @@ watch(searchQuery, () => {
 .cart-btn:hover {
   background: linear-gradient(135deg, #73d13d 0%, #95de64 100%);
   box-shadow: 0 2px 8px rgba(82, 196, 26, 0.3);
+}
+
+.quatity-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.select-count {
+  font-size: 16px;
+  font-weight: 700;
+  color: #73d13d;
 }
 
 /* No results */

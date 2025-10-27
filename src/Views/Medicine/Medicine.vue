@@ -7,8 +7,12 @@
       </a-typography-title>
     </div>
 
+
     <!-- Asosiy Kontent -->
-    <div class="main-content">
+    <div v-if="loading">
+      <a-spin />
+    </div>
+    <div v-else-if="!loading && medicine.length >= 0" class="main-content">
       <!-- Chap tomon - Asosiy ma'lumotlar -->
       <a-card class="medicine-card">
         <template #title>
@@ -19,7 +23,7 @@
             </a-tag>
           </div>
         </template>
-        
+
         <a-space direction="vertical" size="large" style="width: 100%;">
           <div>
             <a-tag color="blue">{{ medicine.category }}</a-tag>
@@ -36,31 +40,17 @@
           </div>
 
           <div v-if="!isInCart">
-            <a-button 
-              type="primary" 
-              size="large" 
-              block
-              @click="addToCart"
-            >
+            <a-button type="primary" size="large" block @click="addToCart">
               <shopping-cart-outlined /> Savatga qo'shish
             </a-button>
           </div>
-          
+
           <div v-else style="display: flex; align-items: center; gap: 12px;">
-            <a-button 
-              size="large"
-              @click="decreaseQuantity(medicine.id)"
-              :icon="h(MinusOutlined)"
-            />
+            <a-button size="large" @click="decreaseQuantity(medicine.id)" :icon="h(MinusOutlined)" />
             <a-typography-text strong style="font-size: 18px; min-width: 40px; text-align: center;">
               {{ getCartItemQuantity(medicine.id) }}
             </a-typography-text>
-            <a-button 
-              size="large"
-              type="primary"
-              @click="increaseQuantity(medicine.id)"
-              :icon="h(PlusOutlined)"
-            />
+            <a-button size="large" type="primary" @click="increaseQuantity(medicine.id)" :icon="h(PlusOutlined)" />
           </div>
 
           <div>
@@ -149,11 +139,7 @@
         </a-card>
 
         <!-- Ogohlantirish -->
-        <a-alert
-          :message="medicine.warningMessage"
-          type="warning"
-          show-icon
-        >
+        <a-alert :message="medicine.warningMessage" type="warning" show-icon>
           <template #icon>
             <warning-outlined />
           </template>
@@ -164,7 +150,7 @@
 </template>
 
 <script setup>
-import { ref, computed, h } from 'vue';
+import { ref, computed, h, onMounted } from 'vue';
 import { message } from 'ant-design-vue';
 import {
   ShoppingCartOutlined,
@@ -179,56 +165,23 @@ import {
   FileProtectOutlined
 } from '@ant-design/icons-vue';
 
+// Hooks
+import useDocs from '@/Hooks/useDocs';
+//Route
+import { useRoute } from 'vue-router';
+
+const route = useRoute()
+
+const { loading, getDocumentById } = useDocs()
+
 const cart = ref([]);
 
-const medicine = ref({
-  id: 1,
-  name: "Metformin",
-  manufacturer: "DiabetCare",
-  stock: 110,
-  price: 20000,
-  category: "Qandli diabet",
-  description: "Metformin - 2-toifa qandli diabet davolashda qo'llaniladigan eng samarali va xavfsiz dori hisoblanadi. U qon tarkibidagi qand miqdorini pasaytiradi va insulin ta'siriga nisbatan organizmning sezgirligini oshiradi.",
-  activeIngredient: "Metformin gidrokhlorid",
-  dosage: "500mg, 850mg, 1000mg",
-  usageInstructions: "Ovqat bilan birga kuniga 2-3 marta qabul qilinadi. Boshlang'ich doza - 500mg kuniga 2 marta. Maksimal doza - 2000-2500mg/kun.",
-  indications: [
-    "2-toifa qandli diabet",
-    "Polikistoz tuxumdon sindromi",
-    "Insulinga qarshilik",
-    "Prediabet holati"
-  ],
-  contraindications: [
-    "Buyrak etishmovchiligi",
-    "Jigar kasalliklari",
-    "Yurak etishmovchiligi",
-    "Homiladorlik va emizish davri"
-  ],
-  sideEffects: [
-    "Oshqozon-ichak tizimi buzilishi",
-    "Ko'ngil aynishi",
-    "Diaareya",
-    "Metallik ta'm"
-  ],
-  storageConditions: "25°C dan past haroratda, quruq joyda saqlash kerak",
-  expiryDate: "3 yil",
-  prescriptionRequired: true,
-  country: "Hindiston",
-  certifications: ["GMP", "WHO-PQ", "ISO 9001"],
-  warningMessage: "Alkogol bilan birgalikda qabul qilish man etiladi. Laktik atsidoz xavfi mavjud."
-});
+const medicine = ref([])
 
 const isInCart = computed(() => {
   return cart.value.some(item => item.id === medicine.value.id);
 });
 
-const totalQuantity = computed(() => {
-  return cart.value.reduce((sum, item) => sum + item.quantity, 0);
-});
-
-const totalPrice = computed(() => {
-  return cart.value.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-});
 
 const getCartItemQuantity = (id) => {
   const item = cart.value.find(item => item.id === id);
@@ -236,7 +189,7 @@ const getCartItemQuantity = (id) => {
 };
 
 const formatPrice = (price) => {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return price
 };
 
 const addToCart = () => {
@@ -266,6 +219,10 @@ const decreaseQuantity = (id) => {
     }
   }
 };
+
+onMounted(() => {
+  getDocumentById('medicines', route.params.id)
+})
 </script>
 
 <style scoped>
