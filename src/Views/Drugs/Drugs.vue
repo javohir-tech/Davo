@@ -86,10 +86,10 @@
                 <Button type="default" size="small" class="view-btn" @click=" router.push(`/drugs/${medicine.id}`)">
                   <EyeOutlined />
                 </Button>
-                <Button v-if="!drugsStore.isSelected(medicine.id)" type="primary" size="small" class="cart-btn"
+                <Button v-if="!drugsStore.isSelected(medicine.id)" :disabled="drugsStore.loadingItems[medicine.id]" type="primary" size="small" class="cart-btn"
                   @click="drugsStore.addDrug(medicine)">
                   <ShoppingCartOutlined />
-                  Savat
+                 {{ drugsStore.loadingItems[medicine.id] ? 'Loading...' : 'Savat' }}
                 </Button>
                 <div v-else class="quatity-control">
                   <Button @click="drugsStore.decrementQuantity(medicine.id)" type="primary" class="cart-btn"
@@ -190,7 +190,7 @@ const handlePageChange = (page) => {
 
 onMounted(() => {
   getData()
-  // uploadMedicines()
+  drugsStore.fetchSelectedDrugs()
 })
 
 watch(searchQuery, () => {

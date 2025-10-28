@@ -121,7 +121,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import {
   ShoppingCartOutlined,
   MedicineBoxOutlined,
@@ -134,7 +134,7 @@ import {
   EyeOutlined
 } from '@ant-design/icons-vue';
 
-//drugs store
+//Drugs store
 import { useDrugsStore } from '@/Store/useDrugsStore';
 
 const drugStore = useDrugsStore();
@@ -150,6 +150,10 @@ const hasRxItems = computed(() => {
 const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
+
+onMounted(() => {
+  drugStore.fetchSelectedDrugs();
+});
 
 </script>
 

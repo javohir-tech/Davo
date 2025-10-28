@@ -192,6 +192,7 @@ const formatPrice = (price) => {
 
 onMounted(() => {
   getDocumentById(route.params.id);
+  drugStore.fetchSelectedDrugs();
 })
 </script>
 
