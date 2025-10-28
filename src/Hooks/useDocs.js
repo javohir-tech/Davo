@@ -7,7 +7,8 @@ import { db } from '@/FireBase/config'
 import { message } from 'ant-design-vue'
 
 export default function useDocs(collectionName) {
-  const data = ref([])
+  const data = ref([]);
+  const dataById = ref(null)
   const loading = ref(false)
 
   async function getData() {
@@ -27,15 +28,16 @@ export default function useDocs(collectionName) {
     }
   }
 
-  async function getDocumentById(collectionName, docId) {
+  async function getDocumentById(docId) {
     loading.value = true;
     try {
       const docRef = doc(db, collectionName, docId);
       const docSnap = await getDoc(docRef);
-
       if (docSnap.exists()) {
-        data.value = docSnap.data();
-        console.log(data.value)
+        dataById.value = {
+          id: docSnap.id,
+          ...docSnap.data()
+        }
       } else {
         console.log('No such document');
         return null;
@@ -49,6 +51,7 @@ export default function useDocs(collectionName) {
 
   return {
     data,
+    dataById,
     loading,
     getData,
     getDocumentById

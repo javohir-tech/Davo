@@ -9,10 +9,10 @@
 
 
     <!-- Asosiy Kontent -->
-    <div v-if="loading" class='medicine-loading'>
+    <div v-if="loading && !dataById" class='medicine-loading'>
       <a-spin size="large" />
     </div>
-    <div v-else-if="!loading && false" style="text-align: center;">
+    <div v-else-if="!loading && !dataById" style="text-align: center; margin-top: 100px;">
       <a-empty />
       <a-button type="primary">
         <RouterLink to="/drugs">
@@ -20,14 +20,14 @@
         </RouterLink>
       </a-button>
     </div>
-    <div v-else-if="!loading && data">
+    <div v-else-if="!loading && dataById">
       <div class="main-content">
         <!-- Chap tomon - Asosiy ma'lumotlar -->
         <a-card class="medicine-card">
           <template #title>
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-              <span>{{ data.name }}</span>
-              <a-tag v-if="data.prescriptionRequired" color="red">
+              <span>{{ dataById.name }}</span>
+              <a-tag v-if="dataById.prescriptionRequired" color="red">
                 <file-protect-outlined /> Retsept kerak
               </a-tag>
             </div>
@@ -35,67 +35,67 @@
 
           <a-space direction="vertical" size="large" style="width: 100%;">
             <div>
-              <a-tag color="blue">{{ data.category }}</a-tag>
-              <a-tag color="green">Mavjud: {{ data.stock }} dona</a-tag>
+              <a-tag color="blue">{{ dataById.category }}</a-tag>
+              <a-tag color="green">Mavjud: {{ dataById.stock }} dona</a-tag>
             </div>
 
             <div>
               <a-typography-title :level="3" style="color: #52c41a; margin: 0;">
-                {{ formatPrice(data.price) }} so'm
+                {{ formatPrice(dataById.price) }} so'm
               </a-typography-title>
-              <a-typography-text v-if="drugStore.isSelected(data.id)" type="secondary"
+              <a-typography-text v-if="drugStore.isSelected(dataById.id)" type="secondary"
                 style="display: block; margin-top: 4px;">
-                Jami: {{ formatPrice(data.price * drugStore.getQuantity(data.id)) }} so'm
+                Jami: {{ formatPrice(dataById.price * drugStore.getQuantity(dataById.id)) }} so'm
               </a-typography-text>
             </div>
 
-            <div v-if="!drugStore.isSelected(data.id)">
+            <div v-if="!drugStore.isSelected(dataById.id)">
               <a-button type="primary" size="large" block @click="addToCart">
                 <shopping-cart-outlined /> Savatga qo'shish
               </a-button>
             </div>
 
             <div v-else style="display: flex; align-items: center; gap: 12px;">
-              <a-button size="large" @click="drugStore.decrementQuantity(data.id)" :icon="h(MinusOutlined)" />
+              <a-button size="large" @click="drugStore.decrementQuantity(dataById.id)" :icon="h(MinusOutlined)" />
               <a-typography-text strong style="font-size: 18px; min-width: 40px; text-align: center;">
-                {{ drugStore.getQuantity(data.id) }}
+                {{ drugStore.getQuantity(dataById.id) }}
               </a-typography-text>
-              <a-button size="large" type="primary" @click="drugStore.incrementQuantity(data.id)"
+              <a-button size="large" type="primary" @click="drugStore.incrementQuantity(dataById.id)"
                 :icon="h(PlusOutlined)" />
             </div>
 
             <div>
               <a-typography-text type="secondary">Ishlab chiqaruvchi:</a-typography-text>
               <br>
-              <a-typography-text strong>{{ data.manufacturer }}</a-typography-text>
-              <a-tag style="margin-left: 8px;">{{ data.country }}</a-tag>
+              <a-typography-text strong>{{ dataById.manufacturer }}</a-typography-text>
+              <a-tag style="margin-left: 8px;">{{ dataById.country }}</a-tag>
             </div>
 
             <div>
-              <a-typography-paragraph>{{ data.description }}</a-typography-paragraph>
+              <a-typography-paragraph>{{ dataById.description }}</a-typography-paragraph>
             </div>
 
             <a-divider />
 
             <a-descriptions :column="{ xs: 1, sm: 1, md: 1 }" bordered size="small">
               <a-descriptions-item label="Faol modda">
-                {{ data.activeIngredient }}
+                {{ dataById.activeIngredient }}
               </a-descriptions-item>
               <a-descriptions-item label="Dozalash">
-                {{ data.dosage }}
+                {{ dataById.dosage }}
               </a-descriptions-item>
               <a-descriptions-item label="Saqlash sharoiti">
-                {{ data.storageConditions }}
+                {{ dataById.storageConditions }}
               </a-descriptions-item>
               <a-descriptions-item label="Yaroqlilik muddati">
-                {{ data.expiryDate }}
+                {{ dataById.expiryDate }}
               </a-descriptions-item>
             </a-descriptions>
             <div>
               <a-typography-text strong>Sertifikatlar:</a-typography-text>
               <br>
               <a-space wrap style="margin-top: 8px;">
-                <a-tag v-for="cert in data.certifications" :key="cert" color="blue">
+                <a-tag v-for="cert in dataById.certifications" :key="cert" color="blue">
                   <safety-certificate-outlined /> {{ cert }}
                 </a-tag>
               </a-space>
@@ -107,7 +107,7 @@
           <!-- Qo'llanish ko'rsatmalari -->
           <a-card title="💊 Qo'llanish ko'rsatmalari" size="small">
             <a-typography-paragraph>
-              {{ data.usageInstructions }}
+              {{ dataById.usageInstructions }}
             </a-typography-paragraph>
           </a-card>
 
@@ -117,7 +117,7 @@
               <check-circle-outlined style="color: #52c41a;" /> Indikatsiyalar
             </template>
             <a-space direction="vertical" size="small">
-              <div v-for="(item, index) in data.indications" :key="index">
+              <div v-for="(item, index) in dataById.indications" :key="index">
                 <check-circle-outlined style="color: #52c41a;" /> {{ item }}
               </div>
             </a-space>
@@ -129,7 +129,7 @@
               <close-circle-outlined style="color: #ff4d4f;" /> Kontrendikatsiyalar
             </template>
             <a-space direction="vertical" size="small">
-              <div v-for="(item, index) in data.contraindications" :key="index">
+              <div v-for="(item, index) in dataById.contraindications" :key="index">
                 <close-circle-outlined style="color: #ff4d4f;" /> {{ item }}
               </div>
             </a-space>
@@ -141,14 +141,14 @@
               <info-circle-outlined style="color: #faad14;" /> Nojo'ya ta'sirlar
             </template>
             <a-space direction="vertical" size="small">
-              <div v-for="(item, index) in data.sideEffects" :key="index">
+              <div v-for="(item, index) in dataById.sideEffects" :key="index">
                 <info-circle-outlined style="color: #faad14;" /> {{ item }}
               </div>
             </a-space>
           </a-card>
 
           <!-- Ogohlantirish -->
-          <a-alert :message="data.WarningMessage" type="warning" show-icon>
+          <a-alert :message="dataById.WarningMessage" type="warning" show-icon>
             <template #icon>
               <warning-outlined />
             </template>
@@ -178,15 +178,12 @@ import {
 
 // Hooks
 import useDocs from '@/Hooks/useDocs';
+const { dataById, loading, getDocumentById } = useDocs('medicines')
 //Route
 import { useRoute } from 'vue-router';
+const route = useRoute()
 //Store
 import { useDrugsStore } from '@/Store/useDrugsStore';
-
-const route = useRoute()
-
-const { loading, data, getDocumentById } = useDocs()
-
 const drugStore = useDrugsStore();
 
 const formatPrice = (price) => {
@@ -194,14 +191,14 @@ const formatPrice = (price) => {
 };
 
 const addToCart = () => {
-  if (data.value) {
-    drugStore.addDrug(data.value);
-    message.success(`${data.value.name} savatga qo'shildi`)
+  if (dataById.value) {
+    drugStore.addDrug(dataById.value);
+    message.success(`${dataById.value.name} savatga qo'shildi`)
   }
 };
 
 onMounted(() => {
-  getDocumentById('medicines', route.params.id);
+  getDocumentById(route.params.id);
 })
 </script>
 

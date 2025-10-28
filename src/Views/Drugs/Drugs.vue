@@ -9,121 +9,111 @@
       <p class="subtitle">Barcha dorilar ro'yxati va ma'lumotlari</p>
     </div>
 
-    <!-- Qidiruv bo'limi -->
-    <div class="search-section">
-      <Input v-model:value="searchQuery" placeholder="Dori nomini kiriting..." size="large" class="search-input"
-        allowClear>
-      <template #prefix>
-        <SearchOutlined class="search-icon" />
-      </template>
-      </Input>
-      <div v-if="searchQuery" class="search-results-info">
-        {{ filteredMedicines.length }} ta natija topildi
-      </div>
-    </div>
-
-    <!-- Loading state -->
-    <div v-if="loading" class="loading-container">
-      <a-spin size="large" tip="Yuklanmoqda..." />
-    </div>
-
-    <!-- Dorilar kartochkalari -->
-    <div v-else class="cards-wrapper">
-      <!-- Natijalar soni -->
-      <div class="results-header">
-        <div class="results-count">
-          <span class="count-badge">{{ filteredMedicines.length }}</span>
-          <span class="count-text">ta dori mavjud</span>
+    <div>
+      <!-- Qidiruv bo'limi -->
+      <div class="search-section">
+        <Input v-model:value="searchQuery" placeholder="Dori nomini kiriting..." size="large" class="search-input"
+          allowClear>
+        <template #prefix>
+          <SearchOutlined class="search-icon" />
+        </template>
+        </Input>
+        <div v-if="searchQuery" class="search-results-info">
+          {{ filteredMedicines.length }} ta natija topildi
         </div>
       </div>
 
-      <!-- Cards Grid using Ant Design Grid -->
-      <Row v-if="paginatedMedicines.length > 0" :gutter="[16, 16]">
-        <Col v-for="medicine in paginatedMedicines" :key="medicine.id" :xs="12" :sm="12" :md="8" :lg="6" :xl="6">
-        <div class="medicine-card">
-          <!-- Card header -->
-          <div class="card-header">
-            <div class="medicine-icon">💊</div>
-            <div :class="[
-              'stock-indicator',
-              medicine.stock < 100 ? 'low-stock' : 'in-stock',
-            ]">
-              <span class="stock-dot"></span>
-              {{ medicine.stock < 100 ? 'Kam' : 'Mavjud' }} </div>
-            </div>
-
-            <!-- Card body -->
-            <div class="card-body">
-              <h3 class="medicine-name" :title="medicine.name">
-                {{ truncateName(medicine.name, 35) }}
-              </h3>
-
-              <div class="medicine-details">
-                <div class="detail-row">
-                  <span class="detail-label">Ishlab chiqaruvchi:</span>
-                  <span class="detail-value" :title="medicine.manufacturer">
-                    {{ truncateText(medicine.manufacturer, 15) }}
-                  </span>
-                </div>
-
-                <div class="detail-row">
-                  <span class="detail-label">Kategoriya:</span>
-                  <span class="detail-value" :title="medicine.category">
-                    {{ truncateText(medicine.category, 15) }}
-                  </span>
-                </div>
-
-                <div class="detail-row">
-                  <span class="detail-label">Omborda:</span>
-                  <span :class="['stock-value', medicine.stock < 100 ? 'low' : '']">
-                    {{ medicine.stock }} ta
-                  </span>
-                </div>
-              </div>
-
-              <!-- Price section -->
-              <div class="price-section">
-                <div class="price-value">
-                  {{ medicine.price.toLocaleString() }}
-                  <span class="currency">so'm</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card footer -->
-            <div class="card-footer">
-              <Button type="default" size="small" class="view-btn" @click=" router.push(`/drugs/${medicine.id}`)">
-                <EyeOutlined />
-              </Button>
-              <Button v-if="!drugsStore.isSelected(medicine.id)" type="primary" size="small" class="cart-btn"
-                @click="addToCart(medicine)">
-                <ShoppingCartOutlined />
-                Savat
-              </Button>
-              <div v-else class="quatity-control">
-                <Button @click="drugsStore.decrementQuantity(medicine.id)" type="primary" class="cart-btn"
-                  :icon="h(MinusOutlined)" />
-                <span class="select-count">{{ drugsStore.getQuantity(medicine.id) }}</span>
-                <Button @click="drugsStore.incrementQuantity(medicine.id)" type="primary" class="cart-btn"
-                  :icon="h(PlusOutlined)" />
-              </div>
-            </div>
-          </div>
-          </Col>
-      </Row>
-
-      <!-- Agar natija topilmasa -->
-      <div v-else class="no-results">
-        <div class="no-results-icon">🔍</div>
-        <h3 class="no-results-title">Dori topilmadi</h3>
-        <p class="no-results-text">Boshqa nom bilan qidirib ko'ring</p>
+      <!-- Loading state -->
+      <div v-if="loading && data.length === 0" class="loading-container">
+        <a-spin size="large" tip="Yuklanmoqda..." />
       </div>
 
-      <!-- Pagination -->
-      <div v-if="filteredMedicines.length > pageSize" class="pagination-wrapper">
-        <a-pagination v-model:current="currentPage" :total="filteredMedicines.length" :page-size="pageSize"
-          :show-size-changer="false" @change="handlePageChange" :show-total="(total, range) => `${range[0]}-${range[1]} / ${total} ta dori`
-            " />
+      <div v-else class="cards-wrapper">
+        <Row v-if="paginatedMedicines.length > 0" :gutter="[16, 16]">
+          <Col v-for="medicine in paginatedMedicines" :key="medicine.id" :xs="12" :sm="12" :md="8" :lg="6" :xl="6">
+          <div class="medicine-card">
+            <!-- Card header -->
+            <div class="card-header">
+              <div class="medicine-icon">💊</div>
+              <div :class="[
+                'stock-indicator',
+                medicine.stock < 100 ? 'low-stock' : 'in-stock',
+              ]">
+                <span class="stock-dot"></span>
+                {{ medicine.stock < 100 ? 'Kam' : 'Mavjud' }} </div>
+              </div>
+
+              <!-- Card body -->
+              <div class="card-body">
+                <h3 class="medicine-name" :title="medicine.name">
+                  {{ truncateName(medicine.name, 35) }}
+                </h3>
+
+                <div class="medicine-details">
+                  <div class="detail-row">
+                    <span class="detail-label">Ishlab chiqaruvchi:</span>
+                    <span class="detail-value" :title="medicine.manufacturer">
+                      {{ truncateText(medicine.manufacturer, 15) }}
+                    </span>
+                  </div>
+
+                  <div class="detail-row">
+                    <span class="detail-label">Kategoriya:</span>
+                    <span class="detail-value" :title="medicine.category">
+                      {{ truncateText(medicine.category, 15) }}
+                    </span>
+                  </div>
+
+                  <div class="detail-row">
+                    <span class="detail-label">Omborda:</span>
+                    <span :class="['stock-value', medicine.stock < 100 ? 'low' : '']">
+                      {{ medicine.stock }} ta
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Price section -->
+                <div class="price-section">
+                  <div class="price-value">
+                    {{ medicine.price.toLocaleString() }}
+                    <span class="currency">so'm</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card footer -->
+              <div class="card-footer">
+                <Button type="default" size="small" class="view-btn" @click=" router.push(`/drugs/${medicine.id}`)">
+                  <EyeOutlined />
+                </Button>
+                <Button v-if="!drugsStore.isSelected(medicine.id)" type="primary" size="small" class="cart-btn"
+                  @click="addToCart(medicine)">
+                  <ShoppingCartOutlined />
+                  Savat
+                </Button>
+                <div v-else class="quatity-control">
+                  <Button @click="drugsStore.decrementQuantity(medicine.id)" type="primary" class="cart-btn"
+                    :icon="h(MinusOutlined)" />
+                  <span class="select-count">{{ drugsStore.getQuantity(medicine.id) }}</span>
+                  <Button @click="drugsStore.incrementQuantity(medicine.id)" type="primary" class="cart-btn"
+                    :icon="h(PlusOutlined)" />
+                </div>
+              </div>
+            </div>
+            </Col>
+        </Row>
+
+        <!-- Agar natija topilmasa -->
+        <div v-else class="no-results">
+          <a-empty size="large" :description="data.length ===0 ? '' : 'Dori topilmadi'" />
+        </div>
+
+        <!-- Pagination -->
+        <div v-if="filteredMedicines.length > pageSize" class="pagination-wrapper">
+          <a-pagination v-model:current="currentPage" :total="filteredMedicines.length" :page-size="pageSize"
+            :show-size-changer="false" @change="handlePageChange" :show-total="(total, range) => `${range[0]}-${range[1]} / ${total} ta dori`
+              " />
+        </div>
       </div>
     </div>
   </div>
@@ -289,33 +279,6 @@ watch(searchQuery, () => {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-/* Results header */
-.results-header {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 2px solid #f0f0f0;
-}
-
-.results-count {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.count-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.count-text {
-  color: #8c8c8c;
-  font-size: 14px;
 }
 
 /* Medicine Card */
@@ -538,23 +501,6 @@ watch(searchQuery, () => {
 .no-results {
   text-align: center;
   padding: 60px 20px;
-}
-
-.no-results-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  opacity: 0.5;
-}
-
-.no-results-title {
-  color: #595959;
-  font-size: 18px;
-  margin-bottom: 8px;
-}
-
-.no-results-text {
-  color: #8c8c8c;
-  font-size: 14px;
 }
 
 /* Pagination */
