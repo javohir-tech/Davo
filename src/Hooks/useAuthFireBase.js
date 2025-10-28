@@ -86,7 +86,6 @@ export function useAuthFireBase() {
 
             router.push('/')
             message.success('Google orqali kirish muvaffaqiyatli!');
-            console.log(user)
         } catch (error) {
             console.log(error)
             message.error(error.message)
@@ -97,8 +96,7 @@ export function useAuthFireBase() {
         store.clearStore()
         localStorage.clear()
         sessionStorage.clear()
-        router.push('/')
-        message.success('Tizimdan chiqdingiz')
+        window.location.reload()
     }
 
     return {

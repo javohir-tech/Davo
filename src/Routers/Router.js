@@ -17,6 +17,9 @@ import {
 //Auth
 import { Login, Register } from '@/Auth'
 
+//User Store
+import { useUsersStore } from '@/Store/useUserStore'
+
 const routes = [
   {
     path: '/',
@@ -31,8 +34,8 @@ const routes = [
         component: Drugs,
       },
       {
-        path : 'drugs/:id',
-        component : Medicine
+        path: 'drugs/:id',
+        component: Medicine
       },
       {
         path: 'doctors',
@@ -52,11 +55,11 @@ const routes = [
       },
       {
         path: 'profile',
-        component : Profile
+        component: Profile
       },
       {
-        path : 'shop',
-        component : Shop
+        path: 'shop',
+        component: Shop
       },
       {
         path: 'intervyu',
@@ -81,14 +84,19 @@ const router = createRouter({
 
 router.beforeEach((to, form, next) => {
   const authPages = ['/login', '/register'];
-
-  const user = false;
+  const userPages = ['/profile', '/shop']
+  const userStore = useUsersStore()
+  const user = userStore.isActive;
 
   if (user && authPages.includes(to.path)) {
     next('/')
   }
 
-  next()
+  if (!user && userPages.includes(to.path)){
+      next('/')
+  }
+
+    next()
 
 })
 
