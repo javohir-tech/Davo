@@ -12,139 +12,145 @@
     <div v-if="loading">
       <a-spin />
     </div>
-    <div v-else-if="!loading && medicine.length >= 0" class="main-content">
-      <!-- Chap tomon - Asosiy ma'lumotlar -->
-      <a-card class="medicine-card">
-        <template #title>
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-            <span>{{ medicine.name }}</span>
-            <a-tag v-if="medicine.prescriptionRequired" color="red">
-              <file-protect-outlined /> Retsept kerak
-            </a-tag>
-          </div>
-        </template>
-
-        <a-space direction="vertical" size="large" style="width: 100%;">
-          <div>
-            <a-tag color="blue">{{ medicine.category }}</a-tag>
-            <a-tag color="green">Mavjud: {{ medicine.stock }} dona</a-tag>
-          </div>
-
-          <div>
-            <a-typography-title :level="3" style="color: #52c41a; margin: 0;">
-              {{ formatPrice(medicine.price) }} so'm
-            </a-typography-title>
-            <a-typography-text v-if="isInCart" type="secondary" style="display: block; margin-top: 4px;">
-              Jami: {{ formatPrice(medicine.price * getCartItemQuantity(medicine.id)) }} so'm
-            </a-typography-text>
-          </div>
-
-          <div v-if="!isInCart">
-            <a-button type="primary" size="large" block @click="addToCart">
-              <shopping-cart-outlined /> Savatga qo'shish
-            </a-button>
-          </div>
-
-          <div v-else style="display: flex; align-items: center; gap: 12px;">
-            <a-button size="large" @click="decreaseQuantity(medicine.id)" :icon="h(MinusOutlined)" />
-            <a-typography-text strong style="font-size: 18px; min-width: 40px; text-align: center;">
-              {{ getCartItemQuantity(medicine.id) }}
-            </a-typography-text>
-            <a-button size="large" type="primary" @click="increaseQuantity(medicine.id)" :icon="h(PlusOutlined)" />
-          </div>
-
-          <div>
-            <a-typography-text type="secondary">Ishlab chiqaruvchi:</a-typography-text>
-            <br>
-            <a-typography-text strong>{{ medicine.manufacturer }}</a-typography-text>
-            <a-tag style="margin-left: 8px;">{{ medicine.country }}</a-tag>
-          </div>
-
-          <div>
-            <a-typography-paragraph>{{ medicine.description }}</a-typography-paragraph>
-          </div>
-
-          <a-divider />
-
-          <a-descriptions :column="{ xs: 1, sm: 1, md: 1 }" bordered size="small">
-            <a-descriptions-item label="Faol modda">
-              {{ medicine.activeIngredient }}
-            </a-descriptions-item>
-            <a-descriptions-item label="Dozalash">
-              {{ medicine.dosage }}
-            </a-descriptions-item>
-            <a-descriptions-item label="Saqlash sharoiti">
-              {{ medicine.storageConditions }}
-            </a-descriptions-item>
-            <a-descriptions-item label="Yaroqlilik muddati">
-              {{ medicine.expiryDate }}
-            </a-descriptions-item>
-          </a-descriptions>
-
-          <div>
-            <a-typography-text strong>Sertifikatlar:</a-typography-text>
-            <br>
-            <a-space wrap style="margin-top: 8px;">
-              <a-tag v-for="cert in medicine.certifications" :key="cert" color="blue">
-                <safety-certificate-outlined /> {{ cert }}
+    <div v-else-if="!loading && data">
+      <div class="main-content">
+        <!-- Chap tomon - Asosiy ma'lumotlar -->
+        <a-card class="medicine-card">
+          <template #title>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+              <span>{{ data.name }}</span>
+              <a-tag v-if="data.prescriptionRequired" color="red">
+                <file-protect-outlined /> Retsept kerak
               </a-tag>
+            </div>
+          </template>
+
+          <a-space direction="vertical" size="large" style="width: 100%;">
+            <div>
+              <a-tag color="blue">{{ data.category }}</a-tag>
+              <a-tag color="green">Mavjud: {{ data.stock }} dona</a-tag>
+            </div>
+
+            <div>
+              <a-typography-title :level="3" style="color: #52c41a; margin: 0;">
+                {{ formatPrice(data.price) }} so'm
+              </a-typography-title>
+              <a-typography-text v-if="drugStore.isSelected(data.id)" type="secondary"
+                style="display: block; margin-top: 4px;">
+                Jami: {{ formatPrice(data.price * drugStore.getQuantity(data.id)) }} so'm
+              </a-typography-text>
+            </div>
+
+            <div v-if="!drugStore.isSelected(data.id)">
+              <a-button type="primary" size="large" block @click="addToCart">
+                <shopping-cart-outlined /> Savatga qo'shish
+              </a-button>
+            </div>
+
+            <div v-else style="display: flex; align-items: center; gap: 12px;">
+              <a-button size="large" @click="drugStore.decrementQuantity(data.id)" :icon="h(MinusOutlined)" />
+              <a-typography-text strong style="font-size: 18px; min-width: 40px; text-align: center;">
+                {{ drugStore.getQuantity(data.id) }}
+              </a-typography-text>
+              <a-button size="large" type="primary" @click="drugStore.incrementQuantity(data.id)"
+                :icon="h(PlusOutlined)" />
+            </div>
+
+            <div>
+              <a-typography-text type="secondary">Ishlab chiqaruvchi:</a-typography-text>
+              <br>
+              <a-typography-text strong>{{ data.manufacturer }}</a-typography-text>
+              <a-tag style="margin-left: 8px;">{{ data.country }}</a-tag>
+            </div>
+
+            <div>
+              <a-typography-paragraph>{{ data.description }}</a-typography-paragraph>
+            </div>
+
+            <a-divider />
+
+            <a-descriptions :column="{ xs: 1, sm: 1, md: 1 }" bordered size="small">
+              <a-descriptions-item label="Faol modda">
+                {{ data.activeIngredient }}
+              </a-descriptions-item>
+              <a-descriptions-item label="Dozalash">
+                {{ data.dosage }}
+              </a-descriptions-item>
+              <a-descriptions-item label="Saqlash sharoiti">
+                {{ data.storageConditions }}
+              </a-descriptions-item>
+              <a-descriptions-item label="Yaroqlilik muddati">
+                {{ data.expiryDate }}
+              </a-descriptions-item>
+            </a-descriptions>
+
+            <div>
+              <a-typography-text strong>Sertifikatlar:</a-typography-text>
+              <br>
+              <a-space wrap style="margin-top: 8px;">
+                <a-tag v-for="cert in data.certifications" :key="cert" color="blue">
+                  <safety-certificate-outlined /> {{ cert }}
+                </a-tag>
+              </a-space>
+            </div>
+          </a-space>
+        </a-card>
+
+        <a-space direction="vertical" size="middle" style="width: 100%;">
+          <!-- Qo'llanish ko'rsatmalari -->
+          <a-card title="💊 Qo'llanish ko'rsatmalari" size="small">
+            <a-typography-paragraph>
+              {{ data.usageInstructions }}
+            </a-typography-paragraph>
+          </a-card>
+
+          <!-- Indikatsiyalar -->
+          <a-card size="small">
+            <template #title>
+              <check-circle-outlined style="color: #52c41a;" /> Indikatsiyalar
+            </template>
+            <a-space direction="vertical" size="small">
+              <div v-for="(item, index) in data.indications" :key="index">
+                <check-circle-outlined style="color: #52c41a;" /> {{ item }}
+              </div>
             </a-space>
-          </div>
+          </a-card>
+
+          <!-- Kontrendikatsiyalar -->
+          <a-card size="small">
+            <template #title>
+              <close-circle-outlined style="color: #ff4d4f;" /> Kontrendikatsiyalar
+            </template>
+            <a-space direction="vertical" size="small">
+              <div v-for="(item, index) in data.contraindications" :key="index">
+                <close-circle-outlined style="color: #ff4d4f;" /> {{ item }}
+              </div>
+            </a-space>
+          </a-card>
+
+          <!-- Nojo'ya ta'sirlar -->
+          <a-card size="small">
+            <template #title>
+              <info-circle-outlined style="color: #faad14;" /> Nojo'ya ta'sirlar
+            </template>
+            <a-space direction="vertical" size="small">
+              <div v-for="(item, index) in data.sideEffects" :key="index">
+                <info-circle-outlined style="color: #faad14;" /> {{ item }}
+              </div>
+            </a-space>
+          </a-card>
+
+          <!-- Ogohlantirish -->
+          <a-alert :message="data.WarningMessage" type="warning" show-icon>
+            <template #icon>
+              <warning-outlined />
+            </template>
+          </a-alert>
         </a-space>
-      </a-card>
-
-      <!-- O'ng tomon - Qo'shimcha ma'lumotlar -->
-      <a-space direction="vertical" size="middle" style="width: 100%;">
-        <!-- Qo'llanish ko'rsatmalari -->
-        <a-card title="💊 Qo'llanish ko'rsatmalari" size="small">
-          <a-typography-paragraph>
-            {{ medicine.usageInstructions }}
-          </a-typography-paragraph>
-        </a-card>
-
-        <!-- Indikatsiyalar -->
-        <a-card size="small">
-          <template #title>
-            <check-circle-outlined style="color: #52c41a;" /> Indikatsiyalar
-          </template>
-          <a-space direction="vertical" size="small">
-            <div v-for="(item, index) in medicine.indications" :key="index">
-              <check-circle-outlined style="color: #52c41a;" /> {{ item }}
-            </div>
-          </a-space>
-        </a-card>
-
-        <!-- Kontrendikatsiyalar -->
-        <a-card size="small">
-          <template #title>
-            <close-circle-outlined style="color: #ff4d4f;" /> Kontrendikatsiyalar
-          </template>
-          <a-space direction="vertical" size="small">
-            <div v-for="(item, index) in medicine.contraindications" :key="index">
-              <close-circle-outlined style="color: #ff4d4f;" /> {{ item }}
-            </div>
-          </a-space>
-        </a-card>
-
-        <!-- Nojo'ya ta'sirlar -->
-        <a-card size="small">
-          <template #title>
-            <info-circle-outlined style="color: #faad14;" /> Nojo'ya ta'sirlar
-          </template>
-          <a-space direction="vertical" size="small">
-            <div v-for="(item, index) in medicine.sideEffects" :key="index">
-              <info-circle-outlined style="color: #faad14;" /> {{ item }}
-            </div>
-          </a-space>
-        </a-card>
-
-        <!-- Ogohlantirish -->
-        <a-alert :message="medicine.warningMessage" type="warning" show-icon>
-          <template #icon>
-            <warning-outlined />
-          </template>
-        </a-alert>
-      </a-space>
+      </div>
+    </div>
+    <div v-else="!loading && !medicine">
+      <a-empty />
     </div>
   </div>
 </template>
@@ -169,54 +175,23 @@ import {
 import useDocs from '@/Hooks/useDocs';
 //Route
 import { useRoute } from 'vue-router';
+//Store
+import { useDrugsStore } from '@/Store/useDrugsStore';
 
 const route = useRoute()
 
-const { loading, getDocumentById } = useDocs()
+const { loading, data, getDocumentById } = useDocs()
 
-const cart = ref([]);
-
-const medicine = ref([])
-
-const isInCart = computed(() => {
-  return cart.value.some(item => item.id === medicine.value.id);
-});
-
-
-const getCartItemQuantity = (id) => {
-  const item = cart.value.find(item => item.id === id);
-  return item ? item.quantity : 0;
-};
+const drugStore = useDrugsStore();
 
 const formatPrice = (price) => {
   return price
 };
 
 const addToCart = () => {
-  const existing = cart.value.find(item => item.id === medicine.value.id);
-  if (existing) {
-    message.info('Dori allaqachon savatda mavjud');
-  } else {
-    cart.value.push({ ...medicine.value, quantity: 1 });
-    message.success('Dori savatga qo\'shildi!');
-  }
-};
-
-const increaseQuantity = (id) => {
-  const item = cart.value.find(item => item.id === id);
-  if (item) {
-    item.quantity++;
-  }
-};
-
-const decreaseQuantity = (id) => {
-  const item = cart.value.find(item => item.id === id);
-  if (item) {
-    item.quantity--;
-    if (item.quantity === 0) {
-      cart.value = cart.value.filter(cartItem => cartItem.id !== id);
-      message.info('Dori savatdan o\'chirildi');
-    }
+  if (data.value) {
+    drugStore.addDrug(data.value);
+    message.success(`${data.value.name} savatga qo'shildi`)
   }
 };
 

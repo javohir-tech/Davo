@@ -7,7 +7,7 @@ export const useDrugsStore = defineStore('drugs', {
     }),
     actions: {
         addDrug(drug) {
-            this.selectDrugs.push(drug);
+            this.selectDrugs.push({...drug, quantity :1});
         },
         removeDrug(drugId) {
             this.selectDrugs = this.selectDrugs.filter(drug => drug.id !== drugId);

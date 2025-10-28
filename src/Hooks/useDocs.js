@@ -34,15 +34,14 @@ export default function useDocs(collectionName) {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        console.log(docSnap.data())
-        return docSnap.data()
+        data.value = docSnap.data();
       } else {
         console.log('No such document');
         return null;
       }
     } catch (error) {
       console.log(error)
-    }finally{
+    } finally {
       loading.value = false
     }
   }

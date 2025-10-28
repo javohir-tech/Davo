@@ -145,12 +145,12 @@ import {
 import useDocs from '@/Hooks/useDocs'
 //Store
 import { useDrugsStore } from '@/Store/useDrugsStore'
-//
-import drugs from '@/Data/drugs.json'
-import { router } from '@/Routers/Router'
-import { addDoc, collection, updateDoc } from 'firebase/firestore'
-import { db } from '@/FireBase/config'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const drugsStore = useDrugsStore()
+
 const { data, loading, getData } = useDocs('medicines')
 
 const { Title } = Typography
@@ -193,7 +193,7 @@ const truncateText = (text, maxLength) => {
 
 // Savatga qo'shish
 const addToCart = (medicine) => {
-  drugsStore.addDrug({ ...medicine, quantity: 1 })
+  drugsStore.addDrug(medicine)
   message.success(`${medicine.name} savatga qo'shildi!`)
 }
 
@@ -201,22 +201,6 @@ const addToCart = (medicine) => {
 const handlePageChange = (page) => {
   currentPage.value = page
   window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-async function uploadMedicines() {
-  try {
-    const medicinesRef = collection(db, 'medicines');
-
-    for (const medicine of drugs) {
-      const docRef = await addDoc(medicinesRef, medicine);
-      await updateDoc(docRef, { id: docRef.id })
-      console.log(`${medicine.name} yuklandi ${docRef.id}`);
-    }
-
-    console.log('Barcha dorilar muvaffaqiyatli yuklandi!');
-  } catch (error) {
-    console.error('Xatolik:', error);
-  }
 }
 
 
