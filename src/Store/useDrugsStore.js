@@ -1,23 +1,33 @@
 import { message } from "ant-design-vue";
 import { defineStore } from "pinia";
-
 //userStore
 import { useUsersStore } from "./useUserStore";
+//Firebase
+import { db } from "@/FireBase/config";
+import { addDoc, collection, doc } from "firebase/firestore";
 
 export const useDrugsStore = defineStore('drugs', {
     state: () => ({
         selectedDrugs: [],
-        selectedCount: 0
+        selectedCount: 0,
+        loadingItems: {}
     }),
     actions: {
-        addDrug(drug) {
-            const userStore = useUsersStore();
-            if (userStore.isActive) {
-                message.success(`${drug.name} savatga qo'shildi`);
-                this.selectedDrugs.push({ ...drug, quantity: 1 });
-                this.selectedCount += 1;
-            } else {
-                message.info('Ro\'yhatdan o\'ting')
+        async addDrug(drug) {
+            this.loadingItems
+            try {
+                const userStore = useUsersStore();
+                if (userStore.isActive) {
+                    message.success(`${drug.name} savatga qo'shildi`);
+                    this.selectedDrugs.push({ ...drug, quantity: 1 });
+                    const medicineRef = collection(db, 'selectedMedicines');
+                    await addDoc(medicineRef, drug);
+                    this.selectedCount += 1;
+                } else {
+                    message.info('Ro\'yhatdan o\'ting')
+                }
+            } catch (error) {
+                console.log(error.code)
             }
         },
         removeDrug(drugId) {
@@ -51,7 +61,7 @@ export const useDrugsStore = defineStore('drugs', {
         },
         clearList() {
             this.selectedDrugs = [];
-            this.selectedCount =0
+            this.selectedCount = 0
         },
         isSelected(id) {
             if (this.getQuantity(id) === 0) {
