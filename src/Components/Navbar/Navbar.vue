@@ -18,16 +18,16 @@ import { useRoute } from 'vue-router'
 import menuItems from '@/Data/menuItems.json'
 //user store
 import { useUsersStore } from '@/Store/useUserStore'
+//Drug store
+import { useDrugsStore } from '@/Store/useDrugsStore'
 //Dicebear
 import { createAvatar } from '@dicebear/core';
 import { initials } from '@dicebear/collection';
-//Hooks
-import { useAuthFireBase } from '@/Hooks/useAuthFireBase'
 
-const { logOut } = useAuthFireBase()
 
 //store
 const store = useUsersStore();
+const drugStore = useDrugsStore();
 const token = localStorage.getItem('token')
 //Avatar
 const profilImgURl = ref(null)
@@ -115,18 +115,20 @@ const getAvatar = () => {
             </div>
 
             <!-- Login Button -->
-            <a-badge :count="0" v-if="store.token || token" type="primary">
+            <a-badge :dot="drugStore.selectedCount > 0" v-if="store.token || token" type="primary">
               <a-dropdown @click.prevent>
                 <img :src="store.photoURL ?? getAvatar()" style="width: 36px; border-radius: 100%;" alt="user img">
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item @click="">
+                    <a-menu-item>
                       <UserOutlined />
                       <RouterLink to="/profile"> Profile</RouterLink>
                     </a-menu-item>
-                    <a-menu-item @click="">
-                      <ShoppingCartOutlined />
-                      <RouterLink to="/shop"> Savat</RouterLink>
+                    <a-menu-item>
+                      <a-badge :count="drugStore.selectedCount">
+                        <ShoppingCartOutlined />
+                        <RouterLink to="/shop"> Savat</RouterLink>
+                      </a-badge>
                     </a-menu-item>
                   </a-menu>
                 </template>

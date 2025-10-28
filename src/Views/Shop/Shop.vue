@@ -5,7 +5,7 @@
         <div class="header-content">
           <shopping-cart-outlined class="cart-icon" />
           <span class="title">Savat</span>
-          <a-badge :count="totalItems" :number-style="{ backgroundColor: '#52c41a' }" />
+          <a-badge :count="drugStore.selectedCount" :number-style="{ backgroundColor: '#52c41a' }" />
         </div>
       </template>
     </a-card>
@@ -13,9 +13,14 @@
     <a-row :gutter="[16, 16]">
       <a-col :xs="24" :lg="16">
         <a-card :bordered="false" class="cart-items">
-          <a-empty v-if="cartItems.length === 0" description="Savat bo'sh" />
-          
-          <div v-for="item in cartItems" :key="item.id" class="cart-item">
+          <a-empty v-if="drugStore.selectedDrugs.length === 0" description="Savat bo'sh">
+            <RouterLink to="/drugs">
+              <a-button type="primary">
+                Xaridni boshlash
+              </a-button>
+            </RouterLink>
+          </a-empty>
+          <div v-for="item in drugStore.selectedDrugs" :key="item.id" class="cart-item">
             <a-row :gutter="16" align="middle">
               <a-col :xs="24" :sm="6" :md="4">
                 <div class="item-image">
@@ -39,18 +44,12 @@
 
               <a-col :xs="12" :sm="4" :md="4">
                 <div class="quantity-control">
-                  <a-button 
-                    size="small" 
-                    @click="decreaseQuantity(item.id)"
-                    :disabled="item.quantity <= 1"
-                  >
+                  <a-button size="small" @click="drugStore.decrementQuantity(item.id)"
+                    :disabled="drugStore.getQuantity(item.id) <= 1">
                     <minus-outlined />
                   </a-button>
-                  <span class="quantity">{{ item.quantity }}</span>
-                  <a-button 
-                    size="small" 
-                    @click="increaseQuantity(item.id)"
-                  >
+                  <span class="quantity">{{ drugStore.getQuantity(item.id) }}</span>
+                  <a-button size="small" @click="drugStore.incrementQuantity(item.id)">
                     <plus-outlined />
                   </a-button>
                 </div>
@@ -58,20 +57,24 @@
 
               <a-col :xs="12" :sm="4" :md="4">
                 <div class="item-actions">
-                  <div class="item-price">{{ formatPrice(item.price * item.quantity) }} so'm</div>
-                  <a-button 
-                    type="text" 
-                    danger 
-                    @click="removeItem(item.id)"
-                    class="remove-btn"
-                  >
+                  <div class="item-price">{{ formatPrice(drugStore.getQuantity(item.id) * item.price) }} so'm</div>
+                  <a-button type="text" danger @click="drugStore.removeDrug(item.id)" class="remove-btn">
                     <delete-outlined /> O'chirish
                   </a-button>
                 </div>
               </a-col>
             </a-row>
+            <a-button type="text" style="margin-top: 10px;" block>
+              <RouterLink :to="`/drugs/${item.id}`">
+                <EyeOutlined /> Batafsil
+              </RouterLink>
+            </a-button>
           </div>
         </a-card>
+        <a-button v-if="drugStore.selectedCount > 0" size="large" type="primary" danger block style="margin-top: 10px;"
+          @click="drugStore.clearList">
+          Savatni Tozalash
+        </a-button>
       </a-col>
 
       <a-col :xs="24" :lg="8">
@@ -82,7 +85,7 @@
 
           <div class="summary-row">
             <span>Mahsulotlar soni:</span>
-            <span class="summary-value">{{ totalItems }} ta</span>
+            <span class="summary-value">{{ drugStore.selectedCount }} ta</span>
           </div>
 
           <div class="summary-row">
@@ -97,31 +100,19 @@
             <span class="summary-total">{{ formatPrice(totalPrice) }} so'm</span>
           </div>
 
-          <a-alert
-            v-if="hasRxItems"
-            message="Diqqat!"
+          <a-alert v-if="hasRxItems" message="Diqqat!"
             description="Savatingizda retsept talab qilinadigan dorilar bor. Buyurtma berishda retsept taqdim etishingiz kerak."
-            type="warning"
-            show-icon
-            class="rx-warning"
-          />
+            type="warning" show-icon class="rx-warning" />
 
-          <a-button 
-            type="primary" 
-            size="large" 
-            block 
-            class="checkout-btn"
-            :disabled="cartItems.length === 0"
-          >
+          <a-button type="primary" size="large" block class="checkout-btn"
+            :disabled="drugStore.selectedDrugs.length === 0">
             <credit-card-outlined /> Buyurtma berish
           </a-button>
 
-          <a-button 
-            size="large" 
-            block 
-            class="continue-btn"
-          >
-            Xaridni davom ettirish
+          <a-button v-if="drugStore.selectedCount > 0" size="large" block class="continue-btn">
+            <RouterLink to="/drugs">
+              Xaridni davom ettirish
+            </RouterLink>
           </a-button>
         </a-card>
       </a-col>
@@ -129,7 +120,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from 'vue';
 import {
   ShoppingCartOutlined,
@@ -139,93 +130,27 @@ import {
   MinusOutlined,
   DeleteOutlined,
   CalculatorOutlined,
-  CreditCardOutlined
+  CreditCardOutlined,
+  EyeOutlined
 } from '@ant-design/icons-vue';
 
-export default {
-  name: 'CartPage',
-  components: {
-    ShoppingCartOutlined,
-    MedicineBoxOutlined,
-    ShopOutlined,
-    PlusOutlined,
-    MinusOutlined,
-    DeleteOutlined,
-    CalculatorOutlined,
-    CreditCardOutlined
-  },
-  setup() {
-    const cartItems = ref([
-      {
-        id: 2,
-        name: "Amoxicillin",
-        manufacturer: "PharmaCure",
-        price: 15000,
-        category: "Antibiotiklar",
-        dosage: "500mg",
-        quantity: 2,
-        prescriptionRequired: true,
-        country: "Turkiya"
-      },
-      {
-        id: 5,
-        name: "Paracetamol",
-        manufacturer: "MedPharm",
-        price: 8000,
-        category: "Og'riq qoldiruvchilar",
-        dosage: "500mg",
-        quantity: 1,
-        prescriptionRequired: false,
-        country: "O'zbekiston"
-      }
-    ]);
+//drugs store
+import { useDrugsStore } from '@/Store/useDrugsStore';
 
-    const totalItems = computed(() => {
-      return cartItems.value.reduce((sum, item) => sum + item.quantity, 0);
-    });
+const drugStore = useDrugsStore();
 
-    const totalPrice = computed(() => {
-      return cartItems.value.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    });
+const totalPrice = computed(() => {
+  return drugStore.selectedDrugs.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+});
 
-    const hasRxItems = computed(() => {
-      return cartItems.value.some(item => item.prescriptionRequired);
-    });
+const hasRxItems = computed(() => {
+  return drugStore.selectedDrugs.some(item => item.prescriptionRequired);
+});
 
-    const formatPrice = (price) => {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    };
-
-    const increaseQuantity = (id) => {
-      const item = cartItems.value.find(item => item.id === id);
-      if (item) {
-        item.quantity++;
-      }
-    };
-
-    const decreaseQuantity = (id) => {
-      const item = cartItems.value.find(item => item.id === id);
-      if (item && item.quantity > 1) {
-        item.quantity--;
-      }
-    };
-
-    const removeItem = (id) => {
-      cartItems.value = cartItems.value.filter(item => item.id !== id);
-    };
-
-    return {
-      cartItems,
-      totalItems,
-      totalPrice,
-      hasRxItems,
-      formatPrice,
-      increaseQuantity,
-      decreaseQuantity,
-      removeItem
-    };
-  }
+const formatPrice = (price) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
+
 </script>
 
 <style scoped>
@@ -239,7 +164,7 @@ export default {
 
 .cart-header {
   margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .header-content {
@@ -260,7 +185,7 @@ export default {
 }
 
 .cart-items {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .cart-item {
@@ -272,7 +197,7 @@ export default {
 }
 
 .cart-item:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .item-image {
@@ -344,7 +269,7 @@ export default {
 }
 
 .summary-card {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 20px;
 }

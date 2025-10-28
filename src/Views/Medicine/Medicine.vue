@@ -186,7 +186,7 @@ import { useDrugsStore } from '@/Store/useDrugsStore';
 const drugStore = useDrugsStore();
 
 const formatPrice = (price) => {
-  return price
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
 
