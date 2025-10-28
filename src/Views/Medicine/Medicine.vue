@@ -50,8 +50,10 @@
             </div>
 
             <div v-if="!drugStore.isSelected(dataById.id)">
-              <a-button type="primary" size="large" block @click="drugStore.addDrug(dataById)">
-                <shopping-cart-outlined /> Savatga qo'shish
+              <a-button type="primary" :disabled="drugStore.loadingItems[dataById.id]" size="large" block
+                @click="drugStore.addDrug(dataById)">
+                <shopping-cart-outlined />
+                {{ drugStore.loadingItems[dataById.id] ? 'loading...' : 'Savatga qo\'shish' }}
               </a-button>
             </div>
 
