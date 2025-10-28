@@ -87,7 +87,7 @@
                   <EyeOutlined />
                 </Button>
                 <Button v-if="!drugsStore.isSelected(medicine.id)" type="primary" size="small" class="cart-btn"
-                  @click="addToCart(medicine)">
+                  @click="drugsStore.addDrug(medicine)">
                   <ShoppingCartOutlined />
                   Savat
                 </Button>
@@ -179,12 +179,6 @@ const truncateText = (text, maxLength) => {
     return text.substring(0, maxLength) + '...'
   }
   return text
-}
-
-// Savatga qo'shish
-const addToCart = (medicine) => {
-  drugsStore.addDrug(medicine)
-  message.success(`${medicine.name} savatga qo'shildi!`)
 }
 
 // Sahifa o'zgarganda

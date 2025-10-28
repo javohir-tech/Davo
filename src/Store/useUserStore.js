@@ -9,7 +9,7 @@ export const useUsersStore = defineStore('users', {
         email: null
     }),
     getters: {
-        usersData: (state) => state
+        isActive: (state) => state.token !==null
     },
     actions: {
         addUser(username, email, password, token, photoURL) {

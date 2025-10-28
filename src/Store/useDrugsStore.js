@@ -1,13 +1,22 @@
 import { message } from "ant-design-vue";
 import { defineStore } from "pinia";
 
+//userStore
+import { useUsersStore } from "./useUserStore";
+
 export const useDrugsStore = defineStore('drugs', {
     state: () => ({
         selectDrugs: [],
     }),
     actions: {
         addDrug(drug) {
-            this.selectDrugs.push({...drug, quantity :1});
+            const userStore = useUsersStore();
+            if (userStore.isActive) {
+                message.success(`${drug.name} savatga qo'shildi`);
+                this.selectDrugs.push({ ...drug, quantity: 1 });
+            } else {    
+                message.info('Ro\'yhatdan o\'ting')
+            }
         },
         removeDrug(drugId) {
             this.selectDrugs = this.selectDrugs.filter(drug => drug.id !== drugId);
@@ -27,7 +36,7 @@ export const useDrugsStore = defineStore('drugs', {
         },
         getQuantity(drugId) {
             const drug = this.selectDrugs.find(drug => drug.id === drugId)
-            if(drug){
+            if (drug) {
                 return drug.quantity
             }
         },
@@ -35,7 +44,7 @@ export const useDrugsStore = defineStore('drugs', {
             this.selectDrugs = [];
         },
         isSelected(id) {
-            if(this.getQuantity(id)===0){
+            if (this.getQuantity(id) === 0) {
                 this.removeDrug(id);
                 return false;
             }

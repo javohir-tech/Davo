@@ -129,14 +129,8 @@ const handleLogin = (formData) => {
 const handleGoogleLogin = () => {
   signInWithGoogle()
 }
-
-// Forgot password function - Parolni unutish
 const handleForgotPassword = () => {
   console.log('Parolni unutdim')
-
-  // Bu yerda parolni tiklash logikasini yozing
-  // Masalan: router.push('/forgot-password')
-
   message.info("Parolni tiklash sahifasiga o'tish...")
 }
 

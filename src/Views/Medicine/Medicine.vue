@@ -50,7 +50,7 @@
             </div>
 
             <div v-if="!drugStore.isSelected(dataById.id)">
-              <a-button type="primary" size="large" block @click="addToCart">
+              <a-button type="primary" size="large" block @click="drugStore.addDrug(dataById)">
                 <shopping-cart-outlined /> Savatga qo'shish
               </a-button>
             </div>
@@ -161,8 +161,7 @@
 </template>
 
 <script setup>
-import { ref, computed, h, onMounted } from 'vue';
-import { message } from 'ant-design-vue';
+import { h, onMounted } from 'vue';
 import {
   ShoppingCartOutlined,
   MedicineBoxOutlined,
@@ -190,12 +189,6 @@ const formatPrice = (price) => {
   return price
 };
 
-const addToCart = () => {
-  if (dataById.value) {
-    drugStore.addDrug(dataById.value);
-    message.success(`${dataById.value.name} savatga qo'shildi`)
-  }
-};
 
 onMounted(() => {
   getDocumentById(route.params.id);
