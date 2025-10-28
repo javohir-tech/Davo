@@ -83,7 +83,6 @@
                 {{ data.expiryDate }}
               </a-descriptions-item>
             </a-descriptions>
-
             <div>
               <a-typography-text strong>Sertifikatlar:</a-typography-text>
               <br>
