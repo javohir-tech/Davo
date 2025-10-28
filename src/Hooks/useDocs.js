@@ -35,6 +35,7 @@ export default function useDocs(collectionName) {
 
       if (docSnap.exists()) {
         data.value = docSnap.data();
+        console.log(data.value)
       } else {
         console.log('No such document');
         return null;

@@ -9,8 +9,16 @@
 
 
     <!-- Asosiy Kontent -->
-    <div v-if="loading">
-      <a-spin />
+    <div v-if="loading" class='medicine-loading'>
+      <a-spin size="large" />
+    </div>
+    <div v-else-if="!loading && false" style="text-align: center;">
+      <a-empty />
+      <a-button type="primary">
+        <RouterLink to="/drugs">
+          Dorilar
+        </RouterLink>
+      </a-button>
     </div>
     <div v-else-if="!loading && data">
       <div class="main-content">
@@ -148,9 +156,7 @@
         </a-space>
       </div>
     </div>
-    <div v-else="!loading && !medicine">
-      <a-empty />
-    </div>
+
   </div>
 </template>
 
@@ -195,7 +201,7 @@ const addToCart = () => {
 };
 
 onMounted(() => {
-  getDocumentById('medicines', route.params.id)
+  getDocumentById('medicines', route.params.id);
 })
 </script>
 
@@ -206,6 +212,13 @@ onMounted(() => {
   margin: 0 auto;
   background-color: #f5f5f5;
   min-height: 100vh;
+}
+
+.medicine-loading {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .header-section {
