@@ -1,0 +1,382 @@
+[
+    {
+        "id": 1,
+        "fullName": "Dilnoza Ahmadova",
+        "specialty": "Pediatr",
+        "education": "Andijon tibbiyot instituti",
+        "experience": 10,
+        "consultationFee": 100000,
+        "workDays": "Dush–Shanba",
+        "workHours": "08:00–18:00",
+        "category": "Oliy toifali shifokor",
+        "degree": "Tibbiyot fanlari nomzodi",
+        "fieldOfStudy": "Bola kasalliklari diagnostikasi",
+        "achievements": "Bolalar uchun innovatsion davolash metodlarini joriy qilgan.",
+        "workPlace": {
+            "name": "MedLife Markaz filiali",
+            "address": "Toshkent sh., Amir Temur ko'chasi 108"
+        },
+        "bio": "10 yillik tajribaga ega pediatr, chaqaloq va bolalar sog‘lig‘i bo‘yicha mutaxassis."
+    },
+    {
+        "id": 2,
+        "fullName": "Jasur Karimov",
+        "specialty": "Gastroenterolog",
+        "education": "Toshkent tibbiyot akademiyasi",
+        "experience": 8,
+        "consultationFee": 120000,
+        "workDays": "Dush–Juma",
+        "workHours": "09:00–17:00",
+        "category": "Birinchi toifa shifokor",
+        "degree": "Magistr",
+        "fieldOfStudy": "Ovqat hazm qilish tizimi",
+        "achievements": "1000 dan ortiq bemorni muvaffaqiyatli davolagan.",
+        "workPlace": {
+            "name": "MedLife Yunusobod filiali",
+            "address": "Toshkent sh., Bog‘ishamol ko‘chasi 24"
+        },
+        "bio": "Oshqozon-ichak kasalliklari diagnostikasi va davolashda yuqori tajribaga ega."
+    },
+    {
+        "id": 3,
+        "fullName": "Malika Ergasheva",
+        "specialty": "Xirurg",
+        "education": "Samarqand davlat tibbiyot universiteti",
+        "experience": 12,
+        "consultationFee": 150000,
+        "workDays": "Dush–Shanba",
+        "workHours": "08:30–18:00",
+        "category": "Oliy toifali shifokor",
+        "degree": "PhD",
+        "fieldOfStudy": "Qorin bo‘shlig‘i jarrohlik amaliyotlari",
+        "achievements": "50 dan ortiq murakkab operatsiyalarni muvaffaqiyatli o‘tkazgan.",
+        "workPlace": {
+            "name": "MedLife Chilonzor filiali",
+            "address": "Toshkent sh., Chilonzor 9-mavze, 15-uy"
+        },
+        "bio": "Xirurgiya bo‘yicha 12 yillik tajriba, bemorlar bilan nozik muomala qiluvchi shifokor."
+    },
+    {
+        "id": 4,
+        "fullName": "Sardor Qodirov",
+        "specialty": "Urolog",
+        "education": "Buxoro tibbiyot instituti",
+        "experience": 7,
+        "consultationFee": 110000,
+        "workDays": "Dush–Juma",
+        "workHours": "09:00–17:30",
+        "category": "Birinchi toifa shifokor",
+        "degree": "Magistr",
+        "fieldOfStudy": "Buyrak va siydik tizimi",
+        "achievements": "Minimal invaziv davolash usullarini joriy etgan.",
+        "workPlace": {
+            "name": "MedLife Sergeli filiali",
+            "address": "Toshkent sh., Sergeli tumani, Yangi Sergeli ko‘chasi 8"
+        },
+        "bio": "Erkaklar salomatligi va urologik kasalliklar bo‘yicha mutaxassis."
+    },
+    {
+        "id": 5,
+        "fullName": "Rayhona Tursunova",
+        "specialty": "Urolog",
+        "education": "Toshkent tibbiyot akademiyasi",
+        "experience": 9,
+        "consultationFee": 115000,
+        "workDays": "Sesh–Yakshanba",
+        "workHours": "09:00–18:00",
+        "category": "O‘rta toifali shifokor",
+        "degree": "Magistr",
+        "fieldOfStudy": "Ayollar urologiyasi",
+        "achievements": "Ayollar uchun yangi urologik dasturlarni ishlab chiqqan.",
+        "workPlace": {
+            "name": "MedLife Mirzo Ulug‘bek filiali",
+            "address": "Toshkent sh., Mustaqillik ko‘chasi 12"
+        },
+        "bio": "Ayollar siydik tizimi kasalliklari bo‘yicha yuqori malakali mutaxassis."
+    },
+    {
+        "id": 6,
+        "fullName": "Diyor Rashidov",
+        "specialty": "Terapevt",
+        "education": "Andijon tibbiyot instituti",
+        "experience": 6,
+        "consultationFee": 90000,
+        "workDays": "Dush–Juma",
+        "workHours": "08:30–17:30",
+        "category": "Ikkinchi toifa shifokor",
+        "degree": "Bakalavr",
+        "fieldOfStudy": "Ichki kasalliklar",
+        "achievements": "Qon bosimi va yurak kasalliklarini erta aniqlash dasturida qatnashgan.",
+        "workPlace": {
+            "name": "MedLife Chilonzor filiali",
+            "address": "Toshkent sh., Chilonzor 9-mavze, 15-uy"
+        },
+        "bio": "Ichki kasalliklar va umumiy sog‘lomlashtirish bo‘yicha mutaxassis."
+    },
+    {
+        "id": 7,
+        "fullName": "Gulnora Mahmudova",
+        "specialty": "Ginekolog",
+        "education": "Toshkent tibbiyot akademiyasi",
+        "experience": 11,
+        "consultationFee": 130000,
+        "workDays": "Dush–Shanba",
+        "workHours": "09:00–17:00",
+        "category": "Oliy toifali shifokor",
+        "degree": "PhD",
+        "fieldOfStudy": "Ayollar reproduktiv salomatligi",
+        "achievements": "Homiladorlik davrida xavfsiz nazorat metodikasini joriy qilgan.",
+        "workPlace": {
+            "name": "MedLife Markaz filiali",
+            "address": "Toshkent sh., Amir Temur ko‘chasi 108"
+        },
+        "bio": "Ayollar salomatligi va homiladorlik kuzatuvi bo‘yicha tajribali mutaxassis."
+    },
+    {
+        "id": 8,
+        "fullName": "Azizbek Raxmatov",
+        "specialty": "Kardiolog",
+        "education": "Samarqand tibbiyot universiteti",
+        "experience": 8,
+        "consultationFee": 125000,
+        "workDays": "Dush–Juma",
+        "workHours": "08:00–17:00",
+        "category": "Birinchi toifa shifokor",
+        "degree": "Magistr",
+        "fieldOfStudy": "Yurak qon-tomir tizimi",
+        "achievements": "Yurak xurujlarining erta alomatlarini aniqlash bo‘yicha tadqiqot o‘tkazgan.",
+        "workPlace": {
+            "name": "MedLife Yunusobod filiali",
+            "address": "Toshkent sh., Bog‘ishamol ko‘chasi 24"
+        },
+        "bio": "Yurak kasalliklarini diagnostika qilish va oldini olish bo‘yicha mutaxassis."
+    },
+    {
+        "id": 9,
+        "fullName": "Feruza Abdullayeva",
+        "specialty": "Kardiolog",
+        "education": "Toshkent davlat tibbiyot instituti",
+        "experience": 13,
+        "consultationFee": 140000,
+        "workDays": "Dush–Shanba",
+        "workHours": "08:30–18:00",
+        "category": "Oliy toifali shifokor",
+        "degree": "Tibbiyot fanlari doktori",
+        "fieldOfStudy": "Kardioxirurgiya",
+        "achievements": "Yurak operatsiyalari bo‘yicha xalqaro konferensiyada qatnashgan.",
+        "workPlace": {
+            "name": "MedLife Markaz filiali",
+            "address": "Toshkent sh., Amir Temur ko‘chasi 108"
+        },
+        "bio": "Kardioxirurgiya va yurakni reabilitatsiya qilish bo‘yicha tajribali mutaxassis."
+    },
+    {
+        "id": 10,
+        "fullName": "Zuhra Sattorova",
+        "specialty": "Nevrolog",
+        "education": "Buxoro tibbiyot instituti",
+        "experience": 7,
+        "consultationFee": 100000,
+        "workDays": "Dush–Juma",
+        "workHours": "09:00–18:00",
+        "category": "O‘rta toifali shifokor",
+        "degree": "Magistr",
+        "fieldOfStudy": "Asab tizimi kasalliklari",
+        "achievements": "Bosh og‘rig‘i sindromlarini davolash bo‘yicha yangi metodika ishlab chiqqan.",
+        "workPlace": {
+            "name": "MedLife Sergeli filiali",
+            "address": "Toshkent sh., Sergeli tumani, Yangi Sergeli ko‘chasi 8"
+        },
+        "bio": "Asab tizimi va bosh og‘rig‘i kasalliklari bo‘yicha tajribali nevrolog."
+    },
+    {
+        "id": 11,
+        "fullName": "Rustam Abdug‘afforov",
+        "specialty": "Ortoped",
+        "education": "Toshkent tibbiyot akademiyasi",
+        "experience": 9,
+        "consultationFee": 120000,
+        "workDays": "Dush–Shanba",
+        "workHours": "09:00–18:00",
+        "category": "Birinchi toifa shifokor",
+        "degree": "Magistr",
+        "fieldOfStudy": "Suyak va bo‘g‘im kasalliklari",
+        "achievements": "100 dan ortiq muvaffaqiyatli suyak protezlash operatsiyasi o‘tkazgan.",
+        "workPlace": {
+            "name": "MedLife Uchtepa filiali",
+            "address": "Toshkent sh., Uchtepa tumani, Farobiy ko‘chasi"
+        },
+        "bio": "Bolalar va kattalarda suyak singish, bo‘g‘im og‘rishlari va reabilitatsiya bo‘yicha tajribali ortoped."
+    },
+    {
+        "id": 12,
+        "fullName": "Nigora Xoliqova",
+        "specialty": "Dermatolog",
+        "education": "Samarqand davlat tibbiyot universiteti",
+        "experience": 8,
+        "consultationFee": 95000,
+        "workDays": "Dush–Juma",
+        "workHours": "08:30–17:30",
+        "category": "Ikkinchi toifa shifokor",
+        "degree": "Bakalavr",
+        "fieldOfStudy": "Teri va soch kasalliklari",
+        "achievements": "Teri kasalliklarini lazer yordamida davolash bo‘yicha kursni tamomlagan.",
+        "workPlace": {
+            "name": "MedLife Yakkasaroy filiali",
+            "address": "Toshkent sh., Yakkasaroy tumani, Bobur ko‘chasi"
+        },
+        "bio": "Akne, dermatit, allergik toshmalarni davolash bo‘yicha mutaxassis."
+    },
+    {
+        "id": 13,
+        "fullName": "Anvar Sobirov",
+        "specialty": "LOR (otolaringolog)",
+        "education": "Andijon tibbiyot instituti",
+        "experience": 10,
+        "consultationFee": 105000,
+        "workDays": "Sesh–Yakshanba",
+        "workHours": "09:00–17:00",
+        "category": "Birinchi toifa shifokor",
+        "degree": "Magistr",
+        "fieldOfStudy": "Burun, quloq va tomoq kasalliklari",
+        "achievements": "1000 dan ortiq bemorlarda quloq operatsiyalarini muvaffaqiyatli bajargan.",
+        "workPlace": {
+            "name": "MedLife Chilonzor filiali",
+            "address": "Toshkent sh., Chilonzor tumani, 12-kvartal"
+        },
+        "bio": "Burun bitishi, eshitish pasayishi va tomoq muammolari bo‘yicha mutaxassis."
+    },
+    {
+        "id": 14,
+        "fullName": "Madina Yo‘ldosheva",
+        "specialty": "Oftalmolog",
+        "education": "Toshkent tibbiyot akademiyasi",
+        "experience": 11,
+        "consultationFee": 130000,
+        "workDays": "Dush–Shanba",
+        "workHours": "08:00–17:30",
+        "category": "Oliy toifa shifokor",
+        "degree": "PhD",
+        "fieldOfStudy": "Ko‘z kasalliklari",
+        "achievements": "Ko‘z lazer operatsiyalari bo‘yicha yetakchi mutaxassis.",
+        "workPlace": {
+            "name": "MedLife Markaz filiali",
+            "address": "Toshkent sh., Amir Temur ko‘chasi 108"
+        },
+        "bio": "Ko‘rish muammolari, miopiya va katarakta tashxisida 10 yillik tajriba."
+    },
+    {
+        "id": 15,
+        "fullName": "Bekzod Mirzayev",
+        "specialty": "Allergolog",
+        "education": "Buxoro tibbiyot instituti",
+        "experience": 6,
+        "consultationFee": 95000,
+        "workDays": "Dush–Juma",
+        "workHours": "09:00–18:00",
+        "category": "Ikkinchi toifa shifokor",
+        "degree": "Bakalavr",
+        "fieldOfStudy": "Allergik kasalliklar",
+        "achievements": "Allergiya test tizimini klinikada birinchi bo‘lib joriy qilgan.",
+        "workPlace": {
+            "name": "MedLife Bektemir filiali",
+            "address": "Toshkent sh., Bektemir tumani, Kichik xalqa yo‘li"
+        },
+        "bio": "Turli allergiyalarni aniqlash va ularni davolashda zamonaviy usullarni qo‘llaydi."
+    },
+    {
+        "id": 16,
+        "fullName": "Dilshod G‘afurov",
+        "specialty": "Endokrinolog",
+        "education": "Toshkent davlat tibbiyot universiteti",
+        "experience": 14,
+        "consultationFee": 135000,
+        "workDays": "Dush–Shanba",
+        "workHours": "08:30–18:00",
+        "category": "Oliy toifa shifokor",
+        "degree": "Tibbiyot fanlari nomzodi",
+        "fieldOfStudy": "Gormonal tizim va diabet",
+        "achievements": "Qandli diabet bo‘yicha 3 ta ilmiy maqola muallifi.",
+        "workPlace": {
+            "name": "MedLife Mirzo Ulug‘bek filiali",
+            "address": "Toshkent sh., Mirzo Ulug‘bek tumani, Tashkent 92"
+        },
+        "bio": "Endokrin tizim kasalliklari, ayniqsa diabet bo‘yicha tajribali shifokor."
+    },
+    {
+        "id": 17,
+        "fullName": "Muxlisa Sodiqova",
+        "specialty": "Psixolog",
+        "education": "Toshkent tibbiyot akademiyasi",
+        "experience": 5,
+        "consultationFee": 80000,
+        "workDays": "Dush–Juma",
+        "workHours": "10:00–18:00",
+        "category": "Yosh mutaxassis",
+        "degree": "Magistr",
+        "fieldOfStudy": "Klinik psixologiya",
+        "achievements": "Depressiya va stressni yengish bo‘yicha dastur yaratgan.",
+        "workPlace": {
+            "name": "MedLife Uchtepa filiali",
+            "address": "Toshkent sh., Uchtepa tumani, Farobiy ko‘chasi"
+        },
+        "bio": "Emotsional muammolarni psixologik yondashuv bilan hal etishda yordam beradi."
+    },
+    {
+        "id": 18,
+        "fullName": "Jamshid To‘xtayev",
+        "specialty": "Travmatolog",
+        "education": "Samarqand tibbiyot universiteti",
+        "experience": 9,
+        "consultationFee": 125000,
+        "workDays": "Dush–Shanba",
+        "workHours": "09:00–18:00",
+        "category": "Birinchi toifa shifokor",
+        "degree": "Magistr",
+        "fieldOfStudy": "Jismoniy shikastlanishlar va reabilitatsiya",
+        "achievements": "Sportchilarda suyak singishidan keyingi tiklanish dasturini ishlab chiqqan.",
+        "workPlace": {
+            "name": "MedLife Chilonzor filiali",
+            "address": "Toshkent sh., Chilonzor tumani, 12-kvartal"
+        },
+        "bio": "Travmalar, sinish va mushak shikastlanishlarini davolashda mutaxassis."
+    },
+    {
+        "id": 19,
+        "fullName": "Gulbahor Soliyeva",
+        "specialty": "Stomatolog",
+        "education": "Toshkent tibbiyot akademiyasi",
+        "experience": 7,
+        "consultationFee": 100000,
+        "workDays": "Sesh–Yakshanba",
+        "workHours": "09:00–17:00",
+        "category": "O‘rta toifa shifokor",
+        "degree": "Bakalavr",
+        "fieldOfStudy": "Tish kasalliklari",
+        "achievements": "Bolalar stomatologiyasi bo‘yicha tajriba almashgan.",
+        "workPlace": {
+            "name": "MedLife Yakkasaroy filiali",
+            "address": "Toshkent sh., Yakkasaroy tumani, Bobur ko‘chasi"
+        },
+        "bio": "Tish og‘rig‘i, plombalash va protezlash bo‘yicha tajribali shifokor."
+    },
+    {
+        "id": 20,
+        "fullName": "Aziza Usmonova",
+        "specialty": "Oftalmolog",
+        "education": "Andijon tibbiyot instituti",
+        "experience": 10,
+        "consultationFee": 120000,
+        "workDays": "Dush–Shanba",
+        "workHours": "08:30–17:30",
+        "category": "Birinchi toifa shifokor",
+        "degree": "Magistr",
+        "fieldOfStudy": "Ko‘z kasalliklari",
+        "achievements": "Ko‘rish buzilishlarini erta aniqlash dasturini ishlab chiqqan.",
+        "workPlace": {
+            "name": "MedLife Markaz filiali",
+            "address": "Toshkent sh., Amir Temur ko‘chasi 108"
+        },
+        "bio": "Ko‘z muammolari, miopiya va katarakta tashxisida 10 yillik tajriba."
+    }
+]

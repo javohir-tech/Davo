@@ -21,7 +21,11 @@
       <a-row :gutter="[16, 16]">
         <a-col :xs="24" :lg="16">
           <a-card :bordered="false" class="cart-items">
-            <a-empty v-if="drugStore.selectedDrugs.length === 0" description="Savat bo'sh">
+            <div class="loading-selecteds" v-if="drugStore.loadingSelecteds && drugStore.selectedDrugs.length === 0">
+              <a-spin size="large" />
+            </div>
+            <a-empty v-if="!drugStore.loadingSelecteds && drugStore.selectedDrugs.length === 0"
+              description="Savat bo'sh">
               <RouterLink to="/drugs">
                 <a-button type="primary">
                   Xaridni boshlash
@@ -204,11 +208,11 @@
               </a-form>
             </a-modal>
 
-            <a-button v-if="drugStore.selectedCount > 0" size="large" block class="continue-btn">
-              <RouterLink to="/drugs">
+            <RouterLink to="/drugs">
+              <a-button v-if="drugStore.selectedCount > 0" size="large" block class="continue-btn">
                 Xaridni davom ettirish
-              </RouterLink>
-            </a-button>
+              </a-button>
+            </RouterLink>
           </a-card>
         </a-col>
       </a-row>
@@ -251,10 +255,10 @@ const TELEGRAM_BOT_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/send
 
 // Buyurtma modal uchun yangi ref'lar
 const isOrderModalOpen = ref(false);
-const address = ref('angren');
-const phoneNumber = ref('+998771232904');
-const deliveryTime = ref('1 kun');
-const doctorCode = ref('javohir');
+const address = ref('');
+const phoneNumber = ref('');
+const deliveryTime = ref('');
+const doctorCode = ref('');
 const loading = ref(false);
 
 // Konstantalar
@@ -402,6 +406,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.loading-selecteds {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+}
+
 .cart-page {
   padding: 20px;
   max-width: 1400px;

@@ -13,10 +13,12 @@ export const useDrugsStore = defineStore('drugs', {
         selectedDrugs: [],
         selectedCount: 0,
         loadingItems: {},
+        loadingSelecteds : false,
         userId: null,
     }),
     actions: {
         async fetchSelectedDrugs() {
+            this.loadingSelecteds = true
             try {
                 const userStore = useUsersStore();
                 this.userId = userStore.uid
@@ -26,6 +28,8 @@ export const useDrugsStore = defineStore('drugs', {
                 this.selectedCount = data.value.reduce((acc, curr) => acc + curr.quantity, 0)
             } catch (error) {
                 console.log(error)
+            }finally{
+                this.loadingSelecteds = false
             }
         },
         async addDrug(drug) {

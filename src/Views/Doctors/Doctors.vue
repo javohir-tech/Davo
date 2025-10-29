@@ -34,13 +34,6 @@
 
     <!-- Doktorlar kartochkalari -->
     <div v-else class="cards-wrapper">
-      <!-- Natijalar soni -->
-      <div class="results-header">
-        <div class="results-count">
-          <span class="count-badge">{{ filteredDoctors.length }}</span>
-          <span class="count-text">ta doktor</span>
-        </div>
-      </div>
 
       <!-- Cards Grid using Ant Design Grid -->
       <Row v-if="paginatedDoctors.length > 0" :gutter="[16, 16]">
@@ -245,7 +238,7 @@
 <style scoped>
   .doctors-container {
     padding: 24px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #f0f2f5;
     min-height: 100vh;
   }
 
@@ -328,34 +321,6 @@
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-
-  /* Results header */
-  .results-header {
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid rgba(102, 126, 234, 0.1);
-  }
-
-  .results-count {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .count-badge {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 15px;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  }
-
-  .count-text {
-    color: #8c8c8c;
-    font-size: 14px;
   }
 
   /* Doctor Card */

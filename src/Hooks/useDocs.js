@@ -1,7 +1,7 @@
 //Vue
 import { ref } from 'vue'
 //Firebaasse
-import { addDoc, collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import { db } from '@/FireBase/config'
 //Antd
 import { message } from 'ant-design-vue'
