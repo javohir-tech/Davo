@@ -9,5 +9,18 @@ import Profile from './Profile/Profile.vue'
 import Shop from './Shop/Shop.vue'
 import Medicine from './Medicine/Medicine.vue'
 import Orders from './Orders/Orders.vue'
+import DoctorProfile from './DoctorInfo/DoctorProfile.vue'
 
-export { HomeView, Drugs, Doctors, Institution, Diagnostics, Articls, Intervyu, Profile , Shop, Medicine, Orders }
+export {
+    HomeView,
+    Drugs,
+    Doctors,
+    Institution,
+    Diagnostics,
+    Articls,
+    Intervyu,
+    Profile,
+    Shop,
+    Medicine, Orders,
+    DoctorProfile
+}

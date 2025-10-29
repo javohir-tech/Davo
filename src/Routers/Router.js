@@ -13,7 +13,8 @@ import {
   Medicine,
   Profile,
   Shop,
-  Orders
+  Orders,
+  DoctorProfile
 } from '@/Views'
 //Auth
 import { Login, Register } from '@/Auth'
@@ -28,11 +29,11 @@ const routes = [
     children: [
       {
         path: '',
-        component: HomeView,
+        component: HomeView
       },
       {
         path: 'drugs',
-        component: Drugs,
+        component: Drugs
       },
       {
         path: 'drugs/:id',
@@ -40,19 +41,23 @@ const routes = [
       },
       {
         path: 'doctors',
-        component: Doctors,
+        component: Doctors
+      },
+      {
+        path :'doctors/:id', 
+        component : DoctorProfile
       },
       {
         path: 'institution',
-        component: Institution,
+        component: Institution
       },
       {
         path: 'diagnostics',
-        component: Diagnostics,
+        component: Diagnostics
       },
       {
         path: 'articls',
-        component: Articls,
+        component: Articls
       },
       {
         path: 'profile',
@@ -68,15 +73,15 @@ const routes = [
       },
       {
         path: 'intervyu',
-        component: Intervyu,
+        component: Intervyu
       },
       {
         path: 'register',
-        component: Register,
+        component: Register
       },
       {
         path: 'login',
-        component: Login,
+        component: Login
       },
     ],
   },

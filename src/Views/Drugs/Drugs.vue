@@ -30,7 +30,7 @@
 
       <div v-else class="cards-wrapper">
         <Row v-if="paginatedMedicines.length > 0" :gutter="[16, 16]">
-          <Col v-for="medicine in paginatedMedicines" :key="medicine.id" :xs="12" :sm="12" :md="8" :lg="6" :xl="6">
+          <Col v-for="medicine in paginatedMedicines" :key="medicine.id" :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <div class="medicine-card">
             <!-- Card header -->
             <div class="card-header">
