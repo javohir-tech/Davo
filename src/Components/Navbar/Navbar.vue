@@ -9,7 +9,8 @@ import {
   GlobalOutlined,
   UserOutlined,
   ShoppingCartOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  ShoppingOutlined
 } from '@ant-design/icons-vue'
 //Route
 import { useRouter } from 'vue-router'
@@ -23,7 +24,6 @@ import { useDrugsStore } from '@/Store/useDrugsStore'
 //Dicebear
 import { createAvatar } from '@dicebear/core';
 import { initials } from '@dicebear/collection';
-
 
 //store
 const store = useUsersStore();
@@ -77,6 +77,11 @@ const getAvatar = () => {
   return profilImgURl.value
 }
 
+const userChangePages = (path) => {
+  router.push(path)
+  drawerVisible.value= false
+}
+
 </script>
 
 <template>
@@ -120,15 +125,16 @@ const getAvatar = () => {
                 <img :src="store.photoURL ?? getAvatar()" style="width: 36px; border-radius: 100%;" alt="user img">
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item>
-                      <UserOutlined />
-                      <RouterLink to="/profile"> Profile</RouterLink>
+                    <a-menu-item @click="userChangePages('/profile')">
+                      <UserOutlined /> Profile
                     </a-menu-item>
-                    <a-menu-item>
+                    <a-menu-item @click="userChangePages('/shop')">
                       <a-badge :count="drugStore.selectedCount">
-                        <ShoppingCartOutlined />
-                        <RouterLink to="/shop"> Savat</RouterLink>
+                        <ShoppingCartOutlined /> Savat
                       </a-badge>
+                    </a-menu-item>
+                    <a-menu-item @click="userChangePages('/orders')">
+                      <ShoppingOutlined /> Buyurtmalar
                     </a-menu-item>
                   </a-menu>
                 </template>
@@ -161,18 +167,21 @@ const getAvatar = () => {
             <a-select-option value="EN">🇬🇧 EN</a-select-option>
             <a-select-option value="RU">🇷🇺 RU</a-select-option>
           </a-select>
-          <a-badge :count="0" v-if="store.token || token" type="primary">
+          <a-badge :dot="drugStore.selectedCount > 0" v-if="store.token || token" type="primary">
             <a-dropdown @click.prevent>
               <img :src="store.photoURL ?? getAvatar()" style="width: 36px; border-radius: 100%;" alt="user img">
               <template #overlay>
                 <a-menu>
-                  <a-menu-item @click="handleMenuClick">
-                    <UserOutlined />
-                    <RouterLink to="/profile"> Profile</RouterLink>
+                  <a-menu-item @click="userChangePages('/profile')">
+                    <UserOutlined /> Profile
                   </a-menu-item>
-                  <a-menu-item @click="handleMenuClick">
-                    <ShoppingCartOutlined />
-                    <RouterLink to="/shop"> Savat</RouterLink>
+                  <a-menu-item @click="userChangePages('/shop')">
+                    <a-badge :count="drugStore.selectedCount">
+                      <ShoppingCartOutlined /> Savat
+                    </a-badge>
+                  </a-menu-item>
+                  <a-menu-item @click="userChangePages('/orders')">
+                    <ShoppingOutlined /> Buyurtmalar
                   </a-menu-item>
                 </a-menu>
               </template>

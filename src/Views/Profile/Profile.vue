@@ -366,7 +366,9 @@ onMounted(() => {
                                 Tizimdan chiqish
                             </a-button>
                         </div>
-                        <a-modal v-model:open="open" title="Tizimdan Chiqishni Hohlaysizmi" @ok="handleOk" />
+                        <a-modal v-model:open="open" title="Tizimdan chiqish" @ok="handleOk">
+                            <p>Siz haqiqatan ham tizimdan chiqmoqchimisiz?</p>
+                        </a-modal>
                     </div>
                 </a-form>
             </div>

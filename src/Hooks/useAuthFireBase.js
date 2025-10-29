@@ -71,6 +71,7 @@ export function useAuthFireBase() {
             const result = await signInWithPopup(auth, provider)
 
             const user = result.user
+            console.log(user)
             store.addUser(user.displayName, user.email, null, user.accessToken, user.photoURL , user.uid)
             localStorage.setItem('token', user.accessToken)
 
