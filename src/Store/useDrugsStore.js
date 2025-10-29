@@ -97,7 +97,7 @@ export const useDrugsStore = defineStore('drugs', {
             this.selectedCount = 0
             const querySnapshot = await getDocs(collection(db, 'selectedMedicines', this.userId, 'orders'))
             const deletePromises = querySnapshot.docs.map((document) => {
-                deleteDoc(doc(db, 'selectedMedicines', document.id))
+                deleteDoc(doc(db, 'selectedMedicines', this.userId, 'orders', document.id))
             })
             await Promise.all(deletePromises)
         },

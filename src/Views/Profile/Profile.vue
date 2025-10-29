@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, reactive } from 'vue'
 import { useUsersStore } from '@/Store/useUserStore'
-import { useRouter } from 'vue-router'
 import {
     UserOutlined,
     LockOutlined,
@@ -19,11 +18,11 @@ import { updatePassword, updateProfile, reauthenticateWithCredential, EmailAuthP
 //Hooks
 import { useAuthFireBase } from '@/Hooks/useAuthFireBase'
 
-const  { logOut } = useAuthFireBase()
+const { logOut } = useAuthFireBase()
 
 const store = useUsersStore()
-const router = useRouter()
 
+const open = ref(false)
 const profilImgURL = ref('')
 const editMode = ref(false)
 const loading = ref(false)
@@ -98,11 +97,11 @@ const handleSaveProfile = async () => {
     try {
         // Form validatsiyasini tekshirish
         await formRef.value?.validate()
-        
+
         loading.value = true
 
         const user = auth.currentUser
-        
+
         if (!user) {
             message.error('Foydalanuvchi topilmadi!')
             loading.value = false
@@ -210,9 +209,15 @@ const handleSaveProfile = async () => {
     }
 }
 
-const handleLogout = () => {
-    logOut()
+const showModal = () => {
+    open.value = true
 }
+
+const handleOk = () => {
+    logOut()
+    open.value = false
+}
+
 
 onMounted(() => {
     if (!store.photoURL) {
@@ -244,12 +249,7 @@ onMounted(() => {
                 </div>
 
                 <!-- Single Form -->
-                <a-form 
-                    ref="formRef"
-                    :model="formData" 
-                    :rules="rules"
-                    layout="vertical"
-                >
+                <a-form ref="formRef" :model="formData" :rules="rules" layout="vertical">
                     <!-- Info Cards -->
                     <div class="info-section">
                         <!-- Profile Info Card -->
@@ -276,13 +276,8 @@ onMounted(() => {
                                         </template>
                                         Bekor qilish
                                     </a-button>
-                                    <a-button 
-                                        type="primary" 
-                                        @click="handleSaveProfile" 
-                                        :loading="loading"
-                                        :disabled="!isFormValid" 
-                                        class="action-btn"
-                                    >
+                                    <a-button type="primary" @click="handleSaveProfile" :loading="loading"
+                                        :disabled="!isFormValid" class="action-btn">
                                         <template #icon>
                                             <SaveOutlined />
                                         </template>
@@ -294,12 +289,8 @@ onMounted(() => {
                             <div class="form-content">
                                 <!-- Username -->
                                 <a-form-item label="Foydalanuvchi nomi" name="username">
-                                    <a-input 
-                                        v-model:value="formData.username" 
-                                        size="large"
-                                        placeholder="Foydalanuvchi nomini kiriting" 
-                                        :disabled="!editMode"
-                                    >
+                                    <a-input v-model:value="formData.username" size="large"
+                                        placeholder="Foydalanuvchi nomini kiriting" :disabled="!editMode">
                                         <template #prefix>
                                             <UserOutlined />
                                         </template>
@@ -308,11 +299,7 @@ onMounted(() => {
 
                                 <!-- Email (Read Only) -->
                                 <a-form-item label="Email">
-                                    <a-input 
-                                        :value="store.email" 
-                                        size="large" 
-                                        disabled
-                                    >
+                                    <a-input :value="store.email" size="large" disabled>
                                         <template #prefix>
                                             <UserOutlined />
                                         </template>
@@ -332,11 +319,8 @@ onMounted(() => {
 
                             <div class="form-content">
                                 <a-form-item label="Joriy parol" name="currentPassword">
-                                    <a-input-password 
-                                        v-model:value="formData.currentPassword" 
-                                        size="large"
-                                        placeholder="Joriy parolingizni kiriting"
-                                    >
+                                    <a-input-password v-model:value="formData.currentPassword" size="large"
+                                        placeholder="Joriy parolingizni kiriting">
                                         <template #prefix>
                                             <LockOutlined />
                                         </template>
@@ -346,11 +330,8 @@ onMounted(() => {
                                 <a-row :gutter="16">
                                     <a-col :xs="24" :md="12">
                                         <a-form-item label="Yangi parol" name="newPassword">
-                                            <a-input-password 
-                                                v-model:value="formData.newPassword" 
-                                                size="large"
-                                                placeholder="Yangi parolni kiriting"
-                                            >
+                                            <a-input-password v-model:value="formData.newPassword" size="large"
+                                                placeholder="Yangi parolni kiriting">
                                                 <template #prefix>
                                                     <LockOutlined />
                                                 </template>
@@ -360,11 +341,8 @@ onMounted(() => {
 
                                     <a-col :xs="24" :md="12">
                                         <a-form-item label="Parolni tasdiqlash" name="confirmPassword">
-                                            <a-input-password 
-                                                v-model:value="formData.confirmPassword" 
-                                                size="large"
-                                                placeholder="Parolni qayta kiriting"
-                                            >
+                                            <a-input-password v-model:value="formData.confirmPassword" size="large"
+                                                placeholder="Parolni qayta kiriting">
                                                 <template #prefix>
                                                     <LockOutlined />
                                                 </template>
@@ -373,23 +351,22 @@ onMounted(() => {
                                     </a-col>
                                 </a-row>
 
-                                <a-alert 
-                                    message="Parolni o'zgartirish ixtiyoriy. Agar parolni o'zgartirmoqchi bo'lsangiz, barcha parol maydonlarini to'ldiring." 
-                                    type="info"
-                                    show-icon 
-                                />
+                                <a-alert
+                                    message="Parolni o'zgartirish ixtiyoriy. Agar parolni o'zgartirmoqchi bo'lsangiz, barcha parol maydonlarini to'ldiring."
+                                    type="info" show-icon />
                             </div>
                         </a-card>
 
                         <!-- Logout Section -->
                         <div class="logout-section">
-                            <a-button danger size="large" @click="handleLogout" class="logout-btn">
+                            <a-button danger size="large" @click="showModal" class="logout-btn">
                                 <template #icon>
                                     <LogoutOutlined />
                                 </template>
                                 Tizimdan chiqish
                             </a-button>
                         </div>
+                        <a-modal v-model:open="open" title="Tizimdan Chiqishni Hohlaysizmi" @ok="handleOk" />
                     </div>
                 </a-form>
             </div>

@@ -32,7 +32,6 @@ export default function useDocs(collectionName) {
     loading.value = true;
     try {
       const querySnapshot = await getDocs(collection(db, collectionName, userId, subCollection))
-      console.log(querySnapshot)
       data.value = querySnapshot.docs.map((doc) => (doc.data()))
     } catch (error) {
       message.error(error.message)

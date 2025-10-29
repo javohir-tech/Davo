@@ -72,9 +72,12 @@
           </div>
         </a-card>
         <a-button v-if="drugStore.selectedCount > 0" size="large" type="primary" danger block style="margin-top: 10px;"
-          @click="drugStore.clearList">
+          @click="showModal">
           Savatni Tozalash
         </a-button>
+        <a-modal v-model:open="open" title="Savatni tozalash" @ok="handleOk">
+          <p>Siz haqiqatan ham savatingizni tozalamoqchimisiz?</p>
+        </a-modal>
       </a-col>
 
       <a-col :xs="24" :lg="8">
@@ -138,6 +141,7 @@ import {
 import { useDrugsStore } from '@/Store/useDrugsStore';
 
 const drugStore = useDrugsStore();
+const open = ref(false);
 
 const totalPrice = computed(() => {
   return drugStore.selectedDrugs.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -150,6 +154,16 @@ const hasRxItems = computed(() => {
 const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
+
+const showModal = () => {
+  open.value = true
+}
+
+const handleOk = ()=>{
+  drugStore.clearList();
+  open.value = false
+}
+
 
 onMounted(() => {
   drugStore.fetchSelectedDrugs();
