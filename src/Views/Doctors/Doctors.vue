@@ -40,7 +40,7 @@
         <Col
           v-for="doctor in paginatedDoctors"
           :key="doctor.id"
-          :xs="12"
+          :xs="24"
           :sm="12"
           :md="8"
           :lg="6"
