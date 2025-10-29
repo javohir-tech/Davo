@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 import { useUsersStore } from "./useUserStore";
 //Firebase
 import { db } from "@/FireBase/config";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 //Hook
 import useDocs from "@/Hooks/useDocs";
 
@@ -12,13 +12,16 @@ export const useDrugsStore = defineStore('drugs', {
     state: () => ({
         selectedDrugs: [],
         selectedCount: 0,
-        loadingItems: {}
+        loadingItems: {},
+        userId: null,
     }),
     actions: {
         async fetchSelectedDrugs() {
             try {
-                const { data, getData } = useDocs('selectedMedicines')
-                await getData();
+                const userStore = useUsersStore();
+                this.userId = userStore.uid
+                const { data, getSubCollectionData } = useDocs('selectedMedicines');
+                await getSubCollectionData(this.userId, 'orders');
                 this.selectedDrugs = data.value
                 this.selectedCount = data.value.reduce((acc, curr) => acc + curr.quantity, 0)
             } catch (error) {
@@ -30,7 +33,7 @@ export const useDrugsStore = defineStore('drugs', {
             try {
                 const userStore = useUsersStore();
                 if (userStore.isActive) {
-                    await setDoc(doc(db, 'selectedMedicines', drug.id), { ...drug, quantity: 1 })
+                    await setDoc(doc(db, 'selectedMedicines', this.userId, 'orders', drug.id), { ...drug, quantity: 1 })
                     message.success(`${drug.name} savatga qo'shildi`);
                     this.selectedDrugs.push({ ...drug, quantity: 1 });
 
@@ -52,7 +55,7 @@ export const useDrugsStore = defineStore('drugs', {
                 this.selectedDrugs = this.selectedDrugs.filter(drug => drug.id !== drugId);
                 message.info('Savatdan olindi')
                 if (drug) {
-                    await deleteDoc(doc(db, 'selectedMedicines', drugId))
+                    await deleteDoc(doc(db, 'selectedMedicines', this.userId, 'orders', drugId))
                     const quantity = drug.quantity
                     this.selectedCount -= quantity
                 }
@@ -68,7 +71,7 @@ export const useDrugsStore = defineStore('drugs', {
             if (drug) {
                 drug.quantity += 1;
                 this.selectedCount += 1
-                await updateDoc(doc(db, 'selectedMedicines', drugId), {
+                await updateDoc(doc(db, 'selectedMedicines', this.userId, 'orders', drugId), {
                     quantity: drug.quantity
                 })
             }
@@ -78,7 +81,7 @@ export const useDrugsStore = defineStore('drugs', {
             if (drug && drug.quantity >= 0) {
                 drug.quantity -= 1;
                 this.selectedCount -= 1
-                await updateDoc(doc(db, 'selectedMedicines', drugId), {
+                await updateDoc(doc(db, 'selectedMedicines', this.userId, 'orders', drugId), {
                     quantity: drug.quantity
                 })
             }
@@ -92,7 +95,7 @@ export const useDrugsStore = defineStore('drugs', {
         async clearList() {
             this.selectedDrugs = [];
             this.selectedCount = 0
-            const querySnapshot = await getDocs(collection(db, 'selectedMedicines'))
+            const querySnapshot = await getDocs(collection(db, 'selectedMedicines', this.userId, 'orders'))
             const deletePromises = querySnapshot.docs.map((document) => {
                 deleteDoc(doc(db, 'selectedMedicines', document.id))
             })

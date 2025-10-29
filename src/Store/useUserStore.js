@@ -6,18 +6,20 @@ export const useUsersStore = defineStore('users', {
         token: null,
         password: null,
         photoURL: null,
-        email: null
+        email: null,
+        uid : null
     }),
     getters: {
-        isActive: (state) => state.token !==null
+        isActive: (state) => state.token !== null
     },
     actions: {
-        addUser(username, email, password, token, photoURL) {
+        addUser(username, email, password, token, photoURL, uid) {
             this.username = username;
             this.email = email;
             this.token = token;
             this.photoURL = photoURL;
             this.password = password;
+            this.uid = uid
         },
         editUsername(newUsername) {
             this.username = newUsername;
@@ -31,6 +33,7 @@ export const useUsersStore = defineStore('users', {
             this.photoURL = null;
             this.email = null;
             this.password = null;
+            this.uid = null
         }
     },
     persist: true

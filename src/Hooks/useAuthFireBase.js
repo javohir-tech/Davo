@@ -21,8 +21,9 @@ export function useAuthFireBase() {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user
+            console.log(user)
             localStorage.setItem('token', user.accessToken)
-            store.addUser(username, user.email, password, user.accessToken, user.photoURL)
+            store.addUser(username, user.email, password, user.accessToken, user.photoURL , user.uid)
 
             await updateProfile(user, {
                 displayName: username
@@ -37,7 +38,6 @@ export function useAuthFireBase() {
                 provider: null
             })
 
-            console.log(user)
             message.success('Ro\'yxatdan o\'tish muvaffaqiyatli!');
             router.push('/');
             return { success: true, user };
@@ -52,10 +52,9 @@ export function useAuthFireBase() {
         loading.value = true
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
-
             const user = userCredential.user;
             localStorage.setItem('token', user.accessToken)
-            store.addUser(username, user.email, password, user.accessToken, user.photoURL)
+            store.addUser(username, user.email, password, user.accessToken, user.photoURL, user.uid)
             message.success('Kirish muvaffaqiyatli!')
             router.push('/');
             console.log(user)
@@ -72,7 +71,7 @@ export function useAuthFireBase() {
             const result = await signInWithPopup(auth, provider)
 
             const user = result.user
-            store.addUser(user.displayName, user.email, null, user.accessToken, user.photoURL)
+            store.addUser(user.displayName, user.email, null, user.accessToken, user.photoURL , user.uid)
             localStorage.setItem('token', user.accessToken)
 
             await setDoc(doc(db, 'users', user.uid), {

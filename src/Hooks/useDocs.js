@@ -1,7 +1,7 @@
 //Vue
 import { ref } from 'vue'
 //Firebaasse
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import { db } from '@/FireBase/config'
 //Antd
 import { message } from 'ant-design-vue'
@@ -21,6 +21,19 @@ export default function useDocs(collectionName) {
           ...doc.data(),
         }
       })
+    } catch (error) {
+      message.error(error.message)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function getSubCollectionData(userId, subCollection) {
+    loading.value = true;
+    try {
+      const querySnapshot = await getDocs(collection(db, collectionName, userId, subCollection))
+      console.log(querySnapshot)
+      data.value = querySnapshot.docs.map((doc) => (doc.data()))
     } catch (error) {
       message.error(error.message)
     } finally {
@@ -54,6 +67,7 @@ export default function useDocs(collectionName) {
     dataById,
     loading,
     getData,
+    getSubCollectionData,
     getDocumentById
   }
 }
