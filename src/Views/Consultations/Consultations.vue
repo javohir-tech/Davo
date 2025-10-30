@@ -127,6 +127,7 @@ const getUserConsultations = async () => {
         }
     } catch (error) {
         console.log(error)
+        message.error('xatolik consultations da ')
         error.value = true
     } finally {
         loading.value = false
