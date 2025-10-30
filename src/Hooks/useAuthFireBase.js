@@ -60,7 +60,7 @@ export function useAuthFireBase() {
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
             const user = userCredential.user;
             localStorage.setItem('token', user.accessToken)
-            store.addUser(username, user.email, password, user.accessToken, user.photoURL, user.uid)
+            store.addUser(user.displayName, user.email, password, user.accessToken, user.photoURL, user.uid)
             message.success('Kirish muvaffaqiyatli!')
             router.push('/');
         } catch (error) {
