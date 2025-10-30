@@ -25,16 +25,19 @@ const userStore = useUsersStore();
 const userId = userStore.uid
 
 const loading = ref(false)
-const consultaions = ref([])
+const consultations = ref([])
 const error = ref(false)
 
-const getUSerConsultations = async () => {
+const getUserConsultations = async () => {
     loading.value = true
     try {
-
         const response = await getDoc(doc(db, 'users', userId))
         const userConsultations = response.data().consultations
-        console.log(userConsultations)
+        for (const consulatation of userConsultations) {
+            const item =  await getConsultate(consulatation.consultaionLink)
+            consultations.value.push(item)
+        }
+        console.log(toRaw(consultations.value))
     } catch (error) {
         console.log(error)
         error.value = true
@@ -43,7 +46,18 @@ const getUSerConsultations = async () => {
     }
 }
 
+const getConsultate = async(consultURl) => {
+    try {
+        const response = await getDoc(doc(db, consultURl))
+        if(response){
+            return response.data()
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 onMounted(() => {
-    getUSerConsultations()
+    getUserConsultations()
 })
 </script>
