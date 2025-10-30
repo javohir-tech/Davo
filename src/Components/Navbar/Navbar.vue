@@ -1,6 +1,6 @@
 <script setup>
 //Vue
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 //Antd icons
 import {
   MenuOutlined,
@@ -24,9 +24,12 @@ import { useDrugsStore } from '@/Store/useDrugsStore'
 //Dicebear
 import { createAvatar } from '@dicebear/core';
 import { initials } from '@dicebear/collection';
+// use user consultations
+import { useUserConsultations } from '@/Store/useUserConsultations'
 
 //store
 const store = useUsersStore();
+const userConsultations = useUserConsultations()
 const drugStore = useDrugsStore();
 const token = localStorage.getItem('token')
 //Avatar
@@ -38,6 +41,7 @@ const value1 = ref('UZ')
 //Router
 const router = useRouter()
 const route = useRoute()
+
 
 //Select
 const focus = () => {
@@ -81,6 +85,10 @@ const userChangePages = (path) => {
   router.push(path)
   drawerVisible.value = false
 }
+
+onMounted(()=>{
+  userConsultations.fetchCount()
+})
 
 </script>
 
@@ -136,8 +144,10 @@ const userChangePages = (path) => {
                     <a-menu-item @click="userChangePages('/orders')">
                       <ShoppingOutlined /> Buyurtmalar
                     </a-menu-item>
-                    <a-menu-item @click="userChangePages('/consultations')">
-                    <ShoppingOutlined /> Konsultatsiyalar
+                     <a-menu-item @click="userChangePages('/consultations')">
+                    <a-badge :count="userConsultations.count">
+                      <ShoppingOutlined /> Konsultatsiya
+                    </a-badge>
                   </a-menu-item>
                   </a-menu>
                 </template>
@@ -170,7 +180,7 @@ const userChangePages = (path) => {
             <a-select-option value="EN">🇬🇧 EN</a-select-option>
             <a-select-option value="RU">🇷🇺 RU</a-select-option>
           </a-select>
-          <a-badge :dot="drugStore.selectedCount > 0" v-if="store.token || token" type="primary">
+          <a-badge :dot="drugStore.selectedCount > 0 || userConsultations.count >0" v-if="store.token || token" type="primary">
             <a-dropdown @click.prevent>
               <img :src="store.photoURL ?? getAvatar()" style="width: 36px; border-radius: 100%;" alt="user img">
               <template #overlay>
@@ -187,7 +197,9 @@ const userChangePages = (path) => {
                     <ShoppingOutlined /> Buyurtmalar
                   </a-menu-item>
                   <a-menu-item @click="userChangePages('/consultations')">
-                    <ShoppingOutlined /> Konsultatsiya
+                    <a-badge :count="userConsultations.count">
+                      <ShoppingOutlined /> Konsultatsiya
+                    </a-badge>
                   </a-menu-item>
                 </a-menu>
               </template>

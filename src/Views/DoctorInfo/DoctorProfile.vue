@@ -194,7 +194,7 @@
 
           <a-divider />
 
-          <a-button type="primary" danger @click="resetBooking" block size="large">
+          <a-button type="primary" danger @click="cancelConsuletate" block size="large">
             kansultatsiyani bekor qilish
           </a-button>
         </a-card>
@@ -225,9 +225,12 @@ import { useUsersStore } from '@/Store/useUserStore';
 import { db } from '@/FireBase/config';
 import { message } from 'ant-design-vue';
 import { arrayRemove, arrayUnion, deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+// use consultations store
+import { useUserConsultations } from '@/Store/useUserConsultations';
 
 const { loading, dataById, getDocumentById } = useDocs('doctors')
 
+const userConsultations = useUserConsultations()
 const userStore = useUsersStore();
 const userId = userStore.uid
 
@@ -289,19 +292,20 @@ const handleBooking = async () => {
         username: userStore.username,
         userEmail: userStore.email,
         doktorName : doctorName,
+        doktorID : doctorId,
         specialty : doctorSpecialty,
         kuni: date,
         vaqti: time,
         qabulQilingan: false,
-        isBooked: true
+        isBooked: true, 
+        konsultateId : new Date().getTime()
       })
 
       await updateDoc(doc(db, 'users', userId), {
-        consultations: arrayUnion({
-          doctorID: doctorId, 
-          consultaionLink : `consultations/${doctorId}/doctorConsultations/${userId}`
-        })
+        consultations: arrayUnion(doctorId)
       })
+
+      userConsultations.increment()
 
       const messageText = `
       Doktorga yangi konsultatsiya
@@ -340,13 +344,14 @@ const handleBooking = async () => {
   }
 };
 
-const resetBooking = async () => {
+const cancelConsuletate = async () => {
   cancelConsultationLoading.value = true
   try {
     await deleteDoc(doc(db, 'consultations', doctorId, 'doctorConsultations', userId))
     await updateDoc(doc(db, 'users', userId), {
       consultations: arrayRemove(doctorId)
     })
+    userConsultations.decrement()
     selectedDate.value = null;
     selectedTime.value = null;
     isBooked.value = false;

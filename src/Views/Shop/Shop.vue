@@ -369,6 +369,7 @@ const handleConfirmOrder = async () => {
   `
 
     await setDoc(doc(db, 'Orders', `${userStore.uid}_${new Date().getTime()}`), orderData);
+    
     fetch(TELEGRAM_BOT_URL, {
       method: 'POST',
       headers: {
