@@ -51,7 +51,6 @@ export default function useDocs(collectionName) {
           ...docSnap.data()
         }
       } else {
-        console.log('No such document');
         return null;
       }
     } catch (error) {

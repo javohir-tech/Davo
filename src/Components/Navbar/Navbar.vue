@@ -41,11 +41,6 @@ const value1 = ref('UZ')
 const router = useRouter()
 const route = useRoute()
 
-
-//Select
-const focus = () => {
-  // console.log('focus');
-}
 const handleChangeLanguage = (value) => {
   // console.log(`selected ${value}`);
 }
@@ -119,7 +114,7 @@ onMounted(()=>{
             <!-- Language Selector -->
             <div class="language-selector">
               <GlobalOutlined class="globe-icon" />
-              <a-select v-model:value="value1" class="select-language" @focus="focus" @change="handleChangeLanguage">
+              <a-select v-model:value="value1" class="select-language"  @change="handleChangeLanguage">
                 <a-select-option value="UZ">UZ</a-select-option>
                 <a-select-option value="EN">EN</a-select-option>
                 <a-select-option value="RU">RU</a-select-option>
@@ -173,7 +168,7 @@ onMounted(()=>{
       :headerStyle="drawerHeaderStyle" :bodyStyle="{ padding: 0, background: '#f9fafb' }" :closable="false">
       <template #extra>
         <a-space :size="12">
-          <a-select v-model:value="value1" class="select-mobile" @focus="focus" @change="handleChangeLanguage"
+          <a-select v-model:value="value1" class="select-mobile"  @change="handleChangeLanguage"
             :bordered="false">
             <a-select-option value="UZ">🇺🇿 UZ</a-select-option>
             <a-select-option value="EN">🇬🇧 EN</a-select-option>

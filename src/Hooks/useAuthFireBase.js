@@ -21,7 +21,6 @@ export function useAuthFireBase() {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user
-            console.log(user)
             localStorage.setItem('token', user.accessToken)
             store.addUser(username, user.email, password, user.accessToken, user.photoURL , user.uid)
 
@@ -42,7 +41,7 @@ export function useAuthFireBase() {
             router.push('/');
             return { success: true, user };
         } catch (error) {
-            message.error(error.code)
+            message.error(error)
         } finally {
             loading.value = false
         }
@@ -57,9 +56,8 @@ export function useAuthFireBase() {
             store.addUser(username, user.email, password, user.accessToken, user.photoURL, user.uid)
             message.success('Kirish muvaffaqiyatli!')
             router.push('/');
-            console.log(user)
         } catch (error) {
-            message.error(error.code)
+            message.error(error)
         } finally {
             loading.value = false
         }
@@ -71,7 +69,6 @@ export function useAuthFireBase() {
             const result = await signInWithPopup(auth, provider)
 
             const user = result.user
-            console.log(user)
             store.addUser(user.displayName, user.email, null, user.accessToken, user.photoURL , user.uid)
             localStorage.setItem('token', user.accessToken)
 

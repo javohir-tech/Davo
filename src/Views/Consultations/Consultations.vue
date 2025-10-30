@@ -128,7 +128,6 @@ const getUserConsultations = async () => {
                 consultations.value.push(item)
             }
         }
-        console.log(toRaw(consultations.value))
     } catch (error) {
         console.log(error)
         error.value = true

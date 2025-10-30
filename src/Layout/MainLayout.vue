@@ -1,5 +1,7 @@
 <script setup>
-  import Navbar from '@/Components/Navbar/Navbar.vue'
+//components
+import Footer from '@/Components/Footer/Footer.vue';
+import Navbar from '@/Components/Navbar/Navbar.vue'
 </script>
 
 <template>
@@ -12,5 +14,6 @@
         </KeepAlive>
       </router-view>
     </main>
+    <Footer />
   </div>
 </template>

@@ -47,7 +47,7 @@ export const useDrugsStore = defineStore('drugs', {
                 }
             } catch (error) {
                 message.error('Qayta urunip ko\'ring')
-                console.log(error.code)
+                console.log(error)
             } finally {
                 this.loadingItems[drug.id] = false
             }

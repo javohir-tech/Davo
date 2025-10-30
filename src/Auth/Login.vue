@@ -130,8 +130,7 @@ const handleGoogleLogin = () => {
   signInWithGoogle()
 }
 const handleForgotPassword = () => {
-  console.log('Parolni unutdim')
-  message.info("Parolni tiklash sahifasiga o'tish...")
+  // 
 }
 
 // Register page function - Register sahifasiga o'tish
