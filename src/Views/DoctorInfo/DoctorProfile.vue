@@ -224,7 +224,7 @@ import { useUsersStore } from '@/Store/useUserStore';
 //Firebase
 import { db } from '@/FireBase/config';
 import { message } from 'ant-design-vue';
-import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 const { loading, dataById, getDocumentById } = useDocs('doctors')
 
@@ -243,6 +243,10 @@ const bookingLoading = ref(false);
 const cancelConsultationLoading = ref(false);
 const isApproved = ref(false)
 
+const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_CONSULTATION_TELEGRAM_BOT_TOKEN
+const TELEGRAM_CHAT_ID = import.meta.env.VITE_CONSULTATION_CHAD_ID
+const TELEGRAM_BOT_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
 // Available times
 const availableTimes = ref([
   "08:30", "09:00", "09:30", "10:00", "10:30",
@@ -260,8 +264,7 @@ const formatCurrency = (amount) => {
 };
 
 const formatDate = (date) => {
-  console.log('Tanlangan sana:', date)
-  return dayjs(date).locale('uz-latn').format('DD MMMM YYYY, HH:mm');
+  return dayjs(date).locale('uz-latn').format('DD MMMM YYYY');
 };
 
 const onDateSelect = (date) => {
@@ -289,8 +292,35 @@ const handleBooking = async () => {
         isBooked: true
       })
 
-      selectedDate.value = null
-      selectedTime.value = null
+      await updateDoc(doc(db, 'users', userId), {
+        consultations: arrayUnion(doctorId)
+      })
+
+      const messageText = `
+      Doktorga yangi konsultatsiya
+      Doktor: ${dataById.value.fullName}
+      belgilangan kun : ${formatDate(date)} \n
+      belgilangan vaqt : ${time}
+      username : ${userStore.username}
+      email: ${userStore.email}
+      `
+
+      fetch(TELEGRAM_BOT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: messageText,
+        }),
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Telegram xabar yuborishda xatolik yuz berdi');
+        }
+        return response.json();
+      })
+
       isBooked.value = true;
       message.success('Konsultatsiyaga muvafiqqiyatli yozildingiz');
     } catch (error) {
@@ -298,8 +328,6 @@ const handleBooking = async () => {
       console.log(error)
       isBooked.value = false
     } finally {
-      selectedDate.value = null;
-      selectedTime.value = null;
       bookingLoading.value = false
     }
   }
@@ -309,6 +337,9 @@ const resetBooking = async () => {
   cancelConsultationLoading.value = true
   try {
     await deleteDoc(doc(db, 'consultations', doctorId, 'doctorConsultations', userId))
+    await updateDoc(doc(db, 'users', userId), {
+      consultations: arrayRemove(doctorId)
+    })
     selectedDate.value = null;
     selectedTime.value = null;
     isBooked.value = false;

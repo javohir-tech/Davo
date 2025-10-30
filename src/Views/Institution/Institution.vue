@@ -287,7 +287,7 @@
     font-size: 1.8rem;
     font-weight: 700;
     gap: 12px;
-    color: #667eea;
+    color: #1890ff;
   }
 
   .header-icon {

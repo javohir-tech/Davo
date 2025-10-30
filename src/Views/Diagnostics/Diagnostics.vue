@@ -176,7 +176,7 @@
                     <Button
                       type="primary"
                       block
-                      @click="onSelectDoctor(item)"
+                      @click="onSelectDoctor(item.id)"
                       style="margin-top: 10px"
                     >
                       <EyeOutlined /> Ko'rish
@@ -230,6 +230,8 @@
     EyeOutlined,
   } from '@ant-design/icons-vue'
 
+  import { useRouter } from 'vue-router'
+
   //Hooks
   import useDocs from '@/Hooks/useDocs'
   //Local Data
@@ -239,6 +241,8 @@
   const { data, loading, getData } = useDocs('doctors')
 
   const { Title } = Typography
+
+  const router = useRouter()
 
   // --- Reactive state ---
   const search = ref('')
@@ -312,9 +316,8 @@
     selectedService.value = null
   }
 
-  function onSelectDoctor(doctor) {
-    message.success(`${doctor.fullName} tanlandi!`)
-    // Keyinchalik: router.push(`/doctors/${doctor.id}`)
+  function onSelectDoctor(doctorId) {
+    router.push(`doctors/${doctorId}`)
   }
 
   function onPageChange(page) {
@@ -362,7 +365,7 @@
     margin: 0;
     font-size: 1.8rem;
     font-weight: 700;
-    color: #667eea;
+    color: #1890ff;
   }
 
   .header-icon {

@@ -374,7 +374,7 @@ const handleConfirmOrder = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
+      bodyody: JSON.stringify({
         chat_id: TELEGRAM_CHAT_ID,
         text: messageText,
       }),
