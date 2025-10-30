@@ -9,7 +9,8 @@ import {
   GlobalOutlined,
   UserOutlined,
   ShoppingCartOutlined,
-  ShoppingOutlined
+  ShoppingOutlined,
+  UserSwitchOutlined
 } from '@ant-design/icons-vue'
 //Route
 import { useRouter } from 'vue-router'
@@ -140,7 +141,7 @@ onMounted(()=>{
                     </a-menu-item>
                      <a-menu-item @click="userChangePages('/consultations')">
                     <a-badge :count="userConsultations.count">
-                      <ShoppingOutlined /> Konsultatsiya
+                      <UserSwitchOutlined/> Konsultatsiya
                     </a-badge>
                   </a-menu-item>
                   </a-menu>
@@ -192,7 +193,7 @@ onMounted(()=>{
                   </a-menu-item>
                   <a-menu-item @click="userChangePages('/consultations')">
                     <a-badge :count="userConsultations.count">
-                      <ShoppingOutlined /> Konsultatsiya
+                      <UserSwitchOutlined /> Konsultatsiya
                     </a-badge>
                   </a-menu-item>
                 </a-menu>
