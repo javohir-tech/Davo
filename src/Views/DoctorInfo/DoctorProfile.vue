@@ -170,8 +170,14 @@
               <template v-else #dot>
                 <CheckCircleOutlined style="font-size: 16px;" />
               </template>
-              <p><strong>Shifokor javobi kutilmoqda</strong></p>
-              <p>Shifokor tez orada sizning so'rovingizni ko'rib chiqadi</p>
+              <p><strong>Shifokor javobni kutish</strong></p>
+              <p v-if="isApproved">
+                Qabul qilindi . Belgilangan vaqtda {{ dataById.workPlace.address }} 
+                da joylashgan {{ dataById.workPlace.name }}mizga kelishizni kutamiz
+              </p>
+              <p v-else>
+                Shifokor tez orada sizning so'rovingizni ko'rib chiqadi
+              </p>
               <a-tag :color="isApproved ? 'green' : 'processing'">
                 {{ isApproved ? 'Tasdiqlandi' : 'Jarayonda' }}
               </a-tag>
@@ -200,7 +206,7 @@
           <a-modal title="Kansultatsiyani bekor qilish" v-model:open="open" :footer="null">
             <p>Rostan kansultatsiyani bekor qilmoqchimisiz ?</p>
             <a-flex justify="end" gap="12">
-              <a-button @click="()=>open=false">Yo'q</a-button>
+              <a-button @click="() => open = false">Yo'q</a-button>
               <a-button type="primary" @click="cancelConsuletation" :loading="cancelConsultationLoading">Ha</a-button>
             </a-flex>
           </a-modal>
@@ -369,7 +375,7 @@ const cancelConsuletation = async () => {
   } catch (error) {
     console.log(error);
     message.error('Xatolik')
-  }finally{
+  } finally {
     cancelConsultationLoading.value = false
   }
 };

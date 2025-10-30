@@ -20,7 +20,6 @@ export const useUserConsultations = defineStore('consultations', {
         async fetchCount() {
             const userStore = useUsersStore()
             try {
-
                 if (!userStore.isActive) return
                 const response = await getDoc(doc(db, 'users', userStore.uid))
                 this.count = response.data().consultations.length

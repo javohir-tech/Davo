@@ -21,6 +21,7 @@ export const useDrugsStore = defineStore('drugs', {
             this.loadingSelecteds = true
             try {
                 const userStore = useUsersStore();
+                if(!userStore.isActive) return
                 this.userId = userStore.uid
                 const { data, getSubCollectionData } = useDocs('selectedMedicines');
                 await getSubCollectionData(this.userId, 'orders');
