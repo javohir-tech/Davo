@@ -318,7 +318,7 @@ const handleBooking = async () => {
       })
 
       await updateDoc(doc(db, 'users', userId), {
-        consultations: arrayUnion(doctorId)
+        userConsultations: arrayUnion(doctorId)
       })
 
       userConsultations.increment()
@@ -364,8 +364,8 @@ const cancelConsuletation = async () => {
   cancelConsultationLoading.value = true
   try {
     await deleteDoc(doc(db, 'consultations', doctorId, 'doctorConsultations', userId))
-    await updateDoc(doc(db, 'users', userId), {
-      consultations: arrayRemove(doctorId)
+    await updateDoc(doc(db, 'user', userId), {
+      userConsultations: arrayRemove(doctorId)
     })
     userConsultations.decrement()
     selectedDate.value = null;

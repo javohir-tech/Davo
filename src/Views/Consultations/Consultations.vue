@@ -116,7 +116,7 @@ const getUserConsultations = async () => {
     consultations.value = []
     try {
         const response = await getDoc(doc(db, 'users', userId))
-        const userConsultations = response.data()?.consultations
+        const userConsultations = response.data()?.userConsultations
         if (userConsultations) {
             for (const consulatation of userConsultations) {
                 const item = await getConsultate(consulatation)
