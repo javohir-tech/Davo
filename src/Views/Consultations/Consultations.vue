@@ -26,7 +26,7 @@
         <!-- Consultations List -->
         <div v-else class="consultations-list">
             <h2 class="page-title">Mening konsultatsiyalarim</h2>
-            
+
             <div class="cards-grid">
                 <div v-for="item in userActiveConsultations" :key="item.konsultateId" class="consultation-card-wrapper">
                     <a-card :hoverable="true" class="consultation-card">
@@ -61,20 +61,16 @@
                             <a-tag :color="item.qabulQilingan ? 'success' : 'processing'" class="status-tag">
                                 {{ item.qabulQilingan ? 'Qabul qilindi' : 'Jarayonda' }}
                             </a-tag>
-                            
+
                             <div class="action-buttons">
                                 <RouterLink :to="`/doctors/${item.doktorID}`">
                                     <a-button type="default" size="small">
                                         <EyeOutlined /> Ko'rish
                                     </a-button>
                                 </RouterLink>
-                                
-                                <a-popconfirm 
-                                    title="Konsultatsiyani rostdan bekor qilmoqchimisiz?" 
-                                    ok-text="Ha" 
-                                    cancel-text="Yo'q"
-                                    @confirm="cancelConsultate(item.doktorID)"
-                                >
+
+                                <a-popconfirm title="Konsultatsiyani rostdan bekor qilmoqchimisiz?" ok-text="Ha"
+                                    cancel-text="Yo'q" @confirm="cancelConsultate(item.doktorID)">
                                     <a-button type="primary" danger size="small">
                                         <DeleteOutlined /> Bekor qilish
                                     </a-button>
@@ -120,12 +116,13 @@ const getUserConsultations = async () => {
     consultations.value = []
     try {
         const response = await getDoc(doc(db, 'users', userId))
-        const userConsultations = response.data().consultations
-        
-        for (const consulatation of userConsultations) {
-            const item = await getConsultate(consulatation)
-            if (item) {
-                consultations.value.push(item)
+        const userConsultations = response.data()?.consultations
+        if (userConsultations) {
+            for (const consulatation of userConsultations) {
+                const item = await getConsultate(consulatation)
+                if (item) {
+                    consultations.value.push(item)
+                }
             }
         }
     } catch (error) {
