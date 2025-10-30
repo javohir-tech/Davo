@@ -99,7 +99,7 @@ const router = createRouter({
 
 router.beforeEach((to, form, next) => {
   const authPages = ['/login', '/register'];
-  const userPages = ['/profile', '/shop', '/orders']
+  const userPages = ['/profile', '/shop', '/orders' , '/consultations']
   const userStore = useUsersStore()
   const user = userStore.isActive;
 
