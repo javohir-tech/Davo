@@ -13,6 +13,7 @@ import Navbar from '@/Components/Navbar/Navbar.vue'
           <component :is="Component" />
         </KeepAlive>
       </router-view>
+      <a-back-top />
     </main>
     <Footer />
   </div>

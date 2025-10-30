@@ -17,8 +17,8 @@
 
       <!-- Articles Search Section-->
       <div class="search-section">
-        <Input @pressEnter="onSearchEnter" size="large" v-model:value="searchQuery" allowClear class="search-input"
-          placeholder="Sizni qiziqtirgan mavzu nomini yozing...">
+        <Input ref="searchInput" @pressEnter="onSearchEnter" size="large" v-model:value="searchQuery" allowClear
+          class="search-input" placeholder="Sizni qiziqtirgan mavzu nomini yozing...">
         <template #prefix>
           <SearchOutlined class="search-icon" />
         </template>
@@ -85,7 +85,7 @@
 
 <script setup>
 //Vue
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 //Antd Components
 import {
   Typography,
@@ -148,12 +148,25 @@ function onSearchEnter() {
   currentPage.value = 1
 }
 
+function handleShortcut(e) {
+  if (e.crtlKey && e.key.toLowerCase() === 'k') {
+    e.preventDefault()
+    searchInput.value?.focus()
+  }
+}
+
 watch(searchQuery, () => {
   currentPage.value = 1
 })
 
+
 onMounted(() => {
   getData()
+  window.addEventListener('keydown', handleShortcut)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleShortcut)
 })
 </script>
 
