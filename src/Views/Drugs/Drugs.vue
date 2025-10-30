@@ -31,16 +31,17 @@
       <div v-else class="cards-wrapper">
         <Row v-if="paginatedMedicines.length > 0" :gutter="[16, 16]">
           <Col v-for="medicine in paginatedMedicines" :key="medicine.id" :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-          <div class="medicine-card">
-            <!-- Card header -->
-            <div class="card-header">
-              <div class="medicine-icon">💊</div>
-              <div :class="[
-                'stock-indicator',
-                medicine.stock < 100 ? 'low-stock' : 'in-stock',
-              ]">
-                <span class="stock-dot"></span>
-                {{ medicine.stock < 100 ? 'Kam' : 'Mavjud' }} </div>
+            <div class="medicine-card" @click="handleCardClick(medicine.id, $event)">
+              <!-- Card header -->
+              <div class="card-header">
+                <div class="medicine-icon">💊</div>
+                <div :class="[
+                  'stock-indicator',
+                  medicine.stock < 100 ? 'low-stock' : 'in-stock',
+                ]">
+                  <span class="stock-dot"></span>
+                  {{ medicine.stock < 100 ? 'Kam' : 'Mavjud' }}
+                </div>
               </div>
 
               <!-- Card body -->
@@ -82,14 +83,15 @@
               </div>
 
               <!-- Card footer -->
-              <div class="card-footer">
-                <Button type="default" size="small" class="view-btn" @click=" router.push(`/drugs/${medicine.id}`)">
-                  <EyeOutlined />
-                </Button>
-                <Button v-if="!drugsStore.isSelected(medicine.id)" :disabled="drugsStore.loadingItems[medicine.id]" type="primary" size="small" class="cart-btn"
+              <div class="card-footer" @click.stop>
+                <Button v-if="!drugsStore.isSelected(medicine.id)" 
+                  :disabled="drugsStore.loadingItems[medicine.id]" 
+                  type="primary" 
+                  size="small" 
+                  class="cart-btn"
                   @click="drugsStore.addDrug(medicine)">
                   <ShoppingCartOutlined />
-                 {{ drugsStore.loadingItems[medicine.id] ? 'Loading...' : 'Savat' }}
+                  {{ drugsStore.loadingItems[medicine.id] ? 'Loading...' : 'Savat' }}
                 </Button>
                 <div v-else class="quatity-control">
                   <Button @click="drugsStore.decrementQuantity(medicine.id)" type="primary" class="cart-btn"
@@ -100,12 +102,12 @@
                 </div>
               </div>
             </div>
-            </Col>
+          </Col>
         </Row>
 
         <!-- Agar natija topilmasa -->
         <div v-else class="no-results">
-          <a-empty size="large" :description="data.length ===0 ? '' : 'Dori topilmadi'" />
+          <a-empty size="large" :description="data.length === 0 ? '' : 'Dori topilmadi'" />
         </div>
 
         <!-- Pagination -->
@@ -179,6 +181,11 @@ const truncateText = (text, maxLength) => {
     return text.substring(0, maxLength) + '...'
   }
   return text
+}
+
+// Card click handler
+const handleCardClick = (medicineId, event) => {
+  router.push(`/drugs/${medicineId}`)
 }
 
 // Sahifa o'zgarganda
@@ -286,6 +293,7 @@ watch(searchQuery, () => {
   flex-direction: column;
   height: 100%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
 }
 
 .medicine-card:hover {
@@ -436,28 +444,10 @@ watch(searchQuery, () => {
 /* Card Footer */
 .card-footer {
   padding: 10px;
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
   gap: 8px;
   background: #fafafa;
   border-top: 1px solid #f0f0f0;
-}
-
-.view-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  width: 32px;
-  border-radius: 6px;
-  border: 1px solid #d9d9d9;
-  transition: all 0.3s;
-  padding: 0;
-}
-
-.view-btn:hover {
-  border-color: #1890ff;
-  color: #1890ff;
 }
 
 .cart-btn {
@@ -472,6 +462,7 @@ watch(searchQuery, () => {
   border: none;
   transition: all 0.3s;
   font-size: 13px;
+  flex: 1;
 }
 
 .cart-btn:hover {
@@ -483,6 +474,13 @@ watch(searchQuery, () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.quatity-control .cart-btn {
+  width: 32px;
+  padding: 0;
 }
 
 .select-count {
@@ -559,6 +557,14 @@ watch(searchQuery, () => {
 
   .price-value {
     font-size: 16px;
+  }
+  
+  .detail-label {
+    font-size: 11px;
+  }
+  
+  .detail-value {
+    font-size: 11px;
   }
 }
 </style>

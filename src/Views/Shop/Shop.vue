@@ -330,7 +330,6 @@ const handleConfirmOrder = async () => {
     if (!isFormValid.value) {
       return;
     }
-
     const orderData = {
       dorilar: drugStore.selectedDrugs.map(drug => ({
         id: drug.id,
@@ -352,53 +351,60 @@ const handleConfirmOrder = async () => {
       shifokorKodi: hasRxItems.value ? doctorCode.value : null,
       vaqt: new Date().toISOString()
     };
-
+    
     const messageText = `
-  Yangi Buyurtma Malumotlari:
-  ${orderData.dorilar.map(drug => (`
-    dori nomi : ${drug.nomi} | dori soni: ${drug.soni} | dori narxi :${formatPrice(drug.narxi)} 
-  `)).join('\n')}
-  Yetkazish manzili: ${orderData.yetkazibBerishMalumotlari.manzil}
-  Telefon raqami: ${orderData.yetkazibBerishMalumotlari.telefonRaqami}
-  Yetkazib berish vaqti: ${orderData.yetkazibBerishMalumotlari.yetkazibBerishVaqti}
-  Jami summa: ${formatPrice(orderData.narxlar.umumiySumma)} so'm
-  YetkazibBerishNarxi : ${formatPrice(orderData.narxlar.yetkazibBerishNarxi)} so'm
-  Umumiy summa: ${formatPrice(orderData.narxlar.umumiySumma)} so'm
-  Telefon : ${orderData.yetkazibBerishMalumotlari.telefonRaqami}
-  Vaqt :${new Date().toLocaleString('uz-UZ')}
-  `
+🆕 Yangi Buyurtma Malumotlari:
 
+📦 Dorilar:
+${orderData.dorilar.map(drug => `  • ${drug.nomi} | Soni: ${drug.soni} | Narxi: ${formatPrice(drug.narxi)} so'm`).join('\n')}
+
+📍 Yetkazish manzili: ${orderData.yetkazibBerishMalumotlari.manzil}
+📞 Telefon raqami: ${orderData.yetkazibBerishMalumotlari.telefonRaqami}
+⏰ Yetkazib berish vaqti: ${orderData.yetkazibBerishMalumotlari.yetkazibBerishVaqti}
+
+💰 Jami summa: ${formatPrice(orderData.narxlar.jamiSumma)} so'm
+🚚 Yetkazib berish: ${formatPrice(orderData.narxlar.yetkazibBerishNarxi)} so'm
+💵 Umumiy summa: ${formatPrice(orderData.narxlar.umumiySumma)} so'm
+
+🕐 Vaqt: ${new Date().toLocaleString('uz-UZ')}
+    `.trim();
+
+    // Firebase ga saqlash
     await setDoc(doc(db, 'Orders', `${userStore.uid}_${new Date().getTime()}`), orderData);
     
-    fetch(TELEGRAM_BOT_URL, {
+    // Telegramga xabar yuborish
+    const telegramResponse = await fetch(TELEGRAM_BOT_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      bodyody: JSON.stringify({
+      body: JSON.stringify({  // bodyody emas, body bo'lishi kerak!
         chat_id: TELEGRAM_CHAT_ID,
         text: messageText,
       }),
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Telegram xabar yuborishda xatolik yuz berdi');
-      }
-      return response.json();
-    })
+    });
+
+    if (!telegramResponse.ok) {
+      const errorData = await telegramResponse.json();
+      console.error('Telegram xato:', errorData);
+      throw new Error('Telegram xabar yuborishda xatolik yuz berdi');
+    }
+
     // Formani tozalash
     address.value = '';
     phoneNumber.value = '';
     deliveryTime.value = undefined;
     doctorCode.value = '';
     drugStore.clearList();
-    message.success('Buyurtma muvaffaqiyatli yaratildi!');
+    
+    message.success('Buyurtma muvaffaqiyatli yaratildi va xabar yuborildi!');
   } catch (error) {
     console.error('Buyurtma yaratishda xato:', error);
+    message.error('Xatolik yuz berdi: ' + error.message);
   } finally {
     loading.value = false;
     closeOrderModal();
   }
-
 };
 
 onMounted(() => {

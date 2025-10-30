@@ -9,7 +9,6 @@ import {
   GlobalOutlined,
   UserOutlined,
   ShoppingCartOutlined,
-  LogoutOutlined,
   ShoppingOutlined
 } from '@ant-design/icons-vue'
 //Route
@@ -128,7 +127,7 @@ onMounted(()=>{
             </div>
 
             <!-- Login Button -->
-            <a-badge :dot="drugStore.selectedCount > 0" v-if="store.token || token" type="primary">
+            <a-badge :dot="drugStore.selectedCount > 0 || userConsultations.count > 0" v-if="store.token || token" type="primary">
               <a-dropdown @click.prevent>
                 <img :src="store.photoURL ?? getAvatar()" style="width: 36px; border-radius: 100%;" alt="user img">
                 <template #overlay>

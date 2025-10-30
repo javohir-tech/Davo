@@ -194,9 +194,16 @@
 
           <a-divider />
 
-          <a-button type="primary" danger @click="cancelConsuletate" block size="large">
+          <a-button type="primary" danger @click="showModal" block size="large">
             kansultatsiyani bekor qilish
           </a-button>
+          <a-modal title="Kansultatsiyani bekor qilish" v-model:open="open" :footer="null">
+            <p>Rostan kansultatsiyani bekor qilmoqchimisiz ?</p>
+            <a-flex justify="end" gap="12">
+              <a-button @click="()=>open=false">Yo'q</a-button>
+              <a-button type="primary" @click="cancelConsuletation" :loading="cancelConsultationLoading">Ha</a-button>
+            </a-flex>
+          </a-modal>
         </a-card>
       </template>
     </div>
@@ -244,7 +251,8 @@ const selectedTime = ref(null);
 const isBooked = ref(false);
 const bookingLoading = ref(false);
 const cancelConsultationLoading = ref(false);
-const isApproved = ref(false)
+const isApproved = ref(false);
+const open = ref(false);
 
 const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_CONSULTATION_TELEGRAM_BOT_TOKEN
 const TELEGRAM_CHAT_ID = import.meta.env.VITE_CONSULTATION_CHAD_ID
@@ -261,6 +269,10 @@ const availableTimes = ref([
 const getInitials = (name) => {
   return name.split(' ').map(n => n[0]).join('').toUpperCase();
 };
+
+const showModal = () => {
+  open.value = true
+}
 
 const formatCurrency = (amount) => {
   return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -286,19 +298,17 @@ const handleBooking = async () => {
     try {
       const date = new Date(selectedDate.value);
       const time = selectedTime.value;
-      const doctorName  = dataById.value.fullName
-      const doctorSpecialty = dataById.value.specialty
       await setDoc(doc(db, 'consultations', doctorId, 'doctorConsultations', userId), {
         username: userStore.username,
         userEmail: userStore.email,
-        doktorName : doctorName,
-        doktorID : doctorId,
-        specialty : doctorSpecialty,
+        doktorName: dataById.value.fullName,
+        doktorID: doctorId,
+        specialty: dataById.value.specialty,
         kuni: date,
-        vaqti: time,
+        vaqti: selectedTime.value,
         qabulQilingan: false,
-        isBooked: true, 
-        konsultateId : new Date().getTime()
+        isBooked: true,
+        konsultateId: new Date().getTime()
       })
 
       await updateDoc(doc(db, 'users', userId), {
@@ -344,7 +354,7 @@ const handleBooking = async () => {
   }
 };
 
-const cancelConsuletate = async () => {
+const cancelConsuletation = async () => {
   cancelConsultationLoading.value = true
   try {
     await deleteDoc(doc(db, 'consultations', doctorId, 'doctorConsultations', userId))
@@ -359,6 +369,8 @@ const cancelConsuletate = async () => {
   } catch (error) {
     console.log(error);
     message.error('Xatolik')
+  }finally{
+    cancelConsultationLoading.value = false
   }
 };
 
