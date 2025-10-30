@@ -79,7 +79,7 @@ const getAvatar = () => {
 
 const userChangePages = (path) => {
   router.push(path)
-  drawerVisible.value= false
+  drawerVisible.value = false
 }
 
 </script>
@@ -136,6 +136,9 @@ const userChangePages = (path) => {
                     <a-menu-item @click="userChangePages('/orders')">
                       <ShoppingOutlined /> Buyurtmalar
                     </a-menu-item>
+                    <a-menu-item @click="userChangePages('/consultations')">
+                    <ShoppingOutlined /> Konsultatsiyalar
+                  </a-menu-item>
                   </a-menu>
                 </template>
               </a-dropdown>
@@ -182,6 +185,9 @@ const userChangePages = (path) => {
                   </a-menu-item>
                   <a-menu-item @click="userChangePages('/orders')">
                     <ShoppingOutlined /> Buyurtmalar
+                  </a-menu-item>
+                  <a-menu-item @click="userChangePages('/consultations')">
+                    <ShoppingOutlined /> Konsultatsiya
                   </a-menu-item>
                 </a-menu>
               </template>

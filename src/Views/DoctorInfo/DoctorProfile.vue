@@ -283,9 +283,13 @@ const handleBooking = async () => {
     try {
       const date = new Date(selectedDate.value);
       const time = selectedTime.value;
+      const doctorName  = dataById.value.fullName
+      const doctorSpecialty = dataById.value.specialty
       await setDoc(doc(db, 'consultations', doctorId, 'doctorConsultations', userId), {
         username: userStore.username,
         userEmail: userStore.email,
+        doktorName : doctorName,
+        specialty : doctorSpecialty,
         kuni: date,
         vaqti: time,
         qabulQilingan: false,
@@ -293,7 +297,10 @@ const handleBooking = async () => {
       })
 
       await updateDoc(doc(db, 'users', userId), {
-        consultations: arrayUnion(doctorId)
+        consultations: arrayUnion({
+          doctorID: doctorId, 
+          consultaionLink : `consultations/${doctorId}/doctorConsultations/${userId}`
+        })
       })
 
       const messageText = `

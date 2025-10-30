@@ -14,7 +14,8 @@ import {
   Profile,
   Shop,
   Orders,
-  DoctorProfile
+  DoctorProfile,
+  Consultations
 } from '@/Views'
 //Auth
 import { Login, Register } from '@/Auth'
@@ -70,6 +71,10 @@ const routes = [
       {
         path: 'orders',
         component: Orders
+      },
+      {
+        path : 'consultations',
+        component : Consultations,
       },
       {
         path: 'intervyu',
