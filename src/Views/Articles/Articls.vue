@@ -29,41 +29,55 @@
       </div>
 
       <!-- Articles Section -->
-      <Row :gutter="[16, 16]" class="articles-section">
-        <Col v-for="article in paginatedArticles" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-        <Card hoverable class="article-card">
-          <template #cover>
-            <div class="article-cover">
-              <div class="category-tag">{{ article.category }}</div>
-            </div>
-          </template>
-          <CardMeta>
-            <template #title>
-              <div class="">{{ article.title }}</div>
-            </template>
-            <template #description>
-              <div class="article-content">
-                <p class="article-description">{{ article.description }}</p>
-                <div class="article-footer">
-                  <span class="article-date">
-                    <CalendarOutlined />
-                    {{ article.date }}
-                  </span>
-                  <Button type="primary" @click="navigateArticle(article.id)">
-                    Batafsil
-                  </Button>
-                </div>
+      <div v-if="loading" class="loading">
+        <a-spin size="large" tip="Maqolalar yuklanmoqda..." />
+      </div>
+      <div v-else-if="!loading && data.length === 0" class="empty">
+        <a-empty>
+          <p>Maqolalar Yuklanmadi</p>
+          <a-button type="primary" @click="Reload">Reload</a-button>
+        </a-empty>
+      </div>
+      <div v-else-if="!loading && data.length > 0">
+        <Row :gutter="[16, 16]" class="articles-section">
+          <Col v-for="article in paginatedArticles" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+          <Card hoverable class="article-card">
+            <template #cover>
+              <div class="article-cover">
+                <img :src="article.image" alt="article image">
+                <div class="category-tag">{{ article.category }}</div>
               </div>
             </template>
-          </CardMeta>
-        </Card>
-        </Col>
-      </Row>
+            <CardMeta>
+              <template #title>
+                <div class="">{{ article.title }}</div>
+              </template>
+              <template #description>
+                <div class="article-content">
+                  <p class="article-description">{{ article.description }}</p>
+                  <div class="article-footer">
+                    <span class="article-date">
+                      <CalendarOutlined />
+                      {{ article.date }}
+                    </span>
+                    <RouterLink :to="`/articles/${article.id}`">
+                      <Button type="primary" @click="navigateArticle(article.id)">
+                        Batafsil
+                      </Button>
+                    </RouterLink>
+                  </div>
+                </div>
+              </template>
+            </CardMeta>
+          </Card>
+          </Col>
+        </Row>
 
-      <!-- Pagination Section -->
-      <div class="pagination-section">
-        <Pagination :current="currentPage" :pageSize="pageSize" :total="filteredArticles.length"
-          @change="onPageChange" />
+        <!-- Pagination Section -->
+        <div class="pagination-section">
+          <Pagination :current="currentPage" :pageSize="pageSize" :total="filteredArticles.length"
+            @change="onPageChange" />
+        </div>
       </div>
     </div>
   </div>
@@ -71,7 +85,7 @@
 
 <script setup>
 //Vue
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 //Antd Components
 import {
   Typography,
@@ -82,7 +96,6 @@ import {
   CardMeta,
   Button,
   Pagination,
-  message,
 } from 'ant-design-vue'
 //Antd Styles
 import {
@@ -90,8 +103,10 @@ import {
   SearchOutlined,
   CalendarOutlined,
 } from '@ant-design/icons-vue'
-// Articles
-import articles from '@/Data/articles.json'
+//Hooks
+import useDocs from '@/Hooks/useDocs'
+
+const { loading, data, getData } = useDocs('articles')
 
 const { Title } = Typography
 const searchQuery = ref('')
@@ -100,8 +115,8 @@ const pageSize = ref(6)
 
 //Computents
 const filteredArticles = computed(() => {
-  if (!searchQuery) return articles
-  return articles.filter(
+  if (!searchQuery) return data
+  return data.value.filter(
     (a) =>
       a.title.toLowerCase().includes(searchQuery.value.toLocaleLowerCase()) ||
       a.category
@@ -121,8 +136,12 @@ function onPageChange(page) {
   window.scroll({ top: 0, behavior: 'smooth' })
 }
 
+const Reload = () => {
+  window.location.reload()
+}
+
 function navigateArticle(id) {
-  // message.success(`${id} idli maqolaga otildi`)
+
 }
 
 function onSearchEnter() {
@@ -132,10 +151,28 @@ function onSearchEnter() {
 watch(searchQuery, () => {
   currentPage.value = 1
 })
+
+onMounted(() => {
+  getData()
+})
 </script>
 
 <style scoped>
 /* Header Section */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+}
+
+.empty {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .articles-container {
   max-width: 1400px;
@@ -212,15 +249,22 @@ watch(searchQuery, () => {
 .article-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  img {
+    transform: scale(1.1);
+  }
 }
 
 .article-cover {
   height: 180px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 16px;
+  overflow: hidden;
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+  }
 }
 
 .category-tag {

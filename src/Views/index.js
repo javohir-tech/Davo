@@ -11,6 +11,7 @@ import Medicine from './Medicine/Medicine.vue'
 import Orders from './Orders/Orders.vue'
 import DoctorProfile from './DoctorInfo/DoctorProfile.vue'
 import Consultations from './Consultations/Consultations.vue'
+import Article from './Article/Article.vue'
 
 export {
     HomeView,
@@ -23,6 +24,7 @@ export {
     Profile,
     Shop,
     Medicine, Orders,
-    DoctorProfile, 
-    Consultations
+    DoctorProfile,
+    Consultations,
+    Article
 }

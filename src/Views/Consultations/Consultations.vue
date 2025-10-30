@@ -153,7 +153,7 @@ const cancelConsultate = async (doctorID) => {
     try {
         await deleteDoc(doc(db, 'consultations', doctorID, 'doctorConsultations', userId))
         await updateDoc(doc(db, 'users', userId), {
-            consultations: arrayRemove(doctorID)
+            userConsultations: arrayRemove(doctorID)
         })
         userConsultations.decrement()
         consultations.value = consultations.value.filter(item => item.doktorID !== doctorID)

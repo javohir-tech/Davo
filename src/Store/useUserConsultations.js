@@ -23,6 +23,7 @@ export const useUserConsultations = defineStore('consultations', {
             try {
                 const response = await getDoc(doc(db, 'users', userStore.uid))
                 const userConsultations = response.data()?.userConsultations
+                console.log(userConsultations)
                 if (userConsultations) {
                     this.count = userConsultations.length
                 }

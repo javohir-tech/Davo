@@ -2,85 +2,432 @@
   {
     "id": 1,
     "title": "Yurak-qon tomir kasalliklari oldini olish",
-    "description": "Yurak-qon tomir kasalliklarining oldini olish uchun to'g'ri ovqatlanish, jismoniy faollik va muntazam tekshiruvlar haqida batafsil ma'lumot.",
+    "description": "Yurakni sog'lom saqlash uchun to'g'ri ovqatlanish, jismoniy faollik va stressni boshqarish muhim ahamiyatga ega.",
     "date": "2025-10-20",
-    "category": "Kardiologiya"
+    "category": "Kardiologiya",
+    "image": "https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?w=800",
+    "fullContent": "Yurak-qon tomir kasalliklari dunyoda o'lim sabablari ro'yxatida birinchi o'rinda turadi. Har yili 17.9 million kishi yurak-qon tomir kasalliklaridan vafot etadi. Biroq, bu kasalliklarning aksariyati oldini olish mumkin.\n\n**Yurak sog'lig'iga ta'sir qiluvchi omillar:**\n\nYurak kasalliklarining asosiy xavf omillari: yuqori qon bosimi, yuqori xolesterin, chekish, qand diabeti, ortiqcha vazn va harakatsiz turmush tarzi. Ushbu omillarning ko'pchiligini hayot tarzini o'zgartirish orqali nazorat qilish mumkin.\n\n**Jismoniy faollik:**\n\nMuntazam jismoniy mashqlar yurak mushagini kuchaytiradi, qon aylanishini yaxshilaydi va qon bosimini pasaytiradi. Aerobik mashqlar (yugurish, suzish, velosiped haydash) ayniqsa foydalidir. Haftasiga kamida 150 daqiqa o'rtacha intensivlikdagi yoki 75 daqiqa yuqori intensivlikdagi jismoniy faollik tavsiya etiladi.\n\n**To'g'ri ovqatlanish:**\n\nYurak uchun foydali ovqatlanish rejimi to'yingan yog'lar va trans-yog'larni cheklaydi, omega-3 yog' kislotalariga boy mahsulotlarni (baliq, yong'oq), meva va sabzavotlarni ko'proq iste'mol qilishni o'z ichiga oladi. Tuzni kuniga 5 grammdan oshmasligi kerak.\n\n**Stressni boshqarish:**\n\nUzluksiz stress yurak kasalliklari xavfini oshiradi. Meditatsiya, yoga, chuqur nafas olish mashqlari va yetarli uyqu stressni kamaytirishga yordam beradi. Ijtimoiy aloqalar va sevimli mashg'ulotlar ham ruhiy sog'liqni saqlashda muhim rol o'ynaydi.\n\n**Muntazam tekshiruvlar:**\n\n40 yoshdan keyin har yili qon bosimi, xolesterin va qon shakar darajasini tekshirish lozim. Erta aniqlangan muammolarni davolash ancha oson va samarali.",
+    "tips": [
+      "Har kuni kamida 30 daqiqa yurish yoki yengil mashqlar bajaring",
+      "Tuzni kuniga 5 grammdan oshmasligi kerak",
+      "Yurakni tekshirish uchun yilda kamida bir marta shifokorga boring",
+      "Chekishni to'xtating va alkogolni cheklang",
+      "Stressni kamaytirish uchun meditatsiya va yoga bilan shug'ullaning",
+      "Qon bosimi va xolesterinni muntazam nazorat qiling"
+    ],
+    "externalLinks": [
+      {
+        "title": "Wikipedia: Yurak-qon tomir kasalliklari",
+        "url": "https://uz.wikipedia.org/wiki/Yurak-qon_tomir_kasalliklari"
+      },
+      {
+        "title": "WHO: Cardiovascular diseases",
+        "url": "https://www.who.int/health-topics/cardiovascular-diseases"
+      },
+      {
+        "title": "Mayo Clinic: Heart Disease Prevention",
+        "url": "https://www.mayoclinic.org/diseases-conditions/heart-disease/in-depth/heart-disease-prevention/art-20046502"
+      },
+      {
+        "title": "American Heart Association",
+        "url": "https://www.heart.org/"
+      }
+    ],
+    "relatedArticles": [
+      {
+        "id": 2,
+        "title": "Qon bosimini nazorat qilish usullari",
+        "category": "Kardiologiya"
+      },
+      {
+        "id": 3,
+        "title": "Sog'lom ovqatlanish yurak uchun foydali",
+        "category": "Dietologiya"
+      }
+    ]
   },
   {
     "id": 2,
-    "title": "Qandli diabet bilan yashash: amaliy maslahatlar",
-    "description": "Qandli diabet bilan og'rigan bemorlar uchun kundalik hayotni osonlashtirish, qand darajasini nazorat qilish va asoratlarga yo'l qo'ymaslik bo'yicha tavsiyalar.",
-    "date": "2025-10-18",
-    "category": "Endokrinologiya"
+    "title": "Qon bosimini nazorat qilish usullari",
+    "description": "Qon bosimini me'yorda ushlab turish uchun to'g'ri parhez va muntazam jismoniy faollik zarur.",
+    "date": "2025-09-15",
+    "category": "Kardiologiya",
+    "image": "https://images.unsplash.com/photo-1584515933487-779824d29309?w=800",
+    "fullContent": "Gipertenziya yoki yuqori qon bosimi — bu qon tomirlar devoriga beradigan bosimning ortishi. Bu holat ko'pincha hech qanday belgi bermasdan rivojlanadi, shuning uchun uni 'jimjit qotil' deb atashadi.\n\n**Qon bosimi me'yorlari:**\n\nNormal qon bosimi: 120/80 mm Hg dan past. Gipertenziya birinchi bosqichi: 130-139/80-89 mm Hg. Gipertenziya ikkinchi bosqichi: 140/90 mm Hg dan yuqori. Qon bosimi doimiy ravishda yuqori bo'lsa, bu insult, yurak xuruji va buyrak kasalliklari xavfini keskin oshiradi.\n\n**Tuzsiz parhez (DASH):**\n\nDASH (Dietary Approaches to Stop Hypertension) parhezi yuqori qon bosimini kamaytirish uchun maxsus ishlab chiqilgan. Bu parhez meva, sabzavot, to'liq donli mahsulotlar, yog'siz sutli mahsulotlar va yong'oqlarni ko'p iste'mol qilishni tavsiya etadi. Tuz, qizil go'sht va shakarli mahsulotlarni esa cheklash kerak.\n\n**Jismoniy mashqlar:**\n\nMuntazam aerobik mashqlar (tez yurish, yugurish, suzish) sistolik qon bosimini o'rtacha 5-8 mm Hg ga tushirishi mumkin. Haftasiga 5-7 kun, kuniga 30 daqiqadan mashq qilish tavsiya etiladi.\n\n**Vazn nazorati:**\n\nOrtiqcha vazn qon bosimini oshiradi. Har bir yo'qotilgan kilogramm qon bosimini taxminan 1 mm Hg ga tushiradi. Sog'lom vazn indeksi (BMI) 18.5-24.9 oralig'ida bo'lishi kerak.\n\n**Stressni kamaytirish:**\n\nXronik stress qon bosimini oshiradi. Chuqur nafas olish, meditatsiya, yoga va progresiv mushak relaksatsiyasi stressni kamaytirishda samarali.\n\n**Dori-darmonlar:**\n\nHayot tarzi o'zgarishlari etarli bo'lmasa, shifokor qon bosimini tushiruvchi dorilarni tavsiya qilishi mumkin. Dorilarni shifokor ko'rsatmasiga qat'iy rioya qilgan holda qabul qilish kerak.",
+    "tips": [
+      "Har kuni bir xil vaqtda qon bosimingizni o'lchang va qayd eting",
+      "Tuzni kuniga 5 grammdan kam iste'mol qiling",
+      "Alkogolni cheklang: erkaklar uchun kuniga 2 ta, ayollar uchun 1 ta ichimlik",
+      "Yog'li va qovurilgan ovqatlarni kamaytiring",
+      "Stressni kamaytirish uchun chuqur nafas olish mashqlarini bajaring",
+      "Kofeinni cheklang va chekishni butunlay to'xtating",
+      "Yetarli miqdorda uxlang — kuniga 7-8 soat"
+    ],
+    "externalLinks": [
+      {
+        "title": "Wikipedia: Arterial gipertenziya",
+        "url": "https://uz.wikipedia.org/wiki/Arterial_gipertenziya"
+      },
+      {
+        "title": "WHO: Hypertension",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/hypertension"
+      },
+      {
+        "title": "Mayo Clinic: High blood pressure",
+        "url": "https://www.mayoclinic.org/diseases-conditions/high-blood-pressure/symptoms-causes/syc-20373410"
+      },
+      {
+        "title": "American Heart Association: High Blood Pressure",
+        "url": "https://www.heart.org/en/health-topics/high-blood-pressure"
+      }
+    ],
+    "relatedArticles": [
+      {
+        "id": 1,
+        "title": "Yurak-qon tomir kasalliklari oldini olish",
+        "category": "Kardiologiya"
+      },
+      {
+        "id": 4,
+        "title": "Uyquning sog'liqqa ta'siri",
+        "category": "Psixologiya"
+      }
+    ]
   },
   {
     "id": 3,
-    "title": "Immunitetni mustahkamlash yo'llari",
-    "description": "Kuz-qish mavsumida immunitetni kuchaytirish, shamollash va grippdan himoyalanish uchun samarali usullar va tavsiyalar.",
-    "date": "2025-10-15",
-    "category": "Immunologiya"
+    "title": "Sog'lom ovqatlanish yurak uchun foydali",
+    "description": "Meva, sabzavot, baliq va don mahsulotlariga boy parhez yurak faoliyatini yaxshilaydi.",
+    "date": "2025-10-05",
+    "category": "Dietologiya",
+    "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800",
+    "fullContent": "Yurak uchun sog'lom ovqatlanish — bu faqat ma'lum mahsulotlardan voz kechish emas, balki to'g'ri, muvozanatli parhez tuzishdir.\n\n**Yurak uchun foydali mahsulotlar:**\n\n1. **Yog'li baliqlar** (losos, skumbriya, sardinalar) — omega-3 yog' kislotalariga boy. Haftasiga kamida 2 marta baliq iste'mol qilish tavsiya etiladi.\n\n2. **Yong'oqlar** — yeryong'oq, bodom, yong'oq kalori bilan to'la, lekin to'yinmagan yog'lar, tolalar va minerallarni o'z ichiga oladi. Kuniga bir hovuch yong'oq yurak uchun juda foydali.\n\n3. **To'liq donli mahsulotlar** — qo'ng'ir guruch, jo'xori, bulgur, suli — tolalar va vitaminlarga boy.\n\n4. **Meva va sabzavotlar** — kuniga kamida 400 gramm (5 xil) turli xil rangdagi meva va sabzavotlar iste'mol qilish kerak.\n\n5. **Dukkaklilar** — no'xat, loviya, mosh — protein va tolalarga boy, yog' va xolesterin yo'q.\n\n6. **Zeytun moyi** — to'yinmagan yog'larga boy, antioksidantlar mavjud.\n\n**Cheklash kerak bo'lgan mahsulotlar:**\n\n1. **To'yingan yog'lar** — qizil go'sht, sariyog', qaymoq, pishloq\n2. **Trans-yog'lar** — margarin, qovurilgan mahsulotlar, tayyor konditer mahsulotlari\n3. **Tuz** — kuniga 5 grammdan oshmasligi kerak\n4. **Shakar** — gazlangan ichimliklar, shirinliklar, shokolad\n5. **Qayta ishlangan go'sht** — kolbasa, sosiska, konservalangan go'sht\n\n**Ovqatlanish rejimlari:**\n\nO'rta er dengizi parhezi — yurak uchun eng foydali ovqatlanish rejimlaridan biri. Bu parhez baliq, zeytun moyi, yong'oq, meva va sabzavotlarni ko'p, qizil go'sht va yog'li mahsulotlarni kam iste'mol qilishni o'z ichiga oladi.\n\n**Ovqat pishirish usullari:**\n\nBug'da pishirish, qaynatish, pechda pishirish qovurishdan ko'ra afzalroq. Yog'da qovurish yurak uchun zararli trans-yog'larni hosil qiladi.",
+    "tips": [
+      "Fastfood va tayyor ovqatlardan saqlaning",
+      "Har kuni kamida 5 xil turdagi turli rangdagi meva va sabzavot iste'mol qiling",
+      "Ko'proq suv iching — kuniga 1,5-2 litr",
+      "Haftasiga kamida 2 marta yog'li baliq iste'mol qiling",
+      "Oq un mahsulotlari o'rniga to'liq donli mahsulotlarni tanlang",
+      "Ovqatni bug'da pishiring yoki qaynatib tayyorlang",
+      "Oshxona stolida tuzdon olib tashlang"
+    ],
+    "externalLinks": [
+      {
+        "title": "Wikipedia: Sog'lom ovqatlanish",
+        "url": "https://uz.wikipedia.org/wiki/Sog%CA%BBlom_ovqatlanish"
+      },
+      {
+        "title": "WHO: Healthy diet",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/healthy-diet"
+      },
+      {
+        "title": "American Heart Association: Healthy Eating",
+        "url": "https://www.heart.org/en/healthy-living/healthy-eating"
+      },
+      {
+        "title": "Harvard Health: Healthy Eating Plate",
+        "url": "https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/"
+      }
+    ],
+    "relatedArticles": [
+      {
+        "id": 1,
+        "title": "Yurak-qon tomir kasalliklari oldini olish",
+        "category": "Kardiologiya"
+      },
+      {
+        "id": 6,
+        "title": "Ovqatlanish rejimini to'g'ri tashkil etish",
+        "category": "Dietologiya"
+      }
+    ]
   },
   {
     "id": 4,
-    "title": "Ortiqcha vazn va semizlik muammolari",
-    "description": "Ortiqcha vazn va semizlikning sog'liqqa salbiy ta'siri, sog'lom ozish usullari va parhez dasturlari haqida ma'lumot.",
-    "date": "2025-10-12",
-    "category": "Dietologiya"
+    "title": "Uyquning sog'liqqa ta'siri",
+    "description": "Uyqu yetishmovchiligi immunitet, xotira va ruhiy holatga salbiy ta'sir ko'rsatadi.",
+    "date": "2025-08-28",
+    "category": "Psixologiya",
+    "image": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800",
+    "fullContent": "Uyqu — bu organizmning tiklanish va qayta tiklash jarayoni. Yetarli uyqu sog'liq, ruhiy holat va kundalik faoliyat uchun juda muhim.\n\n**Uyqu fazalari:**\n\nUyqu ikki asosiy fazadan iborat: NREM (non-rapid eye movement) va REM (rapid eye movement) uyqu. NREM uyqu 3 bosqichga bo'linadi va to'liq dam olish uchun zarur. REM uyqusi xotira mustahkamlash va o'rganish uchun muhim.\n\n**Uyqu yetishmovchiligining oqibatlari:**\n\n1. **Immunitetning zaiflashuvi** — yetarli uxlamaydigan odamlar shamollashga va infeksiyalarga ko'proq chalinadi.\n\n2. **Yurak kasalliklari xavfi** — 6 soatdan kam uxlash yurak xuruji va insult xavfini oshiradi.\n\n3. **Vazn ortishi** — uyqu yetishmovchiligi ishtaha gormoni grelinni oshiradi va to'yish gormoni leptinni kamaytiradi.\n\n4. **Ruhiy sog'lik muammolari** — depressiya, tashvish va stressga moyillik ortadi.\n\n5. **Xotira va diqqat buzilishi** — konsentratsiya qobiliyati pasayadi, xatolar ko'payadi.\n\n6. **Qand diabeti xavfi** — uyqu yetishmovchiligi insulin qarshiligini oshiradi.\n\n**Sog'lom uyqu uchun tavsiyalar:**\n\n1. **Uyqu rejimi** — har kuni bir xil vaqtda uxlash va turish biologik soatni sozlaydi.\n\n2. **Uyqu muhiti** — xona qorong'i, sokin va salqin (18-20°C) bo'lishi kerak.\n\n3. **Ekranlardan uzoqlashish** — yotishdan 1-2 soat oldin telefon, planshet va kompyuterdan foydalanishni to'xtating. Ko'k yorug'lik melatonin ishlab chiqarilishini buzadi.\n\n4. **Kechqurun yengil ovqat** — og'ir, yog'li ovqatlar va kofeinli ichimliklar uyquni buzadi.\n\n5. **Jismoniy faollik** — kunduzi jismoniy mashqlar kechqurun uyquni yaxshilaydi, lekin yotishdan 3-4 soat oldin mashqni yakunlash kerak.\n\n**Nechta soat uxlash kerak?**\n\n- Chaqaloqlar (4-12 oy): 12-16 soat\n- Bolalar (1-2 yosh): 11-14 soat\n- Maktabgacha bolalar (3-5 yosh): 10-13 soat\n- Maktab yoshidagi bolalar (6-12 yosh): 9-12 soat\n- O'smirlar (13-18 yosh): 8-10 soat\n- Kattalar (18-60 yosh): 7-9 soat\n- Keksa odamlar (60+ yosh): 7-8 soat",
+    "tips": [
+      "Har kuni bir xil vaqtda yoting va turing, dam olish kunlarida ham",
+      "Yotishdan 1-2 soat oldin telefondan va kompyuterdan foydalanishni to'xtating",
+      "Xonani qorong'i va salqin (18-20°C) saqlang",
+      "Kechqurun kofein va alkogoldan saqlaning",
+      "Kun davomida jismoniy faol bo'ling, lekin yotishdan 3-4 soat oldin mashqni tugating",
+      "Kechki ovqatni yotishdan 2-3 soat oldin tugatganingizga ishonch hosil qiling",
+      "Yotishdan oldin kitob o'qish yoki tinch musiqa tinglash yaxshi odat"
+    ],
+    "externalLinks": [
+      {
+        "title": "Wikipedia: Uyqu",
+        "url": "https://uz.wikipedia.org/wiki/Uyqu"
+      },
+      {
+        "title": "National Sleep Foundation",
+        "url": "https://www.thensf.org/"
+      },
+      {
+        "title": "Mayo Clinic: Sleep tips",
+        "url": "https://www.mayoclinic.org/healthy-lifestyle/adult-health/in-depth/sleep/art-20048379"
+      },
+      {
+        "title": "Harvard Medical School: Sleep",
+        "url": "https://sleep.hms.harvard.edu/"
+      }
+    ],
+    "relatedArticles": [
+      {
+        "id": 2,
+        "title": "Qon bosimini nazorat qilish usullari",
+        "category": "Kardiologiya"
+      },
+      {
+        "id": 5,
+        "title": "Stressni kamaytirish yo'llari",
+        "category": "Psixologiya"
+      }
+    ]
   },
   {
     "id": 5,
-    "title": "Stress va depressiyadan qutulish",
-    "description": "Zamonaviy hayotda stress va depressiya bilan kurashish, ruhiy salomatlikni saqlash bo'yicha psixologik maslahatlar.",
-    "date": "2025-10-10",
-    "category": "Psixologiya"
+    "title": "Stressni kamaytirish yo'llari",
+    "description": "Stressni nazorat qilish orqali yurak va asab tizimini himoya qilish mumkin.",
+    "date": "2025-09-10",
+    "category": "Psixologiya",
+    "image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800",
+    "fullContent": "Stress — bu organizmning har qanday talabga bergan javobidir. Qisqa muddatli stress foydali bo'lishi mumkin, lekin xronik stress jiddiy sog'liq muammolariga olib keladi.\n\n**Stressning turlari:**\n\n1. **O'tkir stress** — qisqa muddatli, ma'lum vaziyatlarga javob (imtihon, nutq)\n2. **Epizodik o'tkir stress** — tez-tez takrorlanuvchi stress holatlari\n3. **Xronik stress** — uzoq muddatli, doimiy stress (ish muammolari, moliyaviy qiyinchiliklar)\n\n**Stressning sog'liqqa ta'siri:**\n\n1. **Yurak-qon tomir tizimi** — yuqori qon bosimi, yurak xuruji xavfi\n2. **Immunitet tizimi** — infeksiyalarga qarshilik pasayadi\n3. **Hazm tizimi** — oshqozon yarasi, sindrom ichagi\n4. **Ruhiy sog'liq** — depressiya, tashvish, xotira muammolari\n5. **Mushaklar** — taranglik, bosh og'rig'i, orqa og'rig'i\n\n**Stressni kamaytirish usullari:**\n\n**1. Meditatsiya va onglilik (Mindfulness):**\nHar kuni 10-20 daqiqa meditatsiya qilish stressni sezilarli darajada kamaytiradi. Hozirgi lahzaga diqqat qaratish, o'ylarni kuzatish va ularni hukm qilmasdan qabul qilish — bu onglilik amaliyotining asosi.\n\n**2. Chuqur nafas olish:**\nDiafragma orqali chuqur nafas olish parasimpatik asab tizimini faollashtiradi va organizmni tinchlantirishga yordam beradi. 4-7-8 texnikasi: 4 soniya nafas oling, 7 soniya ushlab turing, 8 soniya chiqarib yuboring.\n\n**3. Jismoniy faollik:**\nMashqlar endorfin (baxt gormonlari) ishlab chiqarishni oshiradi. Yoga, suzish, yugurish yoki oddiy yurish ham stressni kamaytirishda samarali.\n\n**4. Ijtimoiy aloqalar:**\nYaqinlar bilan vaqt o'tkazish, his-tuyg'ularni baham ko'rish stressni kamaytiradi. Izolatsiya esa stressni kuchaytiradi.\n\n**5. Uyqu:**\nYetarli uyqu (7-9 soat) stressga qarshi turish qobiliyatini oshiradi.\n\n**6. Vaqtni boshqarish:**\nRejalashtirish, ustuvorliklarni belgilash va \"yo'q\" deyishni o'rganish ortiqcha yuklanishning oldini oladi.\n\n**7. Sevimli mashg'ulotlar:**\nHobbi, musiqa, san'at yoki tabiatda bo'lish stressni kamaytirishda yordam beradi.\n\n**8. Taomlar:**\nMuvozanatli ovqatlanish va kofein hamda shakarni cheklash stressga qarshi turish qobiliyatini oshiradi.\n\n**Qachon mutaxassisga murojaat qilish kerak?**\n\nAgar stress kundalik hayotni buzsa, uyqu yoki ishtahani yo'qotsa, yoki jismoniy alomatlar (ko'krak og'rig'i, nafas qisilishi) paydo bo'lsa, shifokor yoki psixologga murojaat qilish kerak.",
+    "tips": [
+      "Har kuni 10-15 daqiqa meditatsiya yoki chuqur nafas olish mashqlarini bajaring",
+      "Muntazam jismoniy mashqlar bilan shug'ullaning — kuniga 30 daqiqa",
+      "Yaqin odamlar bilan his-tuyg'ularingizni baham ko'ring",
+      "Yetarli uxlang — kuniga 7-9 soat",
+      "Kofein va alkogolni cheklang",
+      "Vaqtingizni rejalashtiring va ustuvorliklarni belgilang",
+      "Tabiatda sayr qiling va sevimli mashg'ulotlar bilan shug'ullaning",
+      "\"Yo'q\" deyishni o'rganing va ortiqcha majburiyatlardan saqlaning"
+    ],
+    "externalLinks": [
+      {
+        "title": "Wikipedia: Stress",
+        "url": "https://uz.wikipedia.org/wiki/Stress"
+      },
+      {
+        "title": "WHO: Mental health",
+        "url": "https://www.who.int/health-topics/mental-health"
+      },
+      {
+        "title": "Mayo Clinic: Stress management",
+        "url": "https://www.mayoclinic.org/healthy-lifestyle/stress-management/basics/stress-basics/hlv-20049495"
+      },
+      {
+        "title": "American Psychological Association: Stress",
+        "url": "https://www.apa.org/topics/stress"
+      }
+    ],
+    "relatedArticles": [
+      {
+        "id": 4,
+        "title": "Uyquning sog'liqqa ta'siri",
+        "category": "Psixologiya"
+      },
+      {
+        "id": 7,
+        "title": "Ruhiy sog'lomlikni saqlash",
+        "category": "Psixologiya"
+      }
+    ]
   },
   {
     "id": 6,
-    "title": "Bolalar immunitetini mustahkamlash",
-    "description": "Bolalar organizmining himoya tizimini kuchaytirish, to'g'ri ovqatlanish va витаминlar haqida pediatrlar maslahati.",
-    "date": "2025-10-08",
-    "category": "Pediatriya"
+    "title": "Ovqatlanish rejimini to'g'ri tashkil etish",
+    "description": "Kundalik ovqatlanish rejimini muvozanatli tuzish salomatlik va energiya uchun muhim ahamiyatga ega.",
+    "date": "2025-10-15",
+    "category": "Dietologiya",
+    "image": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800",
+    "fullContent": "To'g'ri ovqatlanish rejimi — bu shunchaki nima yeyish emas, balki qachon va qanday yeyish haqida.\n\n**Ovqatlanish vaqtlari:**\n\nNonushta (7:00-9:00) — kunning eng muhim ovqati. Nonushta metabolizmni ishga tushiradi va kun davomida energiya beradi. Nonushtani tashlab yuborish ortiqcha ovqatlanish va vazn ortishiga olib kelishi mumkin.\n\nTushlik (12:00-14:00) — kunning asosiy ovqati bo'lishi kerak. Protein, murakkab uglevodlar va sabzavotlarni o'z ichiga olishi lozim.\n\nKechki ovqat (18:00-20:00) — yengil bo'lishi va yotishdan kamida 2-3 soat oldin iste'mol qilinishi kerak. Kechqurun og'ir ovqat hazm qilishni qiyinlashtiradi va uyquni buzadi.\n\n**Taomlar o'rtasidagi perekuslar:**\n\nAsosiy ovqatlar orasida 3-4 soat bo'lishi kerak. Agar och his qilsangiz, sog'lom perekuslar: meva, yong'oq, yog'siz yogurt, sabzavotlar.\n\n**Porsiya o'lchamlari:**\n\nLikopchani boshqarish muhim. Tarelkangizning yarmini sabzavotlar, choragini protein (go'sht, baliq, dukkaklilar) va choragini murakkab uglevodlar (guruch, makaron, non) egallashi kerak.\n\n**Suvni to'g'ri ichish:**\n\nKuniga 1,5-2 litr suv ichish tavsiya etiladi. Ovqatdan 30 daqiqa oldin va 1-2 soat keyin suv ichish hazm qilishni yaxshilaydi. Ovqat paytida ko'p suv ichish oshqozon sharbatini suyultiradi.\n\n**Ovqatlanishda xatolar:**\n\n1. Nonushtani tashlab yuborish\n2. Tez-tez perekuslar qilish\n3. Kechqurun ko'p ovqatlanish\n4. Ovqat yeyishda shoshilish\n5. Televideniye yoki telefon oldida ovqatlanish\n\n**Sekin ovqatlanishning ahamiyati:**\n\nHar bir luqmani 20-30 marta chaynash kerak. Bu hazm qilishni yengillashtiradi va to'yish hissini tezroq keltirib chiqaradi. Ovqat 20 daqiqadan kam davom etmasligi kerak.\n\n**Maxsus ovqatlanish rejimlari:**\n\nIntermittent fasting (vaqtinchalik ro'za) — kunning ma'lum soatlarida ovqatlanish. Masalan, 16/8 usuli: 16 soat ro'za, 8 soat ovqatlanish oynasi. Bu usul vazn yo'qotish va metabolizmni yaxshilashda yordam berishi mumkin, lekin shifokor maslahati bilan qo'llanilishi kerak.",
+    "tips": [
+      "Har doim nonushta qiling — bu kun davomida energiya manbai",
+      "Ovqatni sekin va chaynab yeying — kamida 20 daqiqa vaqt ajrating",
+      "Tarelkangizning yarmini sabzavotlar egallashi kerak",
+      "Ovqat paytida telefondan yoki televizordan uzoqlashing",
+      "Kechki ovqatni yotishdan 2-3 soat oldin tugatganingizga ishonch hosil qiling",
+      "Muntazam ovqatlaning — kuniga 3 marta, bir xil vaqtda",
+      "Ovqatdan 30 daqiqa oldin bir stakan suv iching"
+    ],
+    "externalLinks": [
+      {
+        "title": "WHO: Healthy diet",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/healthy-diet"
+      },
+      {
+        "title": "Harvard Health: Healthy Eating",
+        "url": "https://www.health.harvard.edu/topics/diet-and-weight-loss"
+      },
+      {
+        "title": "Mayo Clinic: Nutrition basics",
+        "url": "https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/basics/nutrition-basics/hlv-20049477"
+      }
+    ],
+    "relatedArticles": [
+      {
+        "id": 3,
+        "title": "Sog'lom ovqatlanish yurak uchun foydali",
+        "category": "Dietologiya"
+      },
+      {
+        "id": 8,
+        "title": "Vazn yo'qotish: sog'lom usullar",
+        "category": "Dietologiya"
+      }
+    ]
   },
   {
     "id": 7,
-    "title": "Teri kasalliklari va davolash usullari",
-    "description": "Eng keng tarqalgan teri kasalliklari, ularning belgilari va zamonaviy davolash usullari haqida dermatologlarning fikrlari.",
-    "date": "2025-10-05",
-    "category": "Dermatologiya"
+    "title": "Ruhiy sog'lomlikni saqlash",
+    "description": "Ruhiy salomatlik jismoniy salomatlik kabi muhim va unga e'tibor berish zarur.",
+    "date": "2025-09-25",
+    "category": "Psixologiya",
+    "image": "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=800",
+    "fullContent": "Ruhiy sog'liq — bu shunchaki psixik kasalliklarning yo'qligi emas, balki emotsional, psixologik va ijtimoiy farovonlikdir.\n\n**Ruhiy sog'liq nima?**\n\nRuhiy sog'liq hayotimizning har bir jabhasi — his-tuyg'ular, fikrlash, muloqot va qarorlar qabul qilish qobiliyatiga ta'sir qiladi. Bu bizning stress bilan qanday kurashishimiz, boshqalar bilan qanday munosabatda bo'lishimiz va tanlov qilishimizni belgilaydi.\n\n**Ruhiy sog'liq muammolarining belgilari:**\n\n1. Doimiy qayg'u yoki tushkunlik hissi\n2. Ishtahaning keskin o'zgarishi\n3. Uyqu muammolari — ortiqcha uxlash yoki uyqusizlik\n4. Ijtimoiy aloqalardan qochish\n5. Energiya yo'qligi, charchoq\n6. Konsentratsiya qilishda qiyinchilik\n7. Tushunarsiz jismoniy og'riqlar\n8. O'z-o'ziga zarar yetkazish fikrlari\n\n**Ruhiy sog'lomlikni saqlash usullari:**\n\n**1. O'z-o'ziga g'amxo'rlik:**\nO'zingizga vaqt ajrating. Yoqtirgan mashg'ulotlar bilan shug'ullaning, dam oling, o'zingizga yaxshilik qiling.\n\n**2. Ijtimoiy aloqalar:**\nYaqinlar bilan muntazam aloqada bo'ling. Suhbat, qo'llab-quvvatlash va birga vaqt o'tkazish ruhiy salomatlik uchun zarur.\n\n**3. Jismoniy faollik:**\nMashqlar nafaqat tanani, balki ruhni ham mustahkamlaydi. Jismoniy faollik endorfin va serotonin (baxt gormonlari) ishlab chiqarishni oshiradi.\n\n**4. Yetarli uyqu:**\nUyqu yetishmovchiligi ruhiy muammolarni kuchaytiradi. 7-9 soat sifatli uyqu muhim.\n\n**5. Sog'lom ovqatlanish:**\nMiya faoliyati ovqatlanishga bog'liq. Omega-3, vitaminlar va minerallar miyaga zarur.\n\n**6. Kundalik jurnal:**\nO'z fikr va his-tuyg'ularingizni yozish ularni tushunish va qayta ishlashga yordam beradi.\n\n**7. Meditatsiya va relaksatsiya:**\nMeditatsiya, yoga, chuqur nafas olish tashvish va stressni kamaytiradi.\n\n**8. Maqsad va ma'no:**\nHayotda maqsadga ega bo'lish — ishda, oilada, jamoada — ruhiy farovonlikni oshiradi.\n\n**9. Cheklovlarni qo'yish:**\n\"Yo'q\" deyishni o'rganing. Ortiqcha majburiyatlar stress va ruhiy charchoqqa olib keladi.\n\n**10. Yordam so'rash:**\nAgar ruhiy qiyinchiliklar boshqarilmayotgan bo'lsa, professional yordam so'rash — kuch belgisi, zaiflik emas.\n\n**Stigma bilan kurash:**\n\nRuhiy sog'liq muammolari haqida ochiq gapirish muhim. Ko'pchilik odamlar hayotlarining qaysidir davrida ruhiy qiyinchiliklarga duch keladi. Bu normal va yordam olish mumkin.\n\n**Qachon professional yordamga murojaat qilish kerak?**\n\n- Alomatlar 2 haftadan ortiq davom etsa\n- Kundalik faoliyatga ta'sir qilsa\n- O'z-o'ziga yoki boshqalarga zarar yetkazish fikrlari paydo bo'lsa\n- Alkogol yoki giyohvand moddalardan ortiqcha foydalanish boshlansa",
+    "tips": [
+      "Har kuni o'zingiz uchun vaqt ajrating — hatto 15 daqiqa ham etarli",
+      "Yaqin odamlar bilan muntazam suhbatlashing",
+      "Jismoniy faol bo'ling — kuniga 30 daqiqa harakatlanish",
+      "Kundalik jurnal yuriting va his-tuyg'ularingizni yozing",
+      "Ijtimoiy tarmoqlarda sarflangan vaqtni cheklang",
+      "Yordamga muhtoj bo'lsangiz, professional yordam so'rashdan qo'rqmang",
+      "Meditatsiya yoki chuqur nafas olish mashqlarini kundalik rejimga kiriting",
+      "O'zingizga mehribon bo'ling va mukammallikka intilmang"
+    ],
+    "externalLinks": [
+      {
+        "title": "WHO: Mental health",
+        "url": "https://www.who.int/health-topics/mental-health"
+      },
+      {
+        "title": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/"
+      },
+      {
+        "title": "Mental Health Foundation",
+        "url": "https://www.mentalhealth.org.uk/"
+      },
+      {
+        "title": "Mind UK",
+        "url": "https://www.mind.org.uk/"
+      }
+    ],
+    "relatedArticles": [
+      {
+        "id": 5,
+        "title": "Stressni kamaytirish yo'llari",
+        "category": "Psixologiya"
+      },
+      {
+        "id": 4,
+        "title": "Uyquning sog'liqqa ta'siri",
+        "category": "Psixologiya"
+      }
+    ]
   },
   {
     "id": 8,
-    "title": "Tish sog'lig'ini saqlash qoidalari",
-    "description": "Tishlar va og'iz bo'shligi gigienasi, tish kasalliklarining oldini olish va stomatologik muammolarga davo topish.",
-    "date": "2025-10-03",
-    "category": "Stomatologiya"
+    "title": "Vazn yo'qotish: sog'lom usullar",
+    "description": "Ortiqcha vaznni yo'qotishning xavfsiz va samarali usullari haqida ma'lumot.",
+    "date": "2025-10-12",
+    "category": "Dietologiya",
+    "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800",
+    "fullContent": "Vazn yo'qotish — bu shunchaki kam ovqatlanish emas, balki hayot tarzini o'zgartirish va sog'lom odatlarni shakllantirish jarayonidir.\n\n**Sog'lom vazn yo'qotish tezligi:**\n\nHaftasiga 0,5-1 kg yo'qotish sog'lom va barqaror hisoblanadi. Tezkor vazn yo'qotish dietalari ko'pincha samarasiz va zararli.\n\n**Vazn ortishining sabablari:**\n\n1. **Energiya balansi buzilishi** — iste'mol qilinadigan kaloriyalar sarflanganidan ko'p\n2. **Harakatsiz turmush tarzi** — jismoniy faollik yetishmasligi\n3. **Sog'lomsiz ovqatlanish** — qayta ishlangan mahsulotlar, shakar, yog'lar\n4. **Uyqu yetishmovchiligi** — gormonal balansni buzadi\n5. **Stress** — kortizon gormoni yog' to'planishiga olib keladi\n6. **Genetik omillar** — ayrim odamlar vazn ortishiga moyil\n7. **Kasalliklar** — gipotiroidizm, polikistoz tuxumdon sindromi\n\n**Sog'lom vazn yo'qotish strategiyalari:**\n\n**1. Kaloriyalar defitsiti:**\nVazn yo'qotish uchun sarflangan kaloriyalar iste'mol qilinganidan ko'p bo'lishi kerak. Biroq, ekstremal kaloriyalar cheklash metabolizmni sekinlashtiradi.\n\n**2. Muvozanatli ovqatlanish:**\n- Protein: go'sht, baliq, tuxum, dukkaklilar — to'yish hissini oshiradi\n- Murakkab uglevodlar: to'liq donli mahsulotlar, sabzavotlar\n- Sog'lom yog'lar: zeytun moyi, yong'oq, avokado\n- Tolalar: meva, sabzavot — hazm qilishni yaxshilaydi\n\n**3. Porsiyalarni nazorat qilish:**\nKichikroq tarelkalardan foydalaning. Ovqatni sekin yeying — miya to'yish signalini 20 daqiqada qabul qiladi.\n\n**4. Jismoniy faollik:**\n- Aerobik mashqlar: kalori yondirishga yordam beradi\n- Kuch mashqlari: mushak massasini oshiradi, bu metabolizmni tezlashtiradi\n- Haftasiga 150-300 daqiqa o'rtacha intensivlikdagi mashqlar tavsiya etiladi\n\n**5. Uyqu:**\nYetarli uyqu (7-9 soat) ishtaha gormonlarini tartibga soladi. Uyqu yetishmovchiligi grelinni (ochlik gormoni) oshiradi va leptinni (to'yish gormoni) kamaytiradi.\n\n**6. Suv ichish:**\nKuniga 2 litr suv ichish metabolizmni tezlashtiradi va ishtahani kamaytiradi. Ovqatdan 30 daqiqa oldin suv ichish kamroq ovqatlanishga yordam beradi.\n\n**7. Stressni boshqarish:**\nXronik stress kortizon darajasini oshiradi, bu qorin atrofida yog' to'planishiga olib keladi.\n\n**Xatoli dietalar va yo'l qo'yilmaydigan xatolar:**\n\n1. **Ekstremal past kaloriyali dietalar** — metabolizmni sekinlashtiradi\n2. **Bitta oziq-ovqat dietalari** — vitaminlar yetishmovchiligiga olib keladi\n3. **Nonushtani tashlab yuborish** — kun davomida ortiqcha ovqatlanishga olib keladi\n4. **Sehrli tabletkalar** — ko'pchilik samarasiz va xavfli\n5. **Tezkor natija kutish** — sabr muhim\n\n**Motivatsiyani saqlash:**\n\n1. Real maqsadlar qo'ying\n2. Progressni qayd eting — vazn, o'lchamlar, foto\n3. Mukofotlang o'zingizni (ovqat bilan emas!)\n4. Qo'llab-quvvatlovchi muhit yarating\n5. Muvaffaqiyatsizliklardan saboq oling\n\n**Qachon shifokorga murojaat qilish kerak:**\n\n- BMI 30 dan yuqori bo'lsa\n- Vazn bilan bog'liq sog'liq muammolari bo'lsa\n- O'zingiz vazn yo'qota olmasangiz\n- Ovqatlanish buzilishi belgilari bo'lsa",
+    "tips": [
+      "Haftasiga 0,5-1 kg yo'qotishni maqsad qiling — bu barqaror tezlik",
+      "Har kuni nonushta qiling va ovqatlarni tashlab yubormang",
+      "Har doim kichikroq tarelkalardan foydalaning",
+      "Ovqatdan 30 daqiqa oldin bir stakan suv iching",
+      "Oshxonada tayyor shirinliklar va noushta mahsulotlarini saqlamang",
+      "Progressni qayd eting — vazn, o'lchamlar, his-tuyg'ular",
+      "Muntazam jismoniy mashqlar bilan shug'ullaning — haftasiga 5 kun",
+      "Yetarli uxlang — uyqu yetishmovchiligi vazn ortishiga olib keladi"
+    ],
+    "externalLinks": [
+      {
+        "title": "WHO: Obesity",
+        "url": "https://www.who.int/health-topics/obesity"
+      },
+      {
+        "title": "CDC: Losing Weight",
+        "url": "https://www.cdc.gov/healthyweight/losing_weight/index.html"
+      },
+      {
+        "title": "Mayo Clinic: Weight loss",
+        "url": "https://www.mayoclinic.org/healthy-lifestyle/weight-loss/basics/weightloss-basics/hlv-20049483"
+      },
+      {
+        "title": "Harvard Health: Weight Loss",
+        "url": "https://www.health.harvard.edu/topics/diet-and-weight-loss"
+      }
+    ],
+    "relatedArticles": [
+      {
+        "id": 6,
+        "title": "Ovqatlanish rejimini to'g'ri tashkil etish",
+        "category": "Dietologiya"
+      },
+      {
+        "id": 3,
+        "title": "Sog'lom ovqatlanish yurak uchun foydali",
+        "category": "Dietologiya"
+      }
+    ]
   },
   {
     "id": 9,
-    "title": "Astma va nafas olish kasalliklari",
-    "description": "Astma va boshqa nafas olish yo'llari kasalliklari bilan yashash, hujumlarning oldini olish va davolash usullari.",
-    "date": "2025-10-01",
-    "category": "Pulmonologiya"
-  },
-  {
-    "id": 10,
-    "title": "Ko'z sog'lig'ini saqlash maslahalari",
-    "description": "Ko'rish qobiliyatini saqlash, ko'z kasalliklarining oldini olish va zamonaviy oftalmologiya imkoniyatlari.",
-    "date": "2025-09-28",
-    "category": "Oftalmologiya"
-  },
-  {
-    "id": 11,
-    "title": "Oshqozon-ichak trakti salomatligi",
-    "description": "Ovqat hazm qilish tizimi kasalliklari, to'g'ri ovqatlanish va gastrit, yarada kabi muammolardan qanday qutilish mumkin.",
-    "date": "2025-09-25",
-    "category": "Gastroenterologiya"
-  },
-  {
-    "id": 12,
-    "title": "Revmatik kasalliklar va bo'g'imlar og'rig'i",
-    "description": "Artrit, artroz va boshqa bo'g'im kasalliklari, ularning davolash usullari va profilaktikasi haqida ma'lumot.",
-    "date": "2025-09-22",
-    "category": "Revmatologiya"
+    "title": "Qand diabetini oldini olish",
+    "description": "Qand diabetini oldini olish uchun sog'lom hayot tarzi va muntazam tekshiruvlar zarur.",
+    "date": "2025-09-30",
+    "category": "Endokrinologiya",
+    "image": "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=800",
+    "fullContent": "Qand diabeti — bu qon shakar darajasining ortishi bilan kechuvchi surunkali kasallik. Dunyo bo'ylab 537 million kishi qand diabetidan aziyat chekmoqda va bu raqam o'sib bormoqda.\n\n**Qand diabetining turlari:**\n\n**1-tur diabeti** — autoimmun kasallik, oshqozon osti bezi insulin ishlab chiqarishni to'xtatadi. Ko'pincha bolalar va yoshlarda paydo bo'ladi.\n\n**2-tur diabeti** — eng keng tarqalgan tur (90-95%). Insulin qarshiligi va oshqozon osti bezining yetarli insulin ishlab chiqarmasligi bilan kechadi. Ko'pincha ortiqcha vazn va harakatsiz turmush tarzi natijasida rivojlanadi.\n\n**Gestatsion diabeti** — homiladorlik davrida paydo bo'ladi va tug'ruqdan keyin yo'qoladi, lekin kelajakda 2-tur diabeti xavfini oshiradi.\n\n**Prediabetes** — qon shakar me'yordan yuqori, lekin diabetes uchun yetarli emas. Bu holat qaytar — hayot tarzini o'zgartirish orqali diabetni oldini olish mumkin.\n\n**Diabetes belgilari:**\n\n1. Ko'p tashnalik — doimiy suv ichish istagi\n2. Tez-tez siydik chiqarish\n3. Kutilmagan vazn yo'qotish\n4. Doimiy charchoq\n5. Ko'z ko'rishi bulanishi\n6. Yaralarning sekin bitishi\n7. Qo'l va oyoqlarda sezgisizlik yoki karıncalanma\n\n**Xavf omillari:**\n\n1. Ortiqcha vazn va semizlik\n2. Harakatsiz turmush tarzi\n3. Oilaviy tarix — qarindoshlarda diabetes\n4. 45 yoshdan oshganlar\n5. Yuqori qon bosimi\n6. Yuqori xolesterin\n7. Polikistoz tuxumdon sindromi\n8. Gestatsion diabetes tarixi\n\n**Diabetni oldini olish:**\n\n**1. Vazn yo'qotish:**\nOrtiqcha vaznning atigi 5-10% ini yo'qotish ham diabetes xavfini 58% gacha kamaytirishi mumkin.\n\n**2. Jismoniy faollik:**\nHaftasiga kamida 150 daqiqa o'rtacha intensivlikdagi jismoniy mashqlar. Yurish, suzish, velosiped haydash — hammasi foydali.\n\n**3. Sog'lom ovqatlanish:**\n- Murakkab uglevodlar: to'liq donli mahsulotlar, dukkaklilar, sabzavotlar\n- Tolaga boy ovqatlar: meva, sabzavot, don\n- Sog'lom yog'lar: zeytun moyi, yong'oq, baliq\n- Cheklash: shakar, oq un, qayta ishlangan mahsulotlar, gazlangan ichimliklar\n\n**4. Glikemik indeks:**\nPast glikemik indeksli mahsulotlarni tanlang — ular qon shakarini sekin oshiradi. Yuqori GI mahsulotlar: oq non, oq guruch, kartoshka. Past GI: jo'xori, suli, loviya, ko'pchilik mevalar.\n\n**5. Muntazam tekshiruvlar:**\n40 yoshdan keyin yoki xavf omillari bo'lsa, yiliga bir marta qon shakar darajasini tekshiring. HbA1c testi oxirgi 2-3 oylik o'rtacha qon shakar darajasini ko'rsatadi.\n\n**6. Uyqu:**\nUyqu yetishmovchiligi insulin qarshiligini oshiradi. 7-9 soat sifatli uyqu zarur.\n\n**7. Stressni boshqarish:**\nStress gormoni kortizon qon shakarini oshiradi. Meditatsiya, yoga, chuqur nafas olish foydali.\n\n**Diabetning asoratlari:**\n\nNazorat qilinmagan diabetes jiddiy asoratlarga olib keladi:\n- Yurak-qon tomir kasalliklari va insult\n- Neyropatiya (asab shikastlanishi)\n- Nefropatiya (buyrak kasalligi)\n- Retinopatiya (ko'z kasalligi, ko'r bo'lish)\n- Oyoq shikastlanishi va amputatsiya\n- Teri kasalliklari\n- Eshitish muammolari\n- Dementsiya\n\n**Prediabetni qaytarish:**\n\nPrediabetes tashxisi qo'yilgan bo'lsa, hayot tarzini o'zgartirish orqali normal holatga qaytish mumkin. Bu 3-6 oy ichida amalga oshirilishi mumkin.",
+    "tips": [
+      "Har kuni kamida 30 daqiqa jismoniy faol bo'ling",
+      "Vazningizni nazorat qiling — BMI 25 dan past bo'lishi kerak",
+      "Shakar va shirinliklarni cheklang yoki butunlay tark eting",
+      "To'liq donli mahsulotlarni oq un mahsulotlari o'rniga tanlang",
+      "Har kuni meva va sabzavot iste'mol qiling — kamida 400 gramm",
+      "40 yoshdan keyin yiliga bir marta qon shakarini tekshiring",
+      "Yetarli uxlang — 7-9 soat",
+      "Gazlangan shirinliklardan va energetik ichimliklardan saqlaning"
+    ],
+    "externalLinks": [
+      {
+        "title": "WHO: Diabetes",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/diabetes"
+      },
+      {
+        "title": "International Diabetes Federation",
+        "url": "https://www.idf.org/"
+      },
+      {
+        "title": "CDC: Diabetes Basics",
+        "url": "https://www.cdc.gov/diabetes/basics/index.html"
+      },
+      {
+        "title": "Mayo Clinic: Type 2 diabetes prevention",
+        "url": "https://www.mayoclinic.org/diseases-conditions/type-2-diabetes/in-depth/diabetes-prevention/art-20047639"
+      }
+    ],
+    "relatedArticles": [
+      {
+        "id": 8,
+        "title": "Vazn yo'qotish: sog'lom usullar",
+        "category": "Dietologiya"
+      },
+      {
+        "id": 3,
+        "title": "Sog'lom ovqatlanish yurak uchun foydali",
+        "category": "Dietologiya"
+      }
+    ]
   }
 ]

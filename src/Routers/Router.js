@@ -15,7 +15,8 @@ import {
   Shop,
   Orders,
   DoctorProfile,
-  Consultations
+  Consultations,
+  Article
 } from '@/Views'
 //Auth
 import { Login, Register } from '@/Auth'
@@ -59,6 +60,10 @@ const routes = [
       {
         path: 'articls',
         component: Articls
+      },
+      {
+        path: 'articles/:id',
+        component : Article
       },
       {
         path: 'profile',
