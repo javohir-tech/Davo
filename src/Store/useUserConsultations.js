@@ -19,10 +19,13 @@ export const useUserConsultations = defineStore('consultations', {
         },
         async fetchCount() {
             const userStore = useUsersStore()
+            if (!userStore.isActive) return
             try {
-                if (!userStore.isActive) return
                 const response = await getDoc(doc(db, 'users', userStore.uid))
-                this.count = response.data().consultations.length
+                const userConsultations = response.data()?.consultations
+                if (userConsultations) {
+                    this.count = userConsultations.length
+                }
             } catch (error) {
                 message.error('ol dabba')
             }
