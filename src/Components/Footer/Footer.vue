@@ -137,7 +137,6 @@
   .footer {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: #ecf0f1;
-    margin-top: 60px;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
   }
 
