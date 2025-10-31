@@ -12,10 +12,13 @@
     <div>
       <!-- Qidiruv bo'limi -->
       <div class="search-section">
-        <Input v-model:value="searchQuery" placeholder="Dori nomini kiriting..." size="large" class="search-input"
-          allowClear>
+        <Input ref="searchInput" v-model:value="searchQuery" placeholder="Dori nomini kiriting..." size="large"
+          class="search-input" allowClear>
         <template #prefix>
           <SearchOutlined class="search-icon" />
+        </template>
+        <template #suffix>
+          <p class="ctrl">Ctrl+K</p>
         </template>
         </Input>
         <div v-if="searchQuery" class="search-results-info">
@@ -31,23 +34,22 @@
       <div v-else class="cards-wrapper">
         <Row v-if="paginatedMedicines.length > 0" :gutter="[16, 16]">
           <Col v-for="medicine in paginatedMedicines" :key="medicine.id" :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <div class="medicine-card" @click="handleCardClick(medicine.id, $event)">
-              <!-- Card header -->
-              <div class="card-header">
-                <div class="medicine-icon">💊</div>
-                <div :class="[
-                  'stock-indicator',
-                  medicine.stock < 100 ? 'low-stock' : 'in-stock',
-                ]">
-                  <span class="stock-dot"></span>
-                  {{ medicine.stock < 100 ? 'Kam' : 'Mavjud' }}
-                </div>
+          <div class="medicine-card" @click="handleCardClick(medicine.id, $event)">
+            <!-- Card header -->
+            <div class="card-header">
+              <div class="medicine-icon">💊</div>
+              <div :class="[
+                'stock-indicator',
+                medicine.stock < 100 ? 'low-stock' : 'in-stock',
+              ]">
+                <span class="stock-dot"></span>
+                {{ medicine.stock < 100 ? 'Kam' : 'Mavjud' }} </div>
               </div>
 
               <!-- Card body -->
               <div class="card-body">
                 <h3 class="medicine-name" :title="medicine.name">
-                  {{ truncateName(medicine.name, 35) }}
+                  {{ truncateText(medicine.name, 35) }}
                 </h3>
 
                 <div class="medicine-details">
@@ -84,12 +86,8 @@
 
               <!-- Card footer -->
               <div class="card-footer" @click.stop>
-                <Button v-if="!drugsStore.isSelected(medicine.id)" 
-                  :disabled="drugsStore.loadingItems[medicine.id]" 
-                  type="primary" 
-                  size="small" 
-                  class="cart-btn"
-                  @click="drugsStore.addDrug(medicine)">
+                <Button v-if="!drugsStore.isSelected(medicine.id)" :disabled="drugsStore.loadingItems[medicine.id]"
+                  type="primary" size="small" class="cart-btn" @click="drugsStore.addDrug(medicine)">
                   <ShoppingCartOutlined />
                   {{ drugsStore.loadingItems[medicine.id] ? 'Loading...' : 'Savat' }}
                 </Button>
@@ -102,7 +100,7 @@
                 </div>
               </div>
             </div>
-          </Col>
+            </Col>
         </Row>
 
         <!-- Agar natija topilmasa -->
@@ -122,14 +120,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, h } from 'vue'
+import { ref, computed, onMounted, watch, h, onBeforeUnmount } from 'vue'
 //Antd Components
 import { Input, Button, Typography, Row, Col, message } from 'ant-design-vue'
 //Antd Icons
 import {
   SearchOutlined,
   ShoppingCartOutlined,
-  EyeOutlined,
   PlusOutlined,
   MinusOutlined
 } from '@ant-design/icons-vue'
@@ -148,6 +145,7 @@ const { data, loading, getData } = useDocs('medicines')
 const { Title } = Typography
 
 const searchQuery = ref('')
+const searchInput = ref(null)
 const currentPage = ref(1)
 const pageSize = ref(12)
 
@@ -161,6 +159,14 @@ const filteredMedicines = computed(() => {
   )
 })
 
+//ctlr+k
+const handleShortcut = (e) => {
+  if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    searchInput.value?.focus()
+  }
+}
+
 // Pagination
 const paginatedMedicines = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value
@@ -169,12 +175,6 @@ const paginatedMedicines = computed(() => {
 })
 
 // Matn qisqartirish
-const truncateName = (name, maxLength) => {
-  if (name.length > maxLength) {
-    return name.substring(0, maxLength) + '...'
-  }
-  return name
-}
 
 const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {
@@ -183,12 +183,12 @@ const truncateText = (text, maxLength) => {
   return text
 }
 
-// Card click handler
-const handleCardClick = (medicineId, event) => {
+// Routering
+const handleCardClick = (medicineId) => {
   router.push(`/drugs/${medicineId}`)
 }
 
-// Sahifa o'zgarganda
+// Paginatsiya 
 const handlePageChange = (page) => {
   currentPage.value = page
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -198,6 +198,11 @@ const handlePageChange = (page) => {
 onMounted(() => {
   getData()
   drugsStore.fetchSelectedDrugs()
+  window.addEventListener('keydown', handleShortcut)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleShortcut)
 })
 
 watch(searchQuery, () => {
@@ -206,6 +211,14 @@ watch(searchQuery, () => {
 </script>
 
 <style scoped>
+/* Accissibilty */
+.ctrl {
+  font-size: 14px;
+  color: #8c8c8c;
+  margin: 0;
+  font-weight: 500;
+}
+
 .medicines-container {
   padding: 24px;
   background: #f0f2f5;
@@ -558,11 +571,11 @@ watch(searchQuery, () => {
   .price-value {
     font-size: 16px;
   }
-  
+
   .detail-label {
     font-size: 11px;
   }
-  
+
   .detail-value {
     font-size: 11px;
   }

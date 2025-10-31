@@ -11,10 +11,13 @@
 
     <!-- Qidiruv bo'limi -->
     <div class="search-section">
-      <Input v-model:value="searchQuery" placeholder="Doktor ismi yoki mutaxassisligini kiriting..." size="large"
-        class="search-input" allowClear>
+      <Input ref="searchInput" v-model:value="searchQuery" placeholder="Doktor ismi yoki mutaxassisligini kiriting..."
+        size="large" class="search-input" allowClear>
       <template #prefix>
         <SearchOutlined class="search-icon" />
+      </template>
+      <template #suffix>
+        <p class="ctrl">Ctrl+K</p>
       </template>
       </Input>
       <div v-if="searchQuery" class="search-results-info">
@@ -48,7 +51,7 @@
             <!-- Info Section -->
             <div class="header-info">
               <h3 class="doctor-name" :title="doctor.fullName">
-                {{ truncateName(doctor.fullName, 16) }}
+                {{ truncateText(doctor.fullName, 16) }}
               </h3>
               <div class="specialty-badge" :title="doctor.specialty">
                 {{ truncateText(doctor.specialty, 18) }}
@@ -112,14 +115,13 @@
 
 <script setup>
 //VUE
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue'
 //ANTD
 import { Input, Button, Typography, Row, Col } from 'ant-design-vue'
 import {
   SearchOutlined,
   CalendarOutlined,
   ClockCircleOutlined,
-  PhoneOutlined,
 } from '@ant-design/icons-vue'
 //Hooks
 import useDocs from '@/Hooks/useDocs'
@@ -133,6 +135,7 @@ const { data, loading, getData } = useDocs('doctors')
 const { Title } = Typography
 
 const searchQuery = ref('')
+const searchInput = ref(null);
 const currentPage = ref(1)
 const pageSize = ref(12)
 
@@ -149,6 +152,13 @@ const filteredDoctors = computed(() => {
   )
 })
 
+const handleShortcut = (e) => {
+  if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    searchInput.value?.focus()
+  }
+}
+
 // Pagination
 const paginatedDoctors = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value
@@ -163,14 +173,6 @@ const getInitials = (fullName) => {
     return names[0][0] + names[1][0]
   }
   return names[0][0]
-}
-
-// Ism qisqartirish
-const truncateName = (name, maxLength) => {
-  if (name.length > maxLength) {
-    return name.substring(0, maxLength) + '...'
-  }
-  return name
 }
 
 // Matn qisqartirish
@@ -197,17 +199,29 @@ const handlePageChange = (page) => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-onMounted(() => {
-  getData()
-  // uploadDoctors()
-})
-
 watch(searchQuery, () => {
   currentPage.value = 1
+})
+
+onMounted(() => {
+  window.addEventListener('keydown', handleShortcut);
+  getData()
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleShortcut);
 })
 </script>
 
 <style scoped>
+/* Accissibilty */
+.ctrl {
+  font-size: 14px;
+  color: #8c8c8c;
+  margin: 0;
+  font-weight: 500;
+}
+
 .doctors-container {
   padding: 24px;
   background: #f0f2f5;

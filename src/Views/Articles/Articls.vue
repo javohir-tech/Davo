@@ -22,6 +22,9 @@
         <template #prefix>
           <SearchOutlined class="search-icon" />
         </template>
+        <template #suffix>
+          <p class="ctrl">Ctrl+K</p>
+        </template>
         </Input>
         <div v-if="searchQuery" class="filtered-count">
           <p>{{ filteredArticles.length }} ta maqola topildi</p>
@@ -112,6 +115,7 @@ const { Title } = Typography
 const searchQuery = ref('')
 const currentPage = ref(1)
 const pageSize = ref(6)
+const searchInput = ref(null)
 
 //Computents
 const filteredArticles = computed(() => {
@@ -149,7 +153,7 @@ function onSearchEnter() {
 }
 
 function handleShortcut(e) {
-  if (e.crtlKey && e.key.toLowerCase() === 'k') {
+  if (e.ctrlKey && e.key.toLowerCase() === 'k') {
     e.preventDefault()
     searchInput.value?.focus()
   }
@@ -171,6 +175,14 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* Accissibilty */
+.ctrl {
+  font-size: 14px;
+  color: #8c8c8c;
+  margin: 0;
+  font-weight: 500;
+}
+
 /* Header Section */
 
 .loading {

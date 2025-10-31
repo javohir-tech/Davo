@@ -1,5 +1,6 @@
 <template>
-  <div class="medicine-detail-page">
+  <div style="background-color: #f5f5f5;">
+    <div class="medicine-detail-page">
     <!-- Header -->
     <div class="header-section">
       <a-typography-title :level="2" style="margin: 0; color: #1890ff;">
@@ -160,6 +161,7 @@
     </div>
 
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -203,7 +205,6 @@ onMounted(() => {
   padding: 20px;
   max-width: 1400px;
   margin: 0 auto;
-  background-color: #f5f5f5;
   min-height: 100vh;
 }
 
