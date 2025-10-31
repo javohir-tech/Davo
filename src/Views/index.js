@@ -14,17 +14,18 @@ import Consultations from './Consultations/Consultations.vue'
 import Article from './Article/Article.vue'
 
 export {
-    HomeView,
-    Drugs,
-    Doctors,
-    Institution,
-    Diagnostics,
-    Articls,
-    Intervyu,
-    Profile,
-    Shop,
-    Medicine, Orders,
-    DoctorProfile,
-    Consultations,
-    Article
+  HomeView,
+  Drugs,
+  Doctors,
+  Institution,
+  Diagnostics,
+  Articls,
+  Intervyu,
+  Profile,
+  Shop,
+  Medicine,
+  Orders,
+  DoctorProfile,
+  Consultations,
+  Article,
 }

@@ -7,7 +7,7 @@ import { db } from '@/FireBase/config'
 import { message } from 'ant-design-vue'
 
 export default function useDocs(collectionName) {
-  const data = ref([]);
+  const data = ref([])
   const dataById = ref(null)
   const loading = ref(false)
 
@@ -29,10 +29,12 @@ export default function useDocs(collectionName) {
   }
 
   async function getSubCollectionData(userId, subCollection) {
-    loading.value = true;
+    loading.value = true
     try {
-      const querySnapshot = await getDocs(collection(db, collectionName, userId, subCollection))
-      data.value = querySnapshot.docs.map((doc) => (doc.data()))
+      const querySnapshot = await getDocs(
+        collection(db, collectionName, userId, subCollection)
+      )
+      data.value = querySnapshot.docs.map((doc) => doc.data())
     } catch (error) {
       message.error(error.message)
     } finally {
@@ -41,17 +43,17 @@ export default function useDocs(collectionName) {
   }
 
   async function getDocumentById(docId) {
-    loading.value = true;
+    loading.value = true
     try {
-      const docRef = doc(db, collectionName, docId);
-      const docSnap = await getDoc(docRef);
+      const docRef = doc(db, collectionName, docId)
+      const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
         dataById.value = {
           id: docSnap.id,
-          ...docSnap.data()
+          ...docSnap.data(),
         }
       } else {
-        return null;
+        return null
       }
     } catch (error) {
       console.log(error)
@@ -66,6 +68,6 @@ export default function useDocs(collectionName) {
     loading,
     getData,
     getSubCollectionData,
-    getDocumentById
+    getDocumentById,
   }
 }

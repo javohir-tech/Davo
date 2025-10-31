@@ -16,7 +16,7 @@ import {
   Orders,
   DoctorProfile,
   Consultations,
-  Article
+  Article,
 } from '@/Views'
 //Auth
 import { Login, Register } from '@/Auth'
@@ -31,67 +31,67 @@ const routes = [
     children: [
       {
         path: '',
-        component: HomeView
+        component: HomeView,
       },
       {
         path: 'drugs',
-        component: Drugs
+        component: Drugs,
       },
       {
         path: 'drugs/:id',
-        component: Medicine
+        component: Medicine,
       },
       {
         path: 'doctors',
-        component: Doctors
+        component: Doctors,
       },
       {
-        path :'doctors/:id', 
-        component : DoctorProfile
+        path: 'doctors/:id',
+        component: DoctorProfile,
       },
       {
         path: 'institution',
-        component: Institution
+        component: Institution,
       },
       {
         path: 'diagnostics',
-        component: Diagnostics
+        component: Diagnostics,
       },
       {
         path: 'articls',
-        component: Articls
+        component: Articls,
       },
       {
         path: 'articles/:id',
-        component : Article
+        component: Article,
       },
       {
         path: 'profile',
-        component: Profile
+        component: Profile,
       },
       {
         path: 'shop',
-        component: Shop
+        component: Shop,
       },
       {
         path: 'orders',
-        component: Orders
+        component: Orders,
       },
       {
-        path : 'consultations',
-        component : Consultations,
+        path: 'consultations',
+        component: Consultations,
       },
       {
         path: 'intervyu',
-        component: Intervyu
+        component: Intervyu,
       },
       {
         path: 'register',
-        component: Register
+        component: Register,
       },
       {
         path: 'login',
-        component: Login
+        component: Login,
       },
     ],
   },
@@ -103,10 +103,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, form, next) => {
-  const authPages = ['/login', '/register'];
-  const userPages = ['/profile', '/shop', '/orders' , '/consultations']
+  const authPages = ['/login', '/register']
+  const userPages = ['/profile', '/shop', '/orders', '/consultations']
   const userStore = useUsersStore()
-  const user = userStore.isActive;
+  const user = userStore.isActive
 
   if (user && authPages.includes(to.path)) {
     next('/')
@@ -117,7 +117,6 @@ router.beforeEach((to, form, next) => {
   }
 
   next()
-
 })
 
 export { router }
