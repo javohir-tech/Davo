@@ -19,7 +19,7 @@ export const useUserConsultations = defineStore('consultations', {
     },
     async fetchCount() {
       const userStore = useUsersStore()
-      if (!userStore.isActive) return
+      if (!userStore.isActive && !localStorage.getItem('token')) return
       try {
         const response = await getDoc(doc(db, 'users', userStore.uid))
         const userConsultations = response.data()?.userConsultations
@@ -28,7 +28,7 @@ export const useUserConsultations = defineStore('consultations', {
           this.count = userConsultations.length
         }
       } catch (error) {
-        message.error('ol dabba')
+        message.error('kasultatsiyalar yuklanmadi')
       }
     },
   },
