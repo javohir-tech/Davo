@@ -123,7 +123,7 @@
         <div class="desktop-actions">
           <a-space :size="12" align="center">
             <!-- Language Selector -->
-            <div class="language-selector">
+            <!-- <div class="language-selector">
               <GlobalOutlined class="globe-icon" />
               <a-select
                 v-model:value="value1"
@@ -134,7 +134,7 @@
                 <a-select-option value="EN">EN</a-select-option>
                 <a-select-option value="RU">RU</a-select-option>
               </a-select>
-            </div>
+            </div> -->
 
             <!-- Login Button -->
             <a-badge
@@ -203,7 +203,7 @@
     >
       <template #extra>
         <a-space :size="12">
-          <a-select
+          <!-- <a-select
             v-model:value="value1"
             class="select-mobile"
             @change="handleChangeLanguage"
@@ -212,7 +212,7 @@
             <a-select-option value="UZ">🇺🇿 UZ</a-select-option>
             <a-select-option value="EN">🇬🇧 EN</a-select-option>
             <a-select-option value="RU">🇷🇺 RU</a-select-option>
-          </a-select>
+          </a-select> -->
           <a-badge
             :dot="drugStore.selectedCount > 0 || userConsultations.count > 0"
             v-if="store.token || token"
